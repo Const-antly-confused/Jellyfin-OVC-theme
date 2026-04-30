@@ -1,0 +1,836 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   OCEAN VIEW CINEMA — Jellyfin Custom Theme
+   ───────────────────────────────────────────────────────────────────────
+   Paste into: Dashboard → Administration → General → Custom CSS code
+   ═══════════════════════════════════════════════════════════════════════
+   Design: Liquid glassmorphism · Void depth · Cyan beacon
+   Fonts:  Permanent Marker (display) · Spectral SC (body) · Share Tech Mono (labels)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── FONTS ── */
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Spectral+SC:ital,wght@0,300;0,400;0,600;1,300&family=Share+Tech+Mono&display=swap');
+
+/* ── VARIABLES ── */
+:root {
+  --ovc-void:        #000001;
+  --ovc-cyan:        #00f0ff;
+  --ovc-cyan-dim:    rgba(0, 220, 240, 0.7);
+  --ovc-cyan-glow:   rgba(0, 240, 255, 0.22);
+  --ovc-cyan-faint:  rgba(0, 240, 255, 0.06);
+
+  /* Glass recipe */
+  --ovc-gf:          rgba(210, 232, 255, 0.038);
+  --ovc-gb:          blur(22px) saturate(280%) brightness(1.12);
+
+  /* Glass edges — light enters top bright, exits bottom dark */
+  --ovc-ge-t:        rgba(255, 255, 255, 0.52);
+  --ovc-ge-s:        rgba(255, 255, 255, 0.11);
+  --ovc-ge-b:        rgba(0, 0, 0, 0.52);
+
+  --ovc-ink:         rgba(225, 242, 255, 0.9);
+  --ovc-ink2:        rgba(180, 212, 238, 0.45);
+  --ovc-ink3:        rgba(140, 178, 212, 0.3);
+
+  /* Jellyfin accent override */
+  --theme-accent-color:           #00c8d8;
+  --accent-color:                 #00c8d8;
+  --button-color:                 rgba(0, 240, 255, 0.1);
+  --theme-button-foreground:      rgba(200, 248, 255, 0.95);
+  --color-slider-track:           rgba(0, 240, 255, 0.2);
+  --color-slider-progress:        #00f0ff;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   BACKGROUND SYSTEM
+   Void: near-perfect black center, deep ocean-blue at edges.
+   The center is the farthest point from you — the light doesn't reach it.
+════════════════════════════════════════════════════════════════════════ */
+
+html, body {
+  background: radial-gradient(
+    ellipse 110% 110% at 50% 50%,
+    #000001 0%,
+    #000103 18%,
+    #010408 38%,
+    #020810 58%,
+    #030c18 78%,
+    #050e1e 100%
+  ) !important;
+  color: var(--ovc-ink) !important;
+  font-family: 'Spectral SC', serif !important;
+}
+
+/* ── GRID — foreground layer, same plane as content ── */
+/* Uses mask to fade at edges: present where objects are, absent where nothing exists */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(0, 240, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.018) 1px, transparent 1px);
+  background-size: 44px 44px, 44px 44px, 220px 220px, 220px 220px;
+  mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    black 15%,
+    rgba(0, 0, 0, 0.75) 42%,
+    rgba(0, 0, 0, 0.28) 62%,
+    transparent 80%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    black 15%,
+    rgba(0, 0, 0, 0.75) 42%,
+    rgba(0, 0, 0, 0.28) 62%,
+    transparent 80%
+  );
+}
+
+/* ── CENTER REFERENCE LIGHT — beacon in the void ── */
+/* A point of light in the distance. Anchors the parallax depth. */
+body::after {
+  content: '';
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.9);
+  pointer-events: none;
+  z-index: 1;
+  box-shadow:
+    0 0 2px   rgba(0, 240, 255, 1.0),
+    0 0 8px   rgba(0, 240, 255, 0.75),
+    0 0 15px  rgba(0, 240, 255, 0.55),
+    0 0 40px  rgba(0, 220, 245, 0.28),
+    0 0 90px  rgba(0, 200, 235, 0.13),
+    0 0 180px rgba(0, 185, 225, 0.06),
+    0 0 320px rgba(0, 170, 215, 0.03);
+}
+
+/* ── PARTICLES — rising ambient light, CSS approximation ── */
+/* Two animated layers at different speeds to suggest depth */
+/* Layer 1: slower rising particles */
+#staticBackdrop::before,
+.backdropContainer::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  width: 1px; height: 1px;
+  border-radius: 50%;
+  top: 110vh;
+  background: transparent;
+  box-shadow:
+     5vw 0   0 1px rgba(0,240,255,0.32),  12vw -10vh 1px 1px rgba(0,240,255,0.22),
+    22vw -5vh 0 1px rgba(0,240,255,0.28),  31vw -18vh 1px 1px rgba(0,240,255,0.18),
+    43vw -3vh 0 1px rgba(0,240,255,0.35),  54vw -12vh 0 1px rgba(0,240,255,0.24),
+    67vw -7vh 1px 1px rgba(0,240,255,0.20), 73vw -20vh 0 1px rgba(0,240,255,0.30),
+    85vw -2vh 0 1px rgba(0,240,255,0.26),  92vw -15vh 1px 1px rgba(0,240,255,0.18),
+     8vw -25vh 0 1px rgba(0,240,255,0.22), 18vw -8vh 0 1px rgba(0,240,255,0.34),
+    37vw -30vh 1px 1px rgba(0,240,255,0.19), 48vw -22vh 0 1px rgba(0,240,255,0.28),
+    59vw -35vh 0 1px rgba(0,240,255,0.24), 71vw -14vh 1px 1px rgba(0,240,255,0.32),
+    80vw -28vh 0 1px rgba(0,240,255,0.18), 96vw -9vh 0 1px rgba(0,240,255,0.26),
+    25vw -42vh 1px 1px rgba(0,240,255,0.20), 62vw -48vh 0 1px rgba(0,240,255,0.22);
+  animation: ovc-rise-a 28s linear infinite;
+}
+
+/* Layer 2: faster, slightly brighter */
+#staticBackdrop::after,
+.backdropContainer::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  width: 1px; height: 1px;
+  border-radius: 50%;
+  top: 115vh;
+  background: transparent;
+  box-shadow:
+     3vw -8vh  0 1px rgba(0,240,255,0.38),  15vw -2vh  1px 1px rgba(0,240,255,0.28),
+    28vw -14vh 0 1px rgba(0,240,255,0.32),  38vw -6vh  0 1px rgba(0,240,255,0.22),
+    50vw -20vh 1px 1px rgba(0,240,255,0.36), 64vw -4vh  0 1px rgba(0,240,255,0.26),
+    76vw -18vh 0 1px rgba(0,240,255,0.30),  88vw -10vh 1px 1px rgba(0,240,255,0.24),
+    10vw -32vh 0 1px rgba(0,240,255,0.28),  45vw -38vh 0 1px rgba(0,240,255,0.18),
+    58vw -26vh 1px 1px rgba(0,240,255,0.34), 82vw -44vh 0 1px rgba(0,240,255,0.22),
+    20vw -50vh 0 1px rgba(0,240,255,0.20),  35vw -16vh 1px 1px rgba(0,240,255,0.30),
+    70vw -36vh 0 1px rgba(0,240,255,0.26),  94vw -22vh 0 1px rgba(0,240,255,0.18),
+     7vw -44vh 1px 1px rgba(0,240,255,0.24), 53vw -12vh 0 1px rgba(0,240,255,0.32),
+    79vw -52vh 0 1px rgba(0,240,255,0.20),  42vw -46vh 1px 1px rgba(0,240,255,0.26);
+  animation: ovc-rise-b 18s linear infinite 4s;
+}
+
+@keyframes ovc-rise-a {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-220vh); }
+}
+@keyframes ovc-rise-b {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-230vh); }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   GLASS MIXIN
+   Applied everywhere that needs the organic liquid glass surface.
+   Not dark panels — nearly transparent with physical edge behavior.
+════════════════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════════════════
+   TOPBAR / HEADER
+════════════════════════════════════════════════════════════════════════ */
+
+.skinHeader,
+.headerTop {
+  background: rgba(180, 220, 255, 0.038) !important;
+  backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  /* Neon beacon line below */
+  position: relative !important;
+}
+
+.skinHeader::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0, 195, 215, 0.35) 10%,
+    rgba(0, 240, 255, 0.65) 50%,
+    rgba(0, 195, 215, 0.35) 90%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+
+/* Logo / server name */
+.headerLogo img,
+.headerLogo {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.92 !important;
+}
+
+.serverNameLink,
+.serverName {
+  font-family: 'Permanent Marker', cursive !important;
+  font-size: 1rem !important;
+  color: rgba(240, 252, 255, 0.95) !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* Search input */
+.headerSearchInput {
+  background: rgba(0, 0, 0, 0.28) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-top-color: rgba(0, 0, 0, 0.4) !important;
+  border-radius: 10px !important;
+  color: var(--ovc-ink) !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.72rem !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+.headerSearchInput:focus {
+  border-color: rgba(0, 240, 255, 0.3) !important;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(0, 240, 255, 0.1),
+    0 0 12px rgba(0, 240, 255, 0.08) !important;
+  outline: none !important;
+}
+
+/* Header icon buttons */
+.headerButton,
+.paper-icon-button-light {
+  color: var(--ovc-ink3) !important;
+  border-radius: 8px !important;
+  transition: all 0.14s !important;
+}
+
+.headerButton:hover,
+.paper-icon-button-light:hover {
+  color: var(--ovc-ink) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* User avatar button */
+.headerUserButton {
+  background: linear-gradient(135deg, var(--ovc-cyan), #0088aa) !important;
+  border-radius: 9px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.22) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SIDEBAR / DRAWER
+════════════════════════════════════════════════════════════════════════ */
+
+.mainDrawer,
+.drawer {
+  background: rgba(4, 4, 6, 0.72) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Section label */
+.navMenuDivider,
+.navSection {
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Nav items */
+.navMenuOption {
+  color: var(--ovc-ink3) !important;
+  font-family: 'Spectral SC', serif !important;
+  font-size: 0.85rem !important;
+  border-radius: 10px !important;
+  border: 1px solid transparent !important;
+  transition: all 0.14s !important;
+  letter-spacing: 0.4px !important;
+  margin: 1px 6px !important;
+}
+
+.navMenuOption:hover {
+  color: var(--ovc-ink) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+.navMenuOption.selected,
+.navMenuOption.navMenuOption-selected {
+  color: var(--ovc-cyan) !important;
+  background: rgba(0, 240, 255, 0.07) !important;
+  border-color: rgba(0, 240, 255, 0.2) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 240, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 0 10px rgba(0, 240, 255, 0.06) !important;
+  text-shadow: 0 0 14px rgba(0, 240, 255, 0.35) !important;
+}
+
+/* Nav icons */
+.navMenuOption .material-icons,
+.navMenuOption md-icon {
+  color: inherit !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SECTION TITLES
+   Permanent Marker + TE-style measurement marks
+════════════════════════════════════════════════════════════════════════ */
+
+.sectionTitle,
+.sectionTitleContainer .sectionTitle,
+h2.sectionTitle,
+.pageTitleWithLogo,
+.pageTitle {
+  font-family: 'Permanent Marker', cursive !important;
+  font-size: 1.05rem !important;
+  color: var(--ovc-ink) !important;
+  letter-spacing: 0.3px !important;
+  padding-left: 14px !important;
+  position: relative !important;
+}
+
+/* TE calibration mark */
+.sectionTitle::before,
+h2.sectionTitle::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 7px; height: 7px;
+  border-left: 1.5px solid rgba(0, 240, 255, 0.45);
+  border-top: 1.5px solid rgba(0, 240, 255, 0.45);
+}
+
+/* "See all" / more links */
+.sectionTitleTextButton,
+.more-button,
+.listItemBodyText a {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.62rem !important;
+  color: var(--ovc-ink3) !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  transition: color 0.14s !important;
+}
+
+.sectionTitleTextButton:hover { color: var(--ovc-cyan) !important; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   CARDS
+   Organic liquid glass. Not dark panels — clear, with physical edges.
+════════════════════════════════════════════════════════════════════════ */
+
+/* Card container */
+.card {
+  border-radius: 16px !important;
+  overflow: visible !important;
+}
+
+.cardBox,
+.cardScalable {
+  background: rgba(175, 215, 255, 0.035) !important;
+  backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+
+  /* Physical glass edges */
+  box-shadow:
+    inset 0  1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    inset  1px 0 0 rgba(255, 255, 255, 0.1),
+    inset -1px 0 0 rgba(255, 255, 255, 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.2) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  transition: box-shadow 0.2s, transform 0.2s !important;
+  position: relative !important;
+}
+
+/* Top-edge specular — off-center, organic, not a ruler */
+.cardBox::before {
+  content: '';
+  position: absolute;
+  top: 1px; left: 6%; right: 22%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.52) 25%,
+    rgba(255, 255, 255, 0.78) 55%,
+    rgba(255, 255, 255, 0.52) 80%,
+    transparent
+  );
+  border-radius: 50%;
+  filter: blur(0.4px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Internal volume — light drifting through the glass */
+.cardBox::after {
+  content: '';
+  position: absolute;
+  top: 1px; left: 5%; right: 18%;
+  height: 52%;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.044) 0%,
+    rgba(255, 255, 255, 0.02) 30%,
+    rgba(200, 230, 255, 0.012) 52%,
+    transparent 72%
+  );
+  border-radius: 0 0 55% 38%;
+  pointer-events: none;
+  z-index: 2;
+  animation: ovc-drift 22s ease-in-out infinite;
+}
+
+/* Card hover — cyan light source hits glass edge */
+.card:hover .cardBox,
+.cardBox:hover {
+  transform: translateY(-4px) scale(1.012) !important;
+  box-shadow:
+    inset 0  1px 0 rgba(0, 240, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.42),
+    inset  1px 0 0 rgba(0, 240, 255, 0.12),
+    inset -1px 0 0 rgba(0, 240, 255, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(0, 240, 255, 0.07) !important;
+  border-color: rgba(0, 240, 255, 0.12) !important;
+}
+
+/* Image area */
+.cardImageContainer,
+.cardImage {
+  border-radius: 16px 16px 0 0 !important;
+  overflow: hidden !important;
+}
+
+/* Card footer / info area */
+.cardFooter,
+.cardTextCentered {
+  background: rgba(150, 200, 248, 0.04) !important;
+  backdrop-filter: blur(12px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 0 0 16px 16px !important;
+  padding: 7px 10px 9px !important;
+}
+
+.cardText,
+.cardTextCentered .cardText {
+  font-family: 'Spectral SC', serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: var(--ovc-ink) !important;
+  letter-spacing: 0.2px !important;
+}
+
+.cardText.cardText-secondary,
+.cardTextCentered .cardText + .cardText {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.58rem !important;
+  color: var(--ovc-ink3) !important;
+  margin-top: 1px !important;
+}
+
+/* Progress bar — cyan neon line */
+.itemProgressBar,
+.cardProgressBar {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-radius: 1px !important;
+  height: 2px !important;
+}
+
+.itemProgressBar .itemProgressBarForeground,
+.cardProgressBarForeground {
+  background: var(--ovc-cyan) !important;
+  box-shadow: 0 0 6px var(--ovc-cyan) !important;
+  border-radius: 1px !important;
+}
+
+/* Badges: 4K, HDR, NEW */
+.cardIndicator,
+.playedIndicator,
+.mediaSourceIndicator,
+.videoQualityBadge,
+.osdTimeRemainingText {
+  background: rgba(170, 215, 248, 0.04) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 5px !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.5rem !important;
+  letter-spacing: 1.5px !important;
+  color: rgba(0, 200, 228, 0.9) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 240, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(0, 240, 255, 0.1) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   HERO / FEATURED AREA
+════════════════════════════════════════════════════════════════════════ */
+
+.backdropContainer,
+.itemBackdropContainer,
+.heroImageContainer {
+  background: transparent !important;
+}
+
+/* Scrim over backdrop image */
+.backdropImage::after,
+.itemBackdrop::after {
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 1, 0.92) 0%,
+    rgba(0, 0, 1, 0.4) 50%,
+    rgba(0, 0, 1, 0.2) 100%
+  ) !important;
+}
+
+/* Hero info panel — glass */
+.itemDetailPage .itemDetailGallerylink,
+.detailImageContainer,
+.itemDetailPage .primaryImageWrapper {
+  border-radius: 16px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 8px 24px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Page title on detail views */
+.itemDetailPage .itemName,
+.itemName h3,
+h1.itemName {
+  font-family: 'Permanent Marker', cursive !important;
+  color: rgba(245, 255, 255, 0.95) !important;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Metadata chips (genre, year, rating) */
+.mediaInfoItem {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.58rem !important;
+  letter-spacing: 1.5px !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+  background: rgba(190, 225, 255, 0.04) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  color: var(--ovc-ink2) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════════════════════════════════════ */
+
+/* Primary play/action buttons */
+.button-flat.btnPlay,
+.itemActionButton.btnPlay,
+.btnPlay.emby-button,
+.play-btn {
+  background: rgba(0, 240, 255, 0.1) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 10px !important;
+  font-family: 'Permanent Marker', cursive !important;
+  font-size: 0.88rem !important;
+  color: rgba(200, 248, 255, 0.95) !important;
+  border: 1px solid rgba(0, 240, 255, 0.09) !important;
+  box-shadow:
+    inset 0  1px 0 rgba(0, 240, 255, 0.55),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 0 22px rgba(0, 240, 255, 0.12),
+    0 4px 14px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.16s !important;
+}
+
+.button-flat.btnPlay:hover,
+.btnPlay.emby-button:hover {
+  background: rgba(0, 240, 255, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 240, 255, 0.7),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 0 32px rgba(0, 240, 255, 0.22),
+    0 6px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Ghost/secondary buttons */
+.button-flat:not(.btnPlay),
+.emby-button:not(.btnPlay),
+.itemActionButton:not(.btnPlay) {
+  background: rgba(210, 230, 255, 0.03) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 10px !important;
+  color: var(--ovc-ink2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 1.5px !important;
+  transition: all 0.16s !important;
+}
+
+.button-flat:not(.btnPlay):hover,
+.emby-button:not(.btnPlay):hover {
+  color: var(--ovc-ink) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   DIALOGS / MENUS / DRAWERS
+════════════════════════════════════════════════════════════════════════ */
+
+.dialogContainer .dialog,
+.actionSheet,
+.paper-dialog {
+  background: rgba(180, 215, 255, 0.04) !important;
+  backdrop-filter: blur(32px) saturate(280%) brightness(1.14) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(280%) brightness(1.14) !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 8px 20px rgba(0, 0, 0, 0.3) !important;
+  color: var(--ovc-ink) !important;
+}
+
+.listItem,
+.actionSheetMenuItem {
+  border-radius: 10px !important;
+  color: var(--ovc-ink2) !important;
+  font-family: 'Spectral SC', serif !important;
+  transition: all 0.14s !important;
+}
+
+.listItem:hover,
+.actionSheetMenuItem:hover {
+  background: rgba(0, 240, 255, 0.06) !important;
+  color: var(--ovc-ink) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDERS / PROGRESS
+════════════════════════════════════════════════════════════════════════ */
+
+.mdl-slider__container .mdl-slider__background-flex > * {
+  background: rgba(0, 240, 255, 0.2) !important;
+}
+
+.mdl-slider__container .mdl-slider__background-upper {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.mdl-slider__container .mdl-slider__background-lower,
+.emby-slider .emby-slider-background-lower {
+  background: var(--ovc-cyan) !important;
+  box-shadow: 0 0 6px var(--ovc-cyan-glow) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   LIBRARY / FILTER TABS
+════════════════════════════════════════════════════════════════════════ */
+
+.emby-tabs-button,
+.pageTabButton {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: var(--ovc-ink3) !important;
+  border-radius: 8px !important;
+  transition: all 0.14s !important;
+}
+
+.emby-tabs-button.emby-tabs-button-selected,
+.pageTabButton.emby-tabs-button-selected {
+  color: var(--ovc-cyan) !important;
+  background: rgba(0, 240, 255, 0.07) !important;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.3) !important;
+}
+
+/* Tab underline indicator */
+.emby-tabs-slider {
+  background: var(--ovc-cyan) !important;
+  box-shadow: 0 0 8px var(--ovc-cyan) !important;
+  height: 2px !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   INPUT FIELDS
+════════════════════════════════════════════════════════════════════════ */
+
+.emby-input,
+.emby-textarea,
+.emby-select {
+  background: rgba(0, 0, 0, 0.28) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-top-color: rgba(0, 0, 0, 0.35) !important;
+  border-radius: 10px !important;
+  color: var(--ovc-ink) !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.75rem !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.35) !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+}
+
+.emby-input:focus,
+.emby-textarea:focus {
+  border-color: rgba(0, 240, 255, 0.3) !important;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 240, 255, 0.1),
+    0 0 12px rgba(0, 240, 255, 0.08) !important;
+  outline: none !important;
+}
+
+.inputLabel,
+.emby-label {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: var(--ovc-ink3) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   OSD / PLAYER
+════════════════════════════════════════════════════════════════════════ */
+
+.osdBottom,
+.videoOsdBottom {
+  background: rgba(180, 215, 255, 0.04) !important;
+  backdrop-filter: blur(28px) saturate(280%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(280%) brightness(1.1) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.osdTitle,
+.videoOsdTitle {
+  font-family: 'Permanent Marker', cursive !important;
+  color: rgba(245, 255, 255, 0.95) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   GLASS DRIFT ANIMATION
+   Organic caustic light moving through each surface independently.
+   The surface is alive — not manufactured.
+════════════════════════════════════════════════════════════════════════ */
+
+@keyframes ovc-drift {
+  0%,  100% { transform: translateX(0%)   skewX(0deg)    scaleX(1);    opacity: 0.72; }
+  28%        { transform: translateX(5%)   skewX(2deg)    scaleX(1.05); opacity: 1;    }
+  68%        { transform: translateX(-3%)  skewX(-1.5deg) scaleX(0.96); opacity: 0.55; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SCROLLBARS
+════════════════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar              { width: 3px; height: 3px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover  { background: rgba(0, 240, 255, 0.22); }
+::-webkit-scrollbar-corner       { background: transparent; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   OVERRIDES — kill Jellyfin's own backgrounds
+════════════════════════════════════════════════════════════════════════ */
+
+.backgroundContainer,
+.backgroundSlideShow,
+.staticBackdrop,
+#staticBackdrop {
+  background: transparent !important;
+}
+
+/* Remove card shadow that Jellyfin adds */
+.cardBox {
+  box-shadow: none;
+}
+
+/* Ensure page backgrounds are transparent so void shows through */
+.mainAnimatedPages,
+.mainView,
+.page,
+.standardBGPage {
+  background: transparent !important;
+}
+
+/* Scrim overlays */
+.drawerbuttoncontainer,
+.pageTabButtonGroup {
+  background: transparent !important;
+}
