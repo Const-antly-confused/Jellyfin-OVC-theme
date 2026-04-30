@@ -65,7 +65,10 @@ html, body {
 body::before {
   content: '';
   position: fixed;
-  inset: -10%;
+  top: -10%;
+  left: -10%;
+  right: -10%;
+  bottom: -10%;
   z-index: 0;
   pointer-events: none;
   background-image:
@@ -116,28 +119,32 @@ body::after {
 
 /* ── PARTICLES — rising ambient light, CSS approximation ── */
 /* Two animated layers at different speeds to suggest depth */
+
 /* Layer 1: slower rising particles */
 #staticBackdrop::before,
 .backdropContainer::before {
   content: '';
   position: fixed;
-  inset: 0;
+  top: 110vh;
+  left: 0;
+  right: 0;
+  bottom: auto;
   z-index: 2;
   pointer-events: none;
-  width: 1px; height: 1px;
+  width: 1px;
+  height: 1px;
   border-radius: 50%;
-  top: 110vh;
   background: transparent;
   box-shadow:
-     5vw 0   0 1px rgba(0,240,255,0.32),  12vw -10vh 1px 1px rgba(0,240,255,0.22),
-    22vw -5vh 0 1px rgba(0,240,255,0.28),  31vw -18vh 1px 1px rgba(0,240,255,0.18),
-    43vw -3vh 0 1px rgba(0,240,255,0.35),  54vw -12vh 0 1px rgba(0,240,255,0.24),
-    67vw -7vh 1px 1px rgba(0,240,255,0.20), 73vw -20vh 0 1px rgba(0,240,255,0.30),
-    85vw -2vh 0 1px rgba(0,240,255,0.26),  92vw -15vh 1px 1px rgba(0,240,255,0.18),
-     8vw -25vh 0 1px rgba(0,240,255,0.22), 18vw -8vh 0 1px rgba(0,240,255,0.34),
+     5vw 0    0 1px rgba(0,240,255,0.32),  12vw -10vh 1px 1px rgba(0,240,255,0.22),
+    22vw -5vh  0 1px rgba(0,240,255,0.28),  31vw -18vh 1px 1px rgba(0,240,255,0.18),
+    43vw -3vh  0 1px rgba(0,240,255,0.35),  54vw -12vh 0  1px rgba(0,240,255,0.24),
+    67vw -7vh  1px 1px rgba(0,240,255,0.20), 73vw -20vh 0 1px rgba(0,240,255,0.30),
+    85vw -2vh  0 1px rgba(0,240,255,0.26),  92vw -15vh 1px 1px rgba(0,240,255,0.18),
+     8vw -25vh 0 1px rgba(0,240,255,0.22), 18vw -8vh  0  1px rgba(0,240,255,0.34),
     37vw -30vh 1px 1px rgba(0,240,255,0.19), 48vw -22vh 0 1px rgba(0,240,255,0.28),
     59vw -35vh 0 1px rgba(0,240,255,0.24), 71vw -14vh 1px 1px rgba(0,240,255,0.32),
-    80vw -28vh 0 1px rgba(0,240,255,0.18), 96vw -9vh 0 1px rgba(0,240,255,0.26),
+    80vw -28vh 0 1px rgba(0,240,255,0.18), 96vw -9vh  0  1px rgba(0,240,255,0.26),
     25vw -42vh 1px 1px rgba(0,240,255,0.20), 62vw -48vh 0 1px rgba(0,240,255,0.22);
   animation: ovc-rise-a 28s linear infinite;
 }
@@ -147,24 +154,27 @@ body::after {
 .backdropContainer::after {
   content: '';
   position: fixed;
-  inset: 0;
+  top: 115vh;
+  left: 0;
+  right: 0;
+  bottom: auto;
   z-index: 2;
   pointer-events: none;
-  width: 1px; height: 1px;
+  width: 1px;
+  height: 1px;
   border-radius: 50%;
-  top: 115vh;
   background: transparent;
   box-shadow:
-     3vw -8vh  0 1px rgba(0,240,255,0.38),  15vw -2vh  1px 1px rgba(0,240,255,0.28),
-    28vw -14vh 0 1px rgba(0,240,255,0.32),  38vw -6vh  0 1px rgba(0,240,255,0.22),
-    50vw -20vh 1px 1px rgba(0,240,255,0.36), 64vw -4vh  0 1px rgba(0,240,255,0.26),
-    76vw -18vh 0 1px rgba(0,240,255,0.30),  88vw -10vh 1px 1px rgba(0,240,255,0.24),
-    10vw -32vh 0 1px rgba(0,240,255,0.28),  45vw -38vh 0 1px rgba(0,240,255,0.18),
-    58vw -26vh 1px 1px rgba(0,240,255,0.34), 82vw -44vh 0 1px rgba(0,240,255,0.22),
-    20vw -50vh 0 1px rgba(0,240,255,0.20),  35vw -16vh 1px 1px rgba(0,240,255,0.30),
-    70vw -36vh 0 1px rgba(0,240,255,0.26),  94vw -22vh 0 1px rgba(0,240,255,0.18),
-     7vw -44vh 1px 1px rgba(0,240,255,0.24), 53vw -12vh 0 1px rgba(0,240,255,0.32),
-    79vw -52vh 0 1px rgba(0,240,255,0.20),  42vw -46vh 1px 1px rgba(0,240,255,0.26);
+     3vw -8vh   0 1px rgba(0,240,255,0.38),  15vw -2vh  1px 1px rgba(0,240,255,0.28),
+    28vw -14vh  0 1px rgba(0,240,255,0.32),  38vw -6vh  0  1px rgba(0,240,255,0.22),
+    50vw -20vh  1px 1px rgba(0,240,255,0.36), 64vw -4vh  0 1px rgba(0,240,255,0.26),
+    76vw -18vh  0 1px rgba(0,240,255,0.30),  88vw -10vh 1px 1px rgba(0,240,255,0.24),
+    10vw -32vh  0 1px rgba(0,240,255,0.28),  45vw -38vh 0  1px rgba(0,240,255,0.18),
+    58vw -26vh  1px 1px rgba(0,240,255,0.34), 82vw -44vh 0 1px rgba(0,240,255,0.22),
+    20vw -50vh  0 1px rgba(0,240,255,0.20),  35vw -16vh 1px 1px rgba(0,240,255,0.30),
+    70vw -36vh  0 1px rgba(0,240,255,0.26),  94vw -22vh 0  1px rgba(0,240,255,0.18),
+     7vw -44vh  1px 1px rgba(0,240,255,0.24), 53vw -12vh 0 1px rgba(0,240,255,0.32),
+    79vw -52vh  0 1px rgba(0,240,255,0.20),  42vw -46vh 1px 1px rgba(0,240,255,0.26);
   animation: ovc-rise-b 18s linear infinite 4s;
 }
 
@@ -176,12 +186,6 @@ body::after {
   0%   { transform: translateY(0); }
   100% { transform: translateY(-230vh); }
 }
-
-/* ════════════════════════════════════════════════════════════════════════
-   GLASS MIXIN
-   Applied everywhere that needs the organic liquid glass surface.
-   Not dark panels — nearly transparent with physical edge behavior.
-════════════════════════════════════════════════════════════════════════ */
 
 /* ════════════════════════════════════════════════════════════════════════
    TOPBAR / HEADER
@@ -197,7 +201,6 @@ body::after {
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(0, 0, 0, 0.35),
     0 4px 20px rgba(0, 0, 0, 0.2) !important;
-  /* Neon beacon line below */
   position: relative !important;
 }
 
@@ -289,13 +292,11 @@ body::after {
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Section label */
 .navMenuDivider,
 .navSection {
   border-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Nav items */
 .navMenuOption {
   color: var(--ovc-ink3) !important;
   font-family: 'Spectral SC', serif !important;
@@ -325,7 +326,6 @@ body::after {
   text-shadow: 0 0 14px rgba(0, 240, 255, 0.35) !important;
 }
 
-/* Nav icons */
 .navMenuOption .material-icons,
 .navMenuOption md-icon {
   color: inherit !important;
@@ -333,7 +333,6 @@ body::after {
 
 /* ════════════════════════════════════════════════════════════════════════
    SECTION TITLES
-   Permanent Marker + TE-style measurement marks
 ════════════════════════════════════════════════════════════════════════ */
 
 .sectionTitle,
@@ -349,7 +348,6 @@ h2.sectionTitle,
   position: relative !important;
 }
 
-/* TE calibration mark */
 .sectionTitle::before,
 h2.sectionTitle::before {
   content: '';
@@ -361,7 +359,6 @@ h2.sectionTitle::before {
   border-top: 1.5px solid rgba(0, 240, 255, 0.45);
 }
 
-/* "See all" / more links */
 .sectionTitleTextButton,
 .more-button,
 .listItemBodyText a {
@@ -378,10 +375,8 @@ h2.sectionTitle::before {
 
 /* ════════════════════════════════════════════════════════════════════════
    CARDS
-   Organic liquid glass. Not dark panels — clear, with physical edges.
 ════════════════════════════════════════════════════════════════════════ */
 
-/* Card container */
 .card {
   border-radius: 16px !important;
   overflow: visible !important;
@@ -394,21 +389,18 @@ h2.sectionTitle::before {
   -webkit-backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
   border-radius: 16px !important;
   overflow: hidden !important;
-
-  /* Physical glass edges */
   box-shadow:
     inset 0  1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(0, 0, 0, 0.4),
     inset  1px 0 0 rgba(255, 255, 255, 0.1),
     inset -1px 0 0 rgba(255, 255, 255, 0.1),
     0 4px 16px rgba(0, 0, 0, 0.2) !important;
-
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   transition: box-shadow 0.2s, transform 0.2s !important;
   position: relative !important;
 }
 
-/* Top-edge specular — off-center, organic, not a ruler */
+/* Top-edge specular */
 .cardBox::before {
   content: '';
   position: absolute;
@@ -427,7 +419,7 @@ h2.sectionTitle::before {
   z-index: 5;
 }
 
-/* Internal volume — light drifting through the glass */
+/* Internal volume light */
 .cardBox::after {
   content: '';
   position: absolute;
@@ -446,7 +438,7 @@ h2.sectionTitle::before {
   animation: ovc-drift 22s ease-in-out infinite;
 }
 
-/* Card hover — cyan light source hits glass edge */
+/* Card hover */
 .card:hover .cardBox,
 .cardBox:hover {
   transform: translateY(-4px) scale(1.012) !important;
@@ -460,14 +452,12 @@ h2.sectionTitle::before {
   border-color: rgba(0, 240, 255, 0.12) !important;
 }
 
-/* Image area */
 .cardImageContainer,
 .cardImage {
   border-radius: 16px 16px 0 0 !important;
   overflow: hidden !important;
 }
 
-/* Card footer / info area */
 .cardFooter,
 .cardTextCentered {
   background: rgba(150, 200, 248, 0.04) !important;
@@ -494,7 +484,7 @@ h2.sectionTitle::before {
   margin-top: 1px !important;
 }
 
-/* Progress bar — cyan neon line */
+/* Progress bar */
 .itemProgressBar,
 .cardProgressBar {
   background: rgba(255, 255, 255, 0.07) !important;
@@ -509,7 +499,7 @@ h2.sectionTitle::before {
   border-radius: 1px !important;
 }
 
-/* Badges: 4K, HDR, NEW */
+/* Badges */
 .cardIndicator,
 .playedIndicator,
 .mediaSourceIndicator,
@@ -538,18 +528,27 @@ h2.sectionTitle::before {
   background: transparent !important;
 }
 
-/* Scrim over backdrop image */
+/* Scrim over backdrop image — fixed with required properties */
+.backdropImage,
+.itemBackdrop {
+  position: relative !important;
+}
+
 .backdropImage::after,
 .itemBackdrop::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
   background: linear-gradient(
     0deg,
     rgba(0, 0, 1, 0.92) 0%,
-    rgba(0, 0, 1, 0.4) 50%,
-    rgba(0, 0, 1, 0.2) 100%
+    rgba(0, 0, 1, 0.4)  50%,
+    rgba(0, 0, 1, 0.2)  100%
   ) !important;
+  pointer-events: none !important;
 }
 
-/* Hero info panel — glass */
+/* Hero info panel */
 .itemDetailPage .itemDetailGallerylink,
 .detailImageContainer,
 .itemDetailPage .primaryImageWrapper {
@@ -561,7 +560,7 @@ h2.sectionTitle::before {
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Page title on detail views */
+/* Page title */
 .itemDetailPage .itemName,
 .itemName h3,
 h1.itemName {
@@ -570,7 +569,7 @@ h1.itemName {
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* Metadata chips (genre, year, rating) */
+/* Metadata chips */
 .mediaInfoItem {
   font-family: 'Share Tech Mono', monospace !important;
   font-size: 0.58rem !important;
@@ -589,7 +588,6 @@ h1.itemName {
    BUTTONS
 ════════════════════════════════════════════════════════════════════════ */
 
-/* Primary play/action buttons */
 .button-flat.btnPlay,
 .itemActionButton.btnPlay,
 .btnPlay.emby-button,
@@ -619,7 +617,6 @@ h1.itemName {
     0 6px 18px rgba(0, 0, 0, 0.35) !important;
 }
 
-/* Ghost/secondary buttons */
 .button-flat:not(.btnPlay),
 .emby-button:not(.btnPlay),
 .itemActionButton:not(.btnPlay) {
@@ -720,7 +717,6 @@ h1.itemName {
   text-shadow: 0 0 12px rgba(0, 240, 255, 0.3) !important;
 }
 
-/* Tab underline indicator */
 .emby-tabs-slider {
   background: var(--ovc-cyan) !important;
   box-shadow: 0 0 8px var(--ovc-cyan) !important;
@@ -785,8 +781,6 @@ h1.itemName {
 
 /* ════════════════════════════════════════════════════════════════════════
    GLASS DRIFT ANIMATION
-   Organic caustic light moving through each surface independently.
-   The surface is alive — not manufactured.
 ════════════════════════════════════════════════════════════════════════ */
 
 @keyframes ovc-drift {
@@ -814,11 +808,6 @@ h1.itemName {
 .staticBackdrop,
 #staticBackdrop {
   background: transparent !important;
-}
-
-/* Remove card shadow that Jellyfin adds */
-.cardBox {
-  box-shadow: none;
 }
 
 /* Ensure page backgrounds are transparent so void shows through */
