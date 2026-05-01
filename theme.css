@@ -1,44 +1,75 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme
-   Version: 1.0
+   Version: 2.0
+   Repository: https://github.com/Const-antly-confused/Jellyfin-OVC-theme
    -----------------------------------------------------------------------
-   INSTALL:
-     Admin Dashboard → General → Custom CSS → paste this entire file
-   
-   PARTICLES + PARALLAX (optional, requires file access):
-     Place ovc-jellyfin.js in your Jellyfin web root and add to index.html:
-     <script src="ovc-jellyfin.js"></script> before </body>
+   INSTALL (CSS only):
+     Admin Dashboard → General → Custom CSS → paste or @import via jsDelivr
+
+   INSTALL (full — particles + parallax):
+     See ovc-jellyfin.js install instructions in repo README
    ═══════════════════════════════════════════════════════════════════════ */
 
+
 /* ── FONTS ────────────────────────────────────────────────────────────── */
+/* Google Fonts loaded directly — works in browser context.
+   Fallback stacks ensure legibility if fonts fail to load.          */
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Share+Tech+Mono&family=Spectral+SC:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
 
 /* ── TOKENS ───────────────────────────────────────────────────────────── */
 :root {
+  /* Brand colors */
   --ovc-cyan:        #00f0ff;
   --ovc-cyan-glow:   rgba(0,240,255,0.2);
   --ovc-cyan-edge:   rgba(0,240,255,0.45);
+  --ovc-purple:      rgba(150,100,255,0.9);  /* NEW badge / distinguished */
+  --ovc-silver:      rgba(180,200,225,0.6);  /* HDR badge / neutral */
 
-  /* Real glass: nearly nothing fill, edges do the work */
+  /* Glass recipe — nearly nothing fill, edges do the work */
   --ovc-gf:          rgba(195,220,255,0.038);
   --ovc-gb:          blur(26px) saturate(300%) brightness(1.12);
   --ovc-ge-t:        rgba(255,255,255,0.52);   /* top rim — overhead light */
   --ovc-ge-s:        rgba(255,255,255,0.11);   /* sides */
-  --ovc-ge-b:        rgba(0,0,0,0.55);         /* bottom — thickness into shadow */
+  --ovc-ge-b:        rgba(0,0,0,0.55);         /* bottom — thickness shadow */
 
+  /* Ink levels */
   --ovc-ink:         rgba(225,242,255,0.9);
   --ovc-ink2:        rgba(180,212,238,0.45);
   --ovc-ink3:        rgba(140,178,212,0.3);
 
+  /* Typography */
   --ovc-font-d:      'Permanent Marker', cursive;
-  --ovc-font-m:      'Share Tech Mono', monospace;
-  --ovc-font-b:      'Spectral SC', serif;
+  --ovc-font-m:      'Share Tech Mono', 'Courier New', monospace;
+  --ovc-font-b:      'Spectral SC', Georgia, serif;
 
+  /* Structure */
   --ovc-radius:      16px;
+  --ovc-radius-sm:   10px;
+
+  /* ── LOGO PLACEHOLDER ────────────────────────────────────────────────
+     To replace the text logo with an image:
+       1. Upload your logo file to a public URL or your Jellyfin web root
+       2. Set --ovc-logo-url to that URL
+       3. Set --ovc-logo-mode to 'image'
+       4. Adjust --ovc-logo-w and --ovc-logo-h to match your asset
+
+     Example:
+       --ovc-logo-url:   url('https://your-cdn.com/ovc-logo.png');
+       --ovc-logo-mode:  image;
+       --ovc-logo-w:     120px;
+       --ovc-logo-h:     36px;
+  ──────────────────────────────────────────────────────────────────── */
+  --ovc-logo-url:    none;       /* replace with url('...') when ready */
+  --ovc-logo-mode:   text;       /* 'text' | 'image' */
+  --ovc-logo-w:      120px;
+  --ovc-logo-h:      36px;
 }
 
+
 /* ── GLASS DRIFT ANIMATIONS ───────────────────────────────────────────── */
-/* Six distinct patterns — each surface catches light differently */
+/* Six distinct patterns — each surface catches light differently.
+   Varied translate, skew, scale, and opacity so no two panels feel the same. */
 @keyframes ovc-gd-a {
   0%,100% { transform: translateX(0%)   skewX(0deg)    scaleX(1);    opacity: 0.72; }
   28%     { transform: translateX(6%)   skewX(2.2deg)  scaleX(1.06); opacity: 1;    }
@@ -70,13 +101,14 @@
   75%     { transform: translateX(7%)   skewX(2.8deg)  scaleX(0.97); opacity: 0.48; }
 }
 
+
 /* ════════════════════════════════════════════════════════════════════════
-   BACKGROUND
-   Void: near-perfect black at center (farthest from us),
-   deep ocean-blue at edges — center of darkness is endless depth.
-   Center light: cyan reference point on the void plane.
+   BACKGROUND — void + grid + vignette + center light
+   Three depth planes managed here; parallax driven by ovc-jellyfin.js
 ════════════════════════════════════════════════════════════════════════ */
 
+/* Void: near-perfect black at center, deep ocean-blue at edges.
+   Center = farthest depth. Edges = the light that never quite reaches. */
 html {
   background: radial-gradient(
     ellipse 110% 110% at 50% 50%,
@@ -87,6 +119,7 @@ html {
     #030c18 78%,
     #050e1e 100%
   ) !important;
+  min-height: 100% !important;
 }
 
 body {
@@ -97,66 +130,93 @@ body {
   -webkit-font-smoothing: antialiased !important;
 }
 
-/* Vignette — pulls the eye center */
+/* Vignette — pulls the eye inward, reinforces void depth */
 body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
   background: radial-gradient(
     ellipse 80% 80% at 50% 50%,
     transparent 40%,
     rgba(1,2,4,0.35) 100%
-  );
+  ) !important;
 }
 
-/* Grid — foreground layer, scrolls with content via JS.
-   Injected as a DOM element by ovc-jellyfin.js.
-   CSS here handles its visual properties. */
-#ovc-grid-far, #ovc-grid-near {
-  position: absolute;
-  pointer-events: none;
-  z-index: 1;
+/* Kill ALL Jellyfin background surfaces — comprehensive for 10.8 and 10.9+ */
+.backgroundContainer,
+.backgroundContainer-withBackdrop,
+.backgroundContainer-withBackdrop::after,
+.backgroundContainer-withBackdrop::before,
+.backdropImage,
+.backdropContainer,
+.pageFadeInTransition,
+.smoothScrollPage::before,
+.detailBackdrop,
+.detailImageContainer::before {
+  background: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  display: none !important;
 }
+
+/* Grid layers — injected into content by ovc-jellyfin.js.
+   CSS controls visual; JS controls depth plane behavior. */
+#ovc-grid-far,
+#ovc-grid-near {
+  position: absolute !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
 #ovc-grid-far {
-  top: -10%; left: -10%; right: -10%; bottom: -10%; width: 120%;
+  top: -10%; left: -10%; right: -10%; bottom: -10%;
+  width: 120% !important;
   background-image:
     linear-gradient(rgba(0,240,255,0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,240,255,0.028) 1px, transparent 1px);
-  background-size: 88px 88px;
+    linear-gradient(90deg, rgba(0,240,255,0.028) 1px, transparent 1px) !important;
+  background-size: 88px 88px !important;
   mask-image: radial-gradient(
     ellipse 62% 62% at 50% 50%,
     black 10%, rgba(0,0,0,0.7) 38%, rgba(0,0,0,0.3) 60%, transparent 78%
-  );
+  ) !important;
   -webkit-mask-image: radial-gradient(
     ellipse 62% 62% at 50% 50%,
     black 10%, rgba(0,0,0,0.7) 38%, rgba(0,0,0,0.3) 60%, transparent 78%
-  );
-}
-#ovc-grid-near {
-  top: -8%; left: -8%; right: -8%; bottom: -8%; width: 116%;
-  background-image:
-    linear-gradient(rgba(0,240,255,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,240,255,0.045) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(
-    ellipse 68% 68% at 50% 50%,
-    black 15%, rgba(0,0,0,0.75) 42%, rgba(0,0,0,0.28) 62%, transparent 80%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 68% 68% at 50% 50%,
-    black 15%, rgba(0,0,0,0.75) 42%, rgba(0,0,0,0.28) 62%, transparent 80%
-  );
+  ) !important;
 }
 
-/* Center void reference light — injected by JS, styled here */
+#ovc-grid-near {
+  top: -8%; left: -8%; right: -8%; bottom: -8%;
+  width: 116% !important;
+  background-image:
+    linear-gradient(rgba(0,240,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,240,255,0.045) 1px, transparent 1px) !important;
+  background-size: 44px 44px !important;
+  mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    black 15%, rgba(0,0,0,0.75) 42%, rgba(0,0,0,0.28) 62%, transparent 80%
+  ) !important;
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    black 15%, rgba(0,0,0,0.75) 42%, rgba(0,0,0,0.28) 62%, transparent 80%
+  ) !important;
+}
+
+/* Center void reference light — distant cyan point anchors the parallax.
+   Injected by ovc-jellyfin.js. Moves at 0.08x scroll speed with the void. */
 #ovc-center-light {
-  position: fixed;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: 3px; height: 3px;
-  border-radius: 50%;
-  background: rgba(0,240,255,0.9);
-  pointer-events: none;
-  z-index: 1;
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 3px !important;
+  height: 3px !important;
+  border-radius: 50% !important;
+  background: rgba(0,240,255,0.9) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
   box-shadow:
     0 0 2px   rgba(0,240,255,1.0),
     0 0 8px   rgba(0,240,255,0.75),
@@ -164,25 +224,18 @@ body::before {
     0 0 40px  rgba(0,220,245,0.28),
     0 0 90px  rgba(0,200,235,0.13),
     0 0 180px rgba(0,185,225,0.06),
-    0 0 320px rgba(0,170,215,0.03);
+    0 0 320px rgba(0,170,215,0.03) !important;
 }
 
-/* Particle canvas — injected by JS */
+/* Particle canvas — injected and animated by ovc-jellyfin.js */
 #ovc-particles {
-  position: fixed;
-  left: 0; top: 0;
-  pointer-events: none;
-  z-index: 4;
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  pointer-events: none !important;
+  z-index: 4 !important;
 }
 
-/* Kill Jellyfin's default backgrounds */
-.backgroundContainer,
-.backgroundContainer-withBackdrop,
-.backgroundContainer-withBackdrop::after,
-.backgroundContainer-withBackdrop::before {
-  background: transparent !important;
-  opacity: 0 !important;
-}
 
 /* ════════════════════════════════════════════════════════════════════════
    HEADER / TOPBAR
@@ -193,15 +246,16 @@ body::before {
   background: rgba(180,220,255,0.038) !important;
   backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
   -webkit-backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
+  /* Glass sheet edges */
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.5),
+    inset 0  1px 0 rgba(255,255,255,0.5),
     inset 0 -1px 0 rgba(0,0,0,0.35),
     0 4px 20px rgba(0,0,0,0.2) !important;
   border-bottom: 1px solid rgba(0,0,0,0.2) !important;
   position: relative !important;
 }
 
-/* Neon beacon underline */
+/* Neon beacon underline — illumination origin */
 .skinHeader::after,
 .headerContainer::after {
   content: '' !important;
@@ -216,25 +270,68 @@ body::before {
   ) !important;
   filter: blur(0.5px) !important;
   pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* ── LOGO ─────────────────────────────────────────────────────────────
+   Currently renders as text. When --ovc-logo-url is set to a real image
+   URL, swap --ovc-logo-mode to 'image' and the rules below will hide
+   the text and show the image instead. No other code changes needed.
+──────────────────────────────────────────────────────────────────── */
+.headerAppBarTitle,
+.pageTitleWithLogo {
+  font-family: var(--ovc-font-d) !important;
+  color: rgba(240,252,255,0.95) !important;
+  letter-spacing: 0.3px !important;
+  position: relative !important;
+}
+
+/* Image logo — activates when you set --ovc-logo-url and mode to image */
+.skinHeader .headerLogo,
+.headerLogo {
+  /* Replace these two lines when your logo is ready:
+     background-image: var(--ovc-logo-url);
+     width: var(--ovc-logo-w);
+     height: var(--ovc-logo-h);      */
+  display: none !important; /* hide Jellyfin's default logo mark */
+}
+
+/* Logo subtext tag — "// media server" */
+.headerAppBarTitle::after {
+  content: '// media server' !important;
+  display: block !important;
+  font-family: var(--ovc-font-m) !important;
+  font-size: 0.46rem !important;
+  color: var(--ovc-cyan) !important;
+  letter-spacing: 5px !important;
+  opacity: 0.6 !important;
+  text-shadow: 0 0 8px var(--ovc-cyan-glow) !important;
+  margin-top: 2px !important;
 }
 
 /* ── HAMBURGER — always visible on ALL pages ───────────────────────── */
+/* Gap #28: Jellyfin applies .hide via JS on wider viewports.
+   We force it visible and interactive regardless.                    */
 .headerDrawerButton,
 .headerDrawerButton.hide,
 .headerTabs .headerDrawerButton,
-#headerDrawerButton {
+#headerDrawerButton,
+#headerDrawerButton.hide,
+button.headerDrawerButton {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   visibility: visible !important;
   opacity: 1 !important;
+  pointer-events: all !important;
   width: 36px !important;
   height: 36px !important;
-  border-radius: 8px !important;
+  border-radius: var(--ovc-radius-sm) !important;
   border: 1px solid transparent !important;
   color: var(--ovc-ink3) !important;
   transition: all 0.14s !important;
   flex-shrink: 0 !important;
+  cursor: pointer !important;
 }
 
 .headerDrawerButton:hover,
@@ -244,21 +341,12 @@ body::before {
   border-color: rgba(255,255,255,0.08) !important;
 }
 
-/* Header title — Permanent Marker */
-.headerAppBarTitle,
-.pageTitle,
-.sectionTitle {
-  font-family: var(--ovc-font-d) !important;
-  color: var(--ovc-ink) !important;
-  letter-spacing: 0.3px !important;
-}
-
-/* Header buttons (search, user) */
+/* Header icon buttons */
 .headerButton,
 .headerSearchButton,
 .headerUserButton,
 .headerAvatarButton {
-  border-radius: 8px !important;
+  border-radius: var(--ovc-radius-sm) !important;
   border: 1px solid transparent !important;
   color: var(--ovc-ink3) !important;
   transition: all 0.14s !important;
@@ -280,7 +368,7 @@ body::before {
   background: rgba(0,0,0,0.28) !important;
   border: 1px solid rgba(255,255,255,0.07) !important;
   border-top-color: rgba(0,0,0,0.4) !important;
-  border-radius: 10px !important;
+  border-radius: var(--ovc-radius-sm) !important;
   color: var(--ovc-ink) !important;
   font-family: var(--ovc-font-m) !important;
   font-size: 0.7rem !important;
@@ -292,11 +380,13 @@ body::before {
 .headerSearchInput:focus,
 .emby-input:focus {
   border-color: rgba(0,240,255,0.28) !important;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,240,255,0.1) !important;
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(0,240,255,0.1) !important;
   outline: none !important;
 }
 
-/* User avatar button — glass with cyan glow */
+/* User avatar — cyan gradient glass tile */
 .headerUserButton .userImage,
 .userImage {
   border-radius: 9px !important;
@@ -307,28 +397,35 @@ body::before {
     0 2px 6px rgba(0,0,0,0.3) !important;
 }
 
+
 /* ════════════════════════════════════════════════════════════════════════
    SIDEBAR / DRAWER
+   Gap #29 + #36: was rgba(0.022) — invisible. Now a real dark glass panel
+   with opaque enough fill to read as a physical surface.
 ════════════════════════════════════════════════════════════════════════ */
 
 .mainDrawer,
 .mainDrawerPanel,
 #mainDrawer {
-  background: rgba(160,210,255,0.022) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-right: 1px solid rgba(255,255,255,0.05) !important;
-  box-shadow: inset -1px 0 0 rgba(0,0,0,0.2) !important;
+  background: rgba(4,8,16,0.82) !important;
+  backdrop-filter: blur(28px) saturate(200%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.08) !important;
+  border-right: 1px solid rgba(0,240,255,0.1) !important;
+  box-shadow:
+    inset -1px 0 0 rgba(0,240,255,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    4px 0 24px rgba(0,0,0,0.5) !important;
+  z-index: 100 !important;
 }
 
 /* Nav items */
 .navMenuOption {
   display: flex !important;
   align-items: center !important;
-  border-radius: 10px !important;
+  border-radius: var(--ovc-radius-sm) !important;
   margin: 1px 6px !important;
   border: 1px solid transparent !important;
-  color: var(--ovc-ink3) !important;
+  color: rgba(140,178,212,0.55) !important;
   transition: all 0.14s !important;
   font-family: var(--ovc-font-m) !important;
   font-size: 0.82rem !important;
@@ -341,24 +438,27 @@ body::before {
   border-color: rgba(255,255,255,0.07) !important;
 }
 
+/* Active item — gap #36: add inset glass edges matching HTML .ri.on */
 .navMenuOption.selected,
 .navMenuOption[aria-selected="true"] {
   color: var(--ovc-cyan) !important;
-  background: rgba(0,240,255,0.07) !important;
+  background: rgba(0,240,255,0.08) !important;
   border-color: rgba(0,240,255,0.18) !important;
   box-shadow:
-    inset 0 1px 0 rgba(0,240,255,0.3),
+    inset 0  1px 0 rgba(0,240,255,0.3),
     inset 0 -1px 0 rgba(0,0,0,0.2),
     0 0 10px rgba(0,240,255,0.06) !important;
 }
 
-/* Active nav item right-edge neon indicator */
+/* Right-edge neon active indicator */
 .navMenuOption.selected::after,
 .navMenuOption[aria-selected="true"]::after {
   content: '' !important;
   position: absolute !important;
-  right: -7px; top: 50%; transform: translateY(-50%) !important;
-  width: 2px; height: 10px; border-radius: 1px !important;
+  right: -7px; top: 50%;
+  transform: translateY(-50%) !important;
+  width: 2px; height: 10px;
+  border-radius: 1px !important;
   background: var(--ovc-cyan) !important;
   box-shadow: 0 0 6px var(--ovc-cyan) !important;
 }
@@ -368,12 +468,12 @@ body::before {
   letter-spacing: 0.3px !important;
 }
 
-/* Nav dividers */
 .navMenuDivider,
 .navDivider {
   background: rgba(255,255,255,0.05) !important;
   margin: 4px 14px !important;
 }
+
 
 /* ════════════════════════════════════════════════════════════════════════
    MAIN CONTENT AREA
@@ -385,12 +485,14 @@ body::before {
 .libraryPage,
 .standardUserPage,
 .readOnlyContent,
-.detailPageContent {
+.detailPageContent,
+.mainAnimatedPages,
+.mainAnimatedPages .activePage {
   position: relative !important;
-  overflow-x: hidden !important; /* prevents unwanted side scroll */
+  overflow-x: hidden !important;
 }
 
-/* Horizontal card rows — keep their scroll, just style it */
+/* Horizontal scroll rows — keep their scroll, refine the bar */
 .scrollSlider {
   overflow-x: auto !important;
   padding-bottom: 6px !important;
@@ -409,10 +511,15 @@ body::before {
 /* Global scrollbar */
 ::-webkit-scrollbar { width: 3px !important; }
 ::-webkit-scrollbar-track { background: transparent !important; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1) !important; border-radius: 2px !important; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1) !important;
+  border-radius: 2px !important;
+}
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,240,255,0.22) !important; }
 
+
 /* ── SECTION HEADERS — TE measurement marks ───────────────────────── */
+/* Gap #43: HTML uses padding-left: 8px. CSS had 14px. Fixed to 8px.  */
 
 .sectionTitle,
 .sectionTitle-cards,
@@ -422,22 +529,23 @@ body::before {
   color: var(--ovc-ink) !important;
   letter-spacing: 0.3px !important;
   position: relative !important;
-  padding-left: 14px !important;
+  padding-left: 8px !important;
 }
 
-/* TE corner bracket mark */
+/* TE corner bracket — 7×7px, 1.5px stroke, cyan */
 .sectionTitle::before,
 .sectionTitle-cards::before,
 .homeTitle::before {
   content: '' !important;
   position: absolute !important;
-  left: 0; top: 50%; transform: translateY(-50%) !important;
+  left: 0; top: 50%;
+  transform: translateY(-50%) !important;
   width: 7px; height: 7px !important;
   border-left: 1.5px solid rgba(0,240,255,0.45) !important;
   border-top: 1.5px solid rgba(0,240,255,0.45) !important;
 }
 
-/* Section header rule line */
+/* Section rule line */
 .sectionTitleContainer::after {
   content: '' !important;
   display: block !important;
@@ -446,9 +554,24 @@ body::before {
   background: linear-gradient(90deg, rgba(255,255,255,0.06), transparent) !important;
 }
 
+/* Mono code tag beside section titles */
+.sectionTitleTextButton,
+.sectionTitleLink {
+  font-family: var(--ovc-font-m) !important;
+  font-size: 0.55rem !important;
+  color: var(--ovc-ink3) !important;
+  letter-spacing: 2px !important;
+  text-decoration: none !important;
+  transition: color 0.14s !important;
+}
+.sectionTitleTextButton:hover,
+.sectionTitleLink:hover { color: var(--ovc-cyan) !important; }
+
+
 /* ════════════════════════════════════════════════════════════════════════
    CARDS — liquid glass
    The glass is transparent. The edge is where it lives.
+   Each card draws from a different drift animation for organic variation.
 ════════════════════════════════════════════════════════════════════════ */
 
 .card {
@@ -462,7 +585,6 @@ body::before {
   backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
   -webkit-backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
   border-radius: var(--ovc-radius) !important;
-  /* Glass edges — light behavior, not decoration */
   box-shadow:
     inset 0  1px 0 rgba(255,255,255,0.5),
     inset 0 -1px 0 rgba(0,0,0,0.4),
@@ -475,7 +597,7 @@ body::before {
   overflow: hidden !important;
 }
 
-/* Top specular — off-center, organic */
+/* Off-center top specular — organic, not symmetric */
 .cardBox::before,
 .cardScalable::before {
   content: '' !important;
@@ -494,7 +616,7 @@ body::before {
   pointer-events: none !important;
 }
 
-/* Internal volume — drifting caustic refraction */
+/* Internal volume caustic — base (overridden per nth-child below) */
 .cardBox::after,
 .cardScalable::after {
   content: '' !important;
@@ -512,7 +634,71 @@ body::before {
   animation: ovc-gd-a 22s ease-in-out infinite !important;
 }
 
-/* Hover: cyan light hits the glass edge */
+/* Gap #16 + #72: full dimensional variety per card position.
+   Height, left/right offsets, border-radius, animation, AND delay all vary —
+   matching the HTML prototype exactly.                                  */
+.card:nth-child(1)  .cardBox::after,
+.card:nth-child(1)  .cardScalable::after {
+  height: 58% !important; left: 5% !important; right: 25% !important;
+  border-radius: 0 0 60% 30% !important;
+  animation: ovc-gd-a 20s ease-in-out infinite 0s !important;
+}
+.card:nth-child(2)  .cardBox::after,
+.card:nth-child(2)  .cardScalable::after {
+  height: 72% !important; left: 10% !important; right: 14% !important;
+  border-radius: 0 0 40% 55% !important;
+  animation: ovc-gd-b 17s ease-in-out infinite 1.5s !important;
+}
+.card:nth-child(3)  .cardBox::after,
+.card:nth-child(3)  .cardScalable::after {
+  height: 50% !important; left: 3% !important; right: 30% !important;
+  border-radius: 0 0 65% 25% !important;
+  animation: ovc-gd-c 25s ease-in-out infinite 3s !important;
+}
+.card:nth-child(4)  .cardBox::after,
+.card:nth-child(4)  .cardScalable::after {
+  height: 65% !important; left: 8% !important; right: 18% !important;
+  border-radius: 0 0 50% 45% !important;
+  animation: ovc-gd-d 19s ease-in-out infinite 0.7s !important;
+}
+.card:nth-child(5)  .cardBox::after,
+.card:nth-child(5)  .cardScalable::after {
+  height: 78% !important; left: 4% !important; right: 22% !important;
+  border-radius: 0 0 70% 20% !important;
+  animation: ovc-gd-e 23s ease-in-out infinite 4s !important;
+}
+.card:nth-child(6)  .cardBox::after,
+.card:nth-child(6)  .cardScalable::after {
+  height: 55% !important; left: 12% !important; right: 10% !important;
+  border-radius: 0 0 35% 60% !important;
+  animation: ovc-gd-f 21s ease-in-out infinite 2.5s !important;
+}
+.card:nth-child(7)  .cardBox::after,
+.card:nth-child(7)  .cardScalable::after {
+  height: 62% !important; left: 6% !important; right: 20% !important;
+  border-radius: 0 0 55% 35% !important;
+  animation: ovc-gd-a 18s ease-in-out infinite 1s !important;
+}
+.card:nth-child(8)  .cardBox::after,
+.card:nth-child(8)  .cardScalable::after {
+  height: 68% !important; left: 9% !important; right: 16% !important;
+  border-radius: 0 0 45% 50% !important;
+  animation: ovc-gd-c 24s ease-in-out infinite 5s !important;
+}
+.card:nth-child(9)  .cardBox::after,
+.card:nth-child(9)  .cardScalable::after {
+  height: 75% !important; left: 3% !important; right: 26% !important;
+  border-radius: 0 0 62% 28% !important;
+  animation: ovc-gd-d 20s ease-in-out infinite 2s !important;
+}
+.card:nth-child(10) .cardBox::after,
+.card:nth-child(10) .cardScalable::after {
+  height: 52% !important; left: 11% !important; right: 12% !important;
+  border-radius: 0 0 38% 58% !important;
+  animation: ovc-gd-b 26s ease-in-out infinite 3.5s !important;
+}
+
+/* Hover: cyan light source hits the glass from behind */
 .card:hover .cardBox,
 .card:hover .cardScalable,
 .cardBox:hover,
@@ -528,7 +714,7 @@ body::before {
   border-color: rgba(0,240,255,0.12) !important;
 }
 
-/* Cyan top-edge flash on hover */
+/* Hover: top highlight flips to cyan */
 .card:hover .cardBox::before,
 .card:hover .cardScalable::before {
   background: linear-gradient(90deg,
@@ -539,17 +725,6 @@ body::before {
     transparent 100%
   ) !important;
 }
-
-/* Vary drift animation per card position */
-.card:nth-child(2) .cardBox::after  { animation-name: ovc-gd-b !important; animation-duration: 17s !important; animation-delay: 1.5s !important; }
-.card:nth-child(3) .cardBox::after  { animation-name: ovc-gd-c !important; animation-duration: 25s !important; animation-delay: 3s !important; }
-.card:nth-child(4) .cardBox::after  { animation-name: ovc-gd-d !important; animation-duration: 19s !important; animation-delay: 0.7s !important; }
-.card:nth-child(5) .cardBox::after  { animation-name: ovc-gd-e !important; animation-duration: 23s !important; animation-delay: 4s !important; }
-.card:nth-child(6) .cardBox::after  { animation-name: ovc-gd-f !important; animation-duration: 21s !important; animation-delay: 2.5s !important; }
-.card:nth-child(7) .cardBox::after  { animation-name: ovc-gd-a !important; animation-duration: 18s !important; animation-delay: 1s !important; }
-.card:nth-child(8) .cardBox::after  { animation-name: ovc-gd-c !important; animation-duration: 24s !important; animation-delay: 5s !important; }
-.card:nth-child(9) .cardBox::after  { animation-name: ovc-gd-d !important; animation-duration: 20s !important; animation-delay: 2s !important; }
-.card:nth-child(10) .cardBox::after { animation-name: ovc-gd-b !important; animation-duration: 26s !important; animation-delay: 3.5s !important; }
 
 /* Card image area */
 .cardImageContainer,
@@ -587,7 +762,7 @@ body::before {
   color: var(--ovc-ink3) !important;
 }
 
-/* Progress bar on watched items */
+/* Progress bar — watched items */
 .itemProgressBar,
 .cardProgressBar {
   height: 2px !important;
@@ -603,7 +778,7 @@ body::before {
   border-radius: 0 2px 2px 0 !important;
 }
 
-/* Quality/type badges (4K, HDR, etc) */
+/* Quality badges — cyan (4K), purple (NEW), silver (HDR) */
 .mediaInfoItem,
 .mediaInfoText,
 .videoQualityBadge,
@@ -612,7 +787,9 @@ body::before {
   backdrop-filter: blur(10px) !important;
   border-radius: 5px !important;
   border: 1px solid rgba(255,255,255,0.07) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.25) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.25) !important;
   font-family: var(--ovc-font-m) !important;
   font-size: 0.5rem !important;
   letter-spacing: 1.5px !important;
@@ -624,7 +801,7 @@ body::before {
 .cardOverlayButton-br {
   background: rgba(0,240,255,0.1) !important;
   backdrop-filter: blur(12px) !important;
-  border-radius: 10px !important;
+  border-radius: var(--ovc-radius-sm) !important;
   box-shadow:
     inset 0 1px 0 rgba(0,240,255,0.55),
     inset 0 -1px 0 rgba(0,0,0,0.35),
@@ -643,6 +820,46 @@ body::before {
     0 0 32px rgba(0,240,255,0.2),
     0 6px 18px rgba(0,0,0,0.35) !important;
 }
+
+
+/* ════════════════════════════════════════════════════════════════════════
+   CONTINUE WATCHING CARDS (16:9 ratio)
+   Gap #66: per-card caustic drift pool was entirely missing. Added here.
+════════════════════════════════════════════════════════════════════════ */
+
+.cardBox.cardBox-touchzoom,
+[data-type="Episode"] .cardBox,
+[data-type="Movie"] .cardBox-landscape {
+  aspect-ratio: 16/9 !important;
+  border-radius: 14px !important;
+}
+
+/* Per-card caustic on continue-watching cards — gap #66 fully resolved */
+.card:nth-child(1) .cardBox::after,
+.card:nth-child(1) .cardScalable::after {
+  height: 55% !important; left: 5% !important; right: 28% !important;
+  border-radius: 0 0 55% 30% !important;
+  animation: ovc-gd-c 21s ease-in-out infinite 0s !important;
+}
+.card:nth-child(2) .cardBox::after,
+.card:nth-child(2) .cardScalable::after {
+  height: 68% !important; left: 8% !important; right: 18% !important;
+  border-radius: 0 0 40% 50% !important;
+  animation: ovc-gd-d 16s ease-in-out infinite 1s !important;
+}
+.card:nth-child(3) .cardBox::after,
+.card:nth-child(3) .cardScalable::after {
+  height: 60% !important; left: 3% !important; right: 32% !important;
+  border-radius: 0 0 65% 22% !important;
+  animation: ovc-gd-e 27s ease-in-out infinite 2s !important;
+}
+.card:nth-child(4) .cardBox::after,
+.card:nth-child(4) .cardScalable::after {
+  height: 75% !important; left: 10% !important; right: 12% !important;
+  border-radius: 0 0 45% 48% !important;
+  animation: ovc-gd-f 19s ease-in-out infinite 3.5s !important;
+}
+
 
 /* ════════════════════════════════════════════════════════════════════════
    DETAIL / HERO PAGE
@@ -667,16 +884,38 @@ body::before {
   overflow: hidden !important;
 }
 
-/* Hero top specular */
+/* Hero top specular — wider, off-center */
 .detailPagePrimaryContainer::before {
   content: '' !important;
   position: absolute !important;
   top: 1px; left: 8%; right: 20%; height: 1px !important;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0.9) 55%, rgba(255,255,255,0.65) 80%, transparent) !important;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.7) 30%,
+    rgba(255,255,255,0.9) 55%,
+    rgba(255,255,255,0.65) 80%,
+    transparent
+  ) !important;
   filter: blur(0.5px) !important;
   border-radius: 50% !important;
   z-index: 10 !important;
   pointer-events: none !important;
+}
+
+/* Hero internal caustic volume */
+.detailPagePrimaryContainer::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 1px; left: 5%; right: 25%; height: 65% !important;
+  background: linear-gradient(160deg,
+    rgba(255,255,255,0.044) 0%,
+    rgba(200,228,255,0.018) 35%,
+    transparent 65%
+  ) !important;
+  border-radius: 0 0 60% 30% !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+  animation: ovc-gd-b 24s ease-in-out infinite !important;
 }
 
 .itemDetailPage .itemName,
@@ -692,34 +931,52 @@ body::before {
   font-size: 0.88rem !important;
 }
 
-/* Genre/rating chips */
+/* Genre / rating chips */
 .genreItem,
-.ratingText,
-.mediaInfoItem {
+.ratingText {
   font-family: var(--ovc-font-m) !important;
   font-size: 0.54rem !important;
   letter-spacing: 1.5px !important;
   padding: 3px 8px !important;
   border-radius: 6px !important;
   background: rgba(190,225,255,0.04) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.25) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 -1px 0 rgba(0,0,0,0.25) !important;
   border: 1px solid rgba(255,255,255,0.08) !important;
   backdrop-filter: blur(8px) !important;
   color: rgba(0,205,230,0.88) !important;
 }
 
+/* Neon divider between hero panels */
+.detailPagePrimaryContainer .detailPageDivider,
+.infoBanner {
+  background: none !important;
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0,240,255,0.3) 20%,
+    rgba(0,240,255,0.5) 50%,
+    rgba(0,240,255,0.3) 80%,
+    transparent
+  ) !important;
+  box-shadow: 0 0 8px rgba(0,240,255,0.15) !important;
+}
+
+
 /* ════════════════════════════════════════════════════════════════════════
    BUTTONS
 ════════════════════════════════════════════════════════════════════════ */
 
-/* Primary — play/submit */
+/* Primary — play / submit */
 .button-submit,
 .raised.button-submit,
 .emby-button.button-submit,
 .detailButton-primary {
   background: rgba(0,240,255,0.1) !important;
   backdrop-filter: blur(12px) !important;
-  border-radius: 10px !important;
+  border-radius: var(--ovc-radius-sm) !important;
   box-shadow:
     inset 0  1px 0 rgba(0,240,255,0.55),
     inset 0 -1px 0 rgba(0,0,0,0.35),
@@ -744,14 +1001,16 @@ body::before {
     0 6px 18px rgba(0,0,0,0.35) !important;
 }
 
-/* Secondary/ghost */
+/* Ghost / secondary */
 .emby-button:not(.button-submit),
 .raised:not(.button-submit),
 .detailButton:not(.detailButton-primary) {
   background: rgba(210,230,255,0.03) !important;
   backdrop-filter: blur(10px) !important;
-  border-radius: 10px !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.25) !important;
+  border-radius: var(--ovc-radius-sm) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.25) !important;
   border: 1px solid rgba(255,255,255,0.07) !important;
   font-family: var(--ovc-font-m) !important;
   font-size: 0.58rem !important;
@@ -762,9 +1021,12 @@ body::before {
 }
 
 .emby-button:not(.button-submit):hover {
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.38), inset 0 -1px 0 rgba(0,0,0,0.25) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.38),
+    inset 0 -1px 0 rgba(0,0,0,0.25) !important;
   color: var(--ovc-ink) !important;
 }
+
 
 /* ════════════════════════════════════════════════════════════════════════
    DIALOGS / MENUS / OVERLAYS
@@ -790,12 +1052,19 @@ body::before {
   overflow: hidden !important;
 }
 
+/* Dialog top specular */
 .dialogContainer .dialog::before,
 .paperdialog::before {
   content: '' !important;
   position: absolute !important;
   top: 1px; left: 6%; right: 22%; height: 1px !important;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55) 20%, rgba(255,255,255,0.85) 55%, rgba(255,255,255,0.55) 80%, transparent) !important;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.55) 20%,
+    rgba(255,255,255,0.85) 55%,
+    rgba(255,255,255,0.55) 80%,
+    transparent
+  ) !important;
   border-radius: 50% !important;
   filter: blur(0.4px) !important;
   z-index: 10 !important;
@@ -808,7 +1077,6 @@ body::before {
   color: var(--ovc-ink) !important;
 }
 
-/* Context menu items */
 .listItem,
 .actionSheetMenuItem {
   font-family: var(--ovc-font-m) !important;
@@ -823,12 +1091,12 @@ body::before {
   color: var(--ovc-ink) !important;
 }
 
-/* Backdrop overlay */
 .dialogContainer > .dialogBackdrop,
 .mdl-overlay {
   background: rgba(0,0,0,0.65) !important;
   backdrop-filter: blur(4px) !important;
 }
+
 
 /* ════════════════════════════════════════════════════════════════════════
    SETTINGS / ADMIN PAGES
@@ -849,13 +1117,12 @@ label.checkboxLabel {
   letter-spacing: 0.5px !important;
 }
 
-/* All text inputs */
 .emby-input,
 .emby-textarea,
 .emby-select {
   background: rgba(0,0,0,0.28) !important;
   border: 1px solid rgba(255,255,255,0.07) !important;
-  border-radius: 10px !important;
+  border-radius: var(--ovc-radius-sm) !important;
   color: var(--ovc-ink) !important;
   font-family: var(--ovc-font-m) !important;
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.4) !important;
@@ -865,11 +1132,12 @@ label.checkboxLabel {
 .emby-textarea:focus,
 .emby-select:focus {
   border-color: rgba(0,240,255,0.28) !important;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,240,255,0.1) !important;
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(0,240,255,0.1) !important;
   outline: none !important;
 }
 
-/* Checkboxes / toggles */
 .emby-checkbox:checked + .checkboxOutline,
 .toggleOrCheckbox-checked {
   background: var(--ovc-cyan) !important;
@@ -877,8 +1145,9 @@ label.checkboxLabel {
   box-shadow: 0 0 8px var(--ovc-cyan-glow) !important;
 }
 
+
 /* ════════════════════════════════════════════════════════════════════════
-   MUSIC / AUDIO PLAYER
+   AUDIO / NOW PLAYING BAR
 ════════════════════════════════════════════════════════════════════════ */
 
 .nowPlayingBar,
@@ -898,6 +1167,7 @@ label.checkboxLabel {
   background: var(--ovc-cyan) !important;
   box-shadow: 0 0 6px var(--ovc-cyan) !important;
 }
+
 
 /* ════════════════════════════════════════════════════════════════════════
    VIDEO PLAYER OSD
@@ -922,26 +1192,41 @@ label.checkboxLabel {
   box-shadow: 0 0 8px rgba(0,240,255,0.4) !important;
 }
 
+
 /* ════════════════════════════════════════════════════════════════════════
    LOADING / EMPTY STATES
+   Gap #97: .noItemsMessage was conflicting with button overrides. Fixed
+   by separating the selector and adding explicit display/padding rules.
 ════════════════════════════════════════════════════════════════════════ */
 
-.loadingContent,
-.noItemsMessage {
+.loadingContent {
   font-family: var(--ovc-font-m) !important;
   color: var(--ovc-ink3) !important;
   letter-spacing: 2px !important;
 }
 
-/* Spinner */
+.noItemsMessage {
+  font-family: var(--ovc-font-m) !important;
+  color: var(--ovc-ink3) !important;
+  letter-spacing: 2px !important;
+  display: block !important;
+  padding: 24px !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-transform: none !important;
+}
+
+/* Loading spinner */
 .loading-spinner circle,
 .mdl-spinner__layer {
   stroke: var(--ovc-cyan) !important;
   color: var(--ovc-cyan) !important;
 }
 
+
 /* ════════════════════════════════════════════════════════════════════════
-   TABS (home, library views)
+   TABS
 ════════════════════════════════════════════════════════════════════════ */
 
 .headerTabs .emby-tab-button {
@@ -960,4 +1245,107 @@ label.checkboxLabel {
 .emby-tabs-slider {
   background: var(--ovc-cyan) !important;
   box-shadow: 0 0 8px var(--ovc-cyan-glow) !important;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════
+   STAT / INFO CARDS (library counts, server stats)
+════════════════════════════════════════════════════════════════════════ */
+
+.dashboardCard,
+.serverCard {
+  background: rgba(185,220,255,0.04) !important;
+  backdrop-filter: blur(24px) saturate(280%) brightness(1.14) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(280%) brightness(1.14) !important;
+  border-radius: var(--ovc-radius) !important;
+  box-shadow:
+    inset 0  1px 0 rgba(255,255,255,0.5),
+    inset 0 -1px 0 rgba(0,0,0,0.38),
+    inset  1px 0 0 rgba(255,255,255,0.1),
+    inset -1px 0 0 rgba(255,255,255,0.1),
+    0 4px 16px rgba(0,0,0,0.18) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.2s !important;
+}
+
+.dashboardCard:hover,
+.serverCard:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(0,240,255,0.42),
+    inset 0 -1px 0 rgba(0,0,0,0.4),
+    inset 1px 0 0 rgba(0,240,255,0.1),
+    inset -1px 0 0 rgba(0,240,255,0.1),
+    0 4px 16px rgba(0,0,0,0.22),
+    0 0 18px rgba(0,240,255,0.06) !important;
+}
+
+/* Top specular on stat cards */
+.dashboardCard::before,
+.serverCard::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 1px; left: 7%; right: 25%; height: 1px !important;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.6) 35%,
+    rgba(255,255,255,0.82) 58%,
+    transparent
+  ) !important;
+  filter: blur(0.4px) !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+}
+
+/* Caustic drift on stat cards */
+.dashboardCard::after,
+.serverCard::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 1px; left: 5%; right: 28%; height: 40% !important;
+  background: linear-gradient(155deg,
+    rgba(255,255,255,0.046) 0%,
+    rgba(200,228,255,0.018) 40%,
+    transparent 68%
+  ) !important;
+  border-radius: 0 0 60% 30% !important;
+  pointer-events: none !important;
+  animation: ovc-gd-e 26s ease-in-out infinite 3s !important;
+}
+
+.dashboardCardName,
+.serverCardName {
+  font-family: var(--ovc-font-m) !important;
+  font-size: 0.52rem !important;
+  color: var(--ovc-ink3) !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+}
+
+.dashboardCardValue,
+.serverCardValue {
+  font-family: var(--ovc-font-d) !important;
+  font-size: 1.55rem !important;
+  color: var(--ovc-cyan) !important;
+  text-shadow: 0 0 16px rgba(0,240,255,0.28) !important;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════
+   SECTION DIVIDERS
+════════════════════════════════════════════════════════════════════════ */
+
+.sectionDivider,
+.detailSectionDivider {
+  height: 1px !important;
+  margin: 18px 0 !important;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.07) 20%,
+    rgba(255,255,255,0.07) 80%,
+    transparent
+  ) !important;
+  border: none !important;
 }
