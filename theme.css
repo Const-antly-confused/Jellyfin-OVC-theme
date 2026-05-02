@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme
-   Version: 2.5
+   Version: 2.6
    Repository: https://github.com/Const-antly-confused/Jellyfin-OVC-theme
    -----------------------------------------------------------------------
    INSTALL (CSS only):
@@ -246,6 +246,7 @@ body::before {
 
 .skinHeader,
 .headerContainer,
+.headerTop,
 .skinHeader.focuscontainer-x.skinHeader-withBackground.skinHeader-blurred,
 .skinHeader.focuscontainer-x.skinHeader-withBackground.skinHeader-blurred.noHomeButtonHeader {
   background: rgba(180,220,255,0.038) !important;
@@ -284,7 +285,9 @@ body::before {
    the text and show the image instead. No other code changes needed.
 ──────────────────────────────────────────────────────────────────── */
 .headerAppBarTitle,
-.pageTitleWithLogo {
+.pageTitleWithLogo,
+.pageTitleWithDefaultLogo,
+.pageTitleWithLogo.pageTitleWithDefaultLogo {
   font-family: var(--ovc-font-d) !important;
   color: rgba(240,252,255,0.95) !important;
   letter-spacing: 0.3px !important;
@@ -315,14 +318,13 @@ body::before {
 }
 
 /* ── HAMBURGER — always visible on ALL pages ───────────────────────── */
-/* Gap #28: Jellyfin applies .hide via JS on wider viewports.
-   We force it visible and interactive regardless.                    */
-.headerDrawerButton,
-.headerDrawerButton.hide,
-.headerTabs .headerDrawerButton,
-#headerDrawerButton,
-#headerDrawerButton.hide,
-button.headerDrawerButton {
+/* Confirmed from DOM inspection: actual class is .mainDrawerButton.
+   .headerDrawerButton does not exist in this version.
+   .barsMenuButton is shared with the home button so we scope it.     */
+.mainDrawerButton,
+.mainDrawerButton.hide,
+.headerButton.mainDrawerButton,
+.headerButtonLeft.mainDrawerButton {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -339,8 +341,7 @@ button.headerDrawerButton {
   cursor: pointer !important;
 }
 
-.headerDrawerButton:hover,
-#headerDrawerButton:hover {
+.mainDrawerButton:hover {
   color: var(--ovc-ink) !important;
   background: rgba(255,255,255,0.04) !important;
   border-color: rgba(255,255,255,0.08) !important;
@@ -626,16 +627,19 @@ button.headerDrawerButton {
 }
 
 /* ART AREA — dark gradient background, clipped specular and caustic.
-   Matches HTML .mc-art exactly.
-   position:relative + overflow:hidden ensures ::before and ::after
-   are clipped to this zone and never spill into the footer.
-   Chained selector per official docs for specificity. */
+   Chained selector per official docs for specificity.
+   -----------------------------------------------------------------------
+   border-radius:
+     Top corners match the card shell — clipped by cardBox overflow:hidden
+     Bottom corners are SHARP (0) — meets the footer with no gap or curve mismatch
+     The card shell's overflow:hidden handles all external corner clipping.   */
 .cardImageContainer,
 .cardContent-button.cardImageContainer,
 .cardContent-button.cardImageContainer.coveredImage {
   background: linear-gradient(155deg, #0c1e2e, #040e18) !important;
   position: relative !important;
   overflow: hidden !important;
+  border-radius: var(--ovc-radius) var(--ovc-radius) 0 0 !important;
 }
 
 /* Specular line — off-center top highlight, clipped to art area. */
