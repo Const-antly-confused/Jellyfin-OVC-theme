@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme
-   Version: 2.7
+   Version: 3.0
    Repository: https://github.com/Const-antly-confused/Jellyfin-OVC-theme
    -----------------------------------------------------------------------
    INSTALL (CSS only):
@@ -12,8 +12,6 @@
 
 
 /* ── FONTS ────────────────────────────────────────────────────────────── */
-/* Google Fonts loaded directly — works in browser context.
-   Fallback stacks ensure legibility if fonts fail to load.          */
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Share+Tech+Mono&family=Spectral+SC:ital,wght@0,300;0,400;0,600;1,300&display=swap');
 
 
@@ -23,15 +21,15 @@
   --ovc-cyan:        #00f0ff;
   --ovc-cyan-glow:   rgba(0,240,255,0.2);
   --ovc-cyan-edge:   rgba(0,240,255,0.45);
-  --ovc-purple:      rgba(150,100,255,0.9);  /* NEW badge / distinguished */
+  --ovc-purple:      rgba(107,63,160,0.9);   /* FIXED: brief value */
   --ovc-silver:      rgba(180,200,225,0.6);  /* HDR badge / neutral */
 
-  /* Glass recipe — nearly nothing fill, edges do the work */
+  /* Glass recipe */
   --ovc-gf:          rgba(195,220,255,0.038);
   --ovc-gb:          blur(26px) saturate(300%) brightness(1.12);
-  --ovc-ge-t:        rgba(255,255,255,0.52);   /* top rim — overhead light */
-  --ovc-ge-s:        rgba(255,255,255,0.11);   /* sides */
-  --ovc-ge-b:        rgba(0,0,0,0.55);         /* bottom — thickness shadow */
+  --ovc-ge-t:        rgba(255,255,255,0.52);
+  --ovc-ge-s:        rgba(255,255,255,0.11);
+  --ovc-ge-b:        rgba(0,0,0,0.55);
 
   /* Ink levels */
   --ovc-ink:         rgba(225,242,255,0.9);
@@ -48,28 +46,21 @@
   --ovc-radius-sm:   10px;
 
   /* ── LOGO PLACEHOLDER ────────────────────────────────────────────────
-     To replace the text logo with an image:
-       1. Upload your logo file to a public URL or your Jellyfin web root
-       2. Set --ovc-logo-url to that URL
+     To replace the text logo with your SVG:
+       1. Upload your logo to a public URL or your Jellyfin web root
+       2. Set --ovc-logo-url to that URL (e.g. url('/ovc-logo.svg'))
        3. Set --ovc-logo-mode to 'image'
        4. Adjust --ovc-logo-w and --ovc-logo-h to match your asset
-
-     Example:
-       --ovc-logo-url:   url('https://your-cdn.com/ovc-logo.png');
-       --ovc-logo-mode:  image;
-       --ovc-logo-w:     120px;
-       --ovc-logo-h:     36px;
+       5. The JS reads these values and switches automatically
   ──────────────────────────────────────────────────────────────────── */
-  --ovc-logo-url:    none;       /* replace with url('...') when ready */
-  --ovc-logo-mode:   text;       /* 'text' | 'image' */
+  --ovc-logo-url:    none;
+  --ovc-logo-mode:   text;
   --ovc-logo-w:      120px;
   --ovc-logo-h:      36px;
 }
 
 
 /* ── GLASS DRIFT ANIMATIONS ───────────────────────────────────────────── */
-/* Six distinct patterns — each surface catches light differently.
-   Varied translate, skew, scale, and opacity so no two panels feel the same. */
 @keyframes ovc-gd-a {
   0%,100% { transform: translateX(0%)   skewX(0deg)    scaleX(1);    opacity: 0.72; }
   28%     { transform: translateX(6%)   skewX(2.2deg)  scaleX(1.06); opacity: 1;    }
@@ -103,12 +94,9 @@
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   BACKGROUND — void + grid + vignette + center light
-   Three depth planes managed here; parallax driven by ovc-jellyfin.js
+   BACKGROUND
 ════════════════════════════════════════════════════════════════════════ */
 
-/* Void: near-perfect black at center, deep ocean-blue at edges.
-   Center = farthest depth. Edges = the light that never quite reaches. */
 html {
   background: radial-gradient(
     ellipse 110% 110% at 50% 50%,
@@ -130,7 +118,6 @@ body {
   -webkit-font-smoothing: antialiased !important;
 }
 
-/* Vignette — pulls the eye inward, reinforces void depth */
 body::before {
   content: '' !important;
   position: fixed !important;
@@ -144,7 +131,7 @@ body::before {
   ) !important;
 }
 
-/* Kill ALL Jellyfin background surfaces — correct selectors per official docs */
+/* Kill Jellyfin backdrop — transparent, not removed (display:none breaks layout) */
 .backgroundContainer,
 .backgroundContainer.withBackdrop,
 .backgroundContainer.withBackdrop::after,
@@ -161,20 +148,20 @@ body::before {
   background: transparent !important;
   background-image: none !important;
   opacity: 0 !important;
-  display: none !important;
+  pointer-events: none !important;
 }
 
-/* Grid layers — injected into content by ovc-jellyfin.js.
-   CSS controls visual; JS controls depth plane behavior. */
+/* Grid layers — injected by JS, CSS controls appearance */
 #ovc-grid-far,
 #ovc-grid-near {
   position: absolute !important;
   pointer-events: none !important;
   z-index: 0 !important;
+  min-height: 300vh !important;  /* FIX: was collapsing to 0 */
 }
 
 #ovc-grid-far {
-  top: -10%; left: -10%; right: -10%; bottom: -10%;
+  top: -10%; left: -10%; right: -10%;
   width: 120% !important;
   background-image:
     linear-gradient(rgba(0,240,255,0.028) 1px, transparent 1px),
@@ -191,7 +178,7 @@ body::before {
 }
 
 #ovc-grid-near {
-  top: -8%; left: -8%; right: -8%; bottom: -8%;
+  top: -8%; left: -8%; right: -8%;
   width: 116% !important;
   background-image:
     linear-gradient(rgba(0,240,255,0.045) 1px, transparent 1px),
@@ -207,8 +194,7 @@ body::before {
   ) !important;
 }
 
-/* Center void reference light — distant cyan point anchors the parallax.
-   Injected by ovc-jellyfin.js. Moves at 0.08x scroll speed with the void. */
+/* Center void reference light — injected by JS */
 #ovc-center-light {
   position: fixed !important;
   left: 50% !important;
@@ -230,7 +216,6 @@ body::before {
     0 0 320px rgba(0,170,215,0.03) !important;
 }
 
-/* Particle canvas — injected and animated by ovc-jellyfin.js */
 #ovc-particles {
   position: fixed !important;
   left: 0 !important;
@@ -244,8 +229,6 @@ body::before {
    HEADER / TOPBAR
 ════════════════════════════════════════════════════════════════════════ */
 
-/* Force topbar visible — Jellyfin hides .skinHeader with .hide or
-   display:none at 16:9 viewport and on certain page types.          */
 .skinHeader,
 .skinHeader.hide {
   display: flex !important;
@@ -261,7 +244,6 @@ body::before {
   background: rgba(180,220,255,0.038) !important;
   backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
   -webkit-backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
-  /* Glass sheet edges */
   box-shadow:
     inset 0  1px 0 rgba(255,255,255,0.5),
     inset 0 -1px 0 rgba(0,0,0,0.35),
@@ -270,7 +252,6 @@ body::before {
   position: relative !important;
 }
 
-/* Neon beacon underline — illumination origin */
 .skinHeader::after,
 .headerContainer::after {
   content: '' !important;
@@ -289,9 +270,9 @@ body::before {
 }
 
 /* ── LOGO ─────────────────────────────────────────────────────────────
-   Currently renders as text. When --ovc-logo-url is set to a real image
-   URL, swap --ovc-logo-mode to 'image' and the rules below will hide
-   the text and show the image instead. No other code changes needed.
+   Text logo is the active mode. JS injects #ovc-logo.
+   No CSS ::after here — that caused double-rendering.
+   Switch to image mode via --ovc-logo-mode and --ovc-logo-url tokens.
 ──────────────────────────────────────────────────────────────────── */
 .headerAppBarTitle,
 .pageTitleWithLogo,
@@ -303,33 +284,12 @@ body::before {
   position: relative !important;
 }
 
-/* Image logo — activates when you set --ovc-logo-url and mode to image */
 .skinHeader .headerLogo,
 .headerLogo {
-  /* Replace these two lines when your logo is ready:
-     background-image: var(--ovc-logo-url);
-     width: var(--ovc-logo-w);
-     height: var(--ovc-logo-h);      */
-  display: none !important; /* hide Jellyfin's default logo mark */
+  display: none !important;
 }
 
-/* Logo subtext tag — "// media server" */
-.headerAppBarTitle::after {
-  content: '// media server' !important;
-  display: block !important;
-  font-family: var(--ovc-font-m) !important;
-  font-size: 0.46rem !important;
-  color: var(--ovc-cyan) !important;
-  letter-spacing: 5px !important;
-  opacity: 0.6 !important;
-  text-shadow: 0 0 8px var(--ovc-cyan-glow) !important;
-  margin-top: 2px !important;
-}
-
-/* ── HAMBURGER — always visible on ALL pages ───────────────────────── */
-/* Confirmed from DOM inspection: actual class is .mainDrawerButton.
-   .headerDrawerButton does not exist in this version.
-   .barsMenuButton is shared with the home button so we scope it.     */
+/* ── HAMBURGER ─────────────────────────────────────────────────────── */
 .mainDrawerButton,
 .mainDrawerButton.hide,
 .headerButton.mainDrawerButton,
@@ -349,7 +309,6 @@ body::before {
   flex-shrink: 0 !important;
   cursor: pointer !important;
 }
-
 .mainDrawerButton:hover {
   color: var(--ovc-ink) !important;
   background: rgba(255,255,255,0.04) !important;
@@ -366,7 +325,6 @@ body::before {
   color: var(--ovc-ink3) !important;
   transition: all 0.14s !important;
 }
-
 .headerButton:hover,
 .headerSearchButton:hover,
 .headerUserButton:hover {
@@ -391,7 +349,6 @@ body::before {
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.4) !important;
   transition: border-color 0.15s, box-shadow 0.15s !important;
 }
-
 .headerSearchInput:focus,
 .emby-input:focus {
   border-color: rgba(0,240,255,0.28) !important;
@@ -401,7 +358,6 @@ body::before {
   outline: none !important;
 }
 
-/* User avatar — cyan gradient glass tile */
 .headerUserButton .userImage,
 .userImage {
   border-radius: 9px !important;
@@ -415,15 +371,15 @@ body::before {
 
 /* ════════════════════════════════════════════════════════════════════════
    SIDEBAR / DRAWER
-   Gap #29 + #36: was rgba(0.022) — invisible. Now a real dark glass panel
-   with opaque enough fill to read as a physical surface.
+   Styled to match the HTML rail aesthetic while retaining text labels.
+   Icon (injected SVG) + text side by side, same hover/active as rail.
 ════════════════════════════════════════════════════════════════════════ */
 
 .mainDrawer,
 .mainDrawerPanel,
 .mainDrawer-scrollContainer,
 #mainDrawer {
-  background: rgba(4,8,16,0.82) !important;
+  background: rgba(4,8,16,0.88) !important;
   backdrop-filter: blur(28px) saturate(200%) brightness(1.08) !important;
   -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.08) !important;
   border-right: 1px solid rgba(0,240,255,0.1) !important;
@@ -434,17 +390,20 @@ body::before {
   z-index: 100 !important;
 }
 
-/* Nav items */
+/* Nav items — matches rail item sizing and feel */
 .navMenuOption {
   display: flex !important;
   align-items: center !important;
   border-radius: var(--ovc-radius-sm) !important;
   margin: 1px 6px !important;
+  padding: 0 10px !important;
+  height: 36px !important;          /* same height as HTML rail items */
   border: 1px solid transparent !important;
   color: rgba(140,178,212,0.55) !important;
   transition: all 0.14s !important;
   font-family: var(--ovc-font-m) !important;
-  font-size: 0.82rem !important;
+  font-size: 0.76rem !important;
+  letter-spacing: 0.5px !important;
   position: relative !important;
 }
 
@@ -454,12 +413,11 @@ body::before {
   border-color: rgba(255,255,255,0.07) !important;
 }
 
-/* Active item — glass inset edges, confirmed selector from official docs */
+/* Active item */
 .navMenuOption.selected,
-.navMenuOption[aria-selected="true"],
-.navMenuOption-selected {
+.navMenuOption[aria-selected="true"] {
   color: var(--ovc-cyan) !important;
-  background: rgba(0,240,255,0.08) !important;
+  background: rgba(0,240,255,0.07) !important;
   border-color: rgba(0,240,255,0.18) !important;
   box-shadow:
     inset 0  1px 0 rgba(0,240,255,0.3),
@@ -467,10 +425,9 @@ body::before {
     0 0 10px rgba(0,240,255,0.06) !important;
 }
 
-/* Right-edge neon active indicator */
+/* Right-edge neon active indicator — matches HTML rail */
 .navMenuOption.selected::after,
-.navMenuOption[aria-selected="true"]::after,
-.navMenuOption-selected::after {
+.navMenuOption[aria-selected="true"]::after {
   content: '' !important;
   position: absolute !important;
   right: -7px; top: 50%;
@@ -483,7 +440,7 @@ body::before {
 
 .navMenuOptionText {
   font-family: var(--ovc-font-m) !important;
-  letter-spacing: 0.3px !important;
+  letter-spacing: 0.5px !important;
 }
 
 .navMenuDivider,
@@ -510,7 +467,6 @@ body::before {
   overflow-x: hidden !important;
 }
 
-/* Horizontal scroll rows — keep their scroll, refine the bar */
 .scrollSlider {
   overflow-x: auto !important;
   padding-bottom: 6px !important;
@@ -526,7 +482,6 @@ body::before {
   background: rgba(0,240,255,0.22) !important;
 }
 
-/* Global scrollbar */
 ::-webkit-scrollbar { width: 3px !important; }
 ::-webkit-scrollbar-track { background: transparent !important; }
 ::-webkit-scrollbar-thumb {
@@ -536,29 +491,42 @@ body::before {
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,240,255,0.22) !important; }
 
 
-/* ── SECTION HEADERS — TE measurement marks ───────────────────────── */
+/* ── SECTION HEADERS ──────────────────────────────────────────────────
+   No glass. Clean Permanent Marker titles with cyan glow.
+   Flex container so injected number, title text, code tag,
+   and rule filler all sit on one line — the TE measurement mark feel.
+──────────────────────────────────────────────────────────────────── */
 
 .sectionTitle,
 .sectionTitle-cards,
 .homeTitle,
-.sectionTitleContainer {
+.sectionTitleContainer > h2 {
   font-family: var(--ovc-font-d) !important;
-  color: var(--ovc-ink) !important;
+  color: rgba(245,255,255,0.95) !important;
   letter-spacing: 0.3px !important;
   position: relative !important;
-  padding-left: 18px !important;   /* enough room for bracket + breathing space */
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
+  padding-left: 24px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
   margin-bottom: 14px !important;
-  /* No background, no glass, no border — just type and the mark */
+  /* No glass */
   background: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border: none !important;
   box-shadow: none !important;
+  /* Glow — white title with cyan undertone */
+  text-shadow:
+    0 0 22px rgba(0,240,255,0.22),
+    0 0 48px rgba(0,240,255,0.10),
+    0 2px 12px rgba(0,0,0,0.5) !important;
+  /* Flex so injected spans sit inline */
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
 }
 
-/* TE corner bracket — 7×7px, 1.5px stroke, cyan */
+/* TE corner bracket */
 .sectionTitle::before,
 .sectionTitle-cards::before,
 .homeTitle::before {
@@ -567,17 +535,56 @@ body::before {
   left: 0; top: 50%;
   transform: translateY(-50%) !important;
   width: 7px; height: 7px !important;
-  border-left: 1.5px solid rgba(0,240,255,0.45) !important;
-  border-top: 1.5px solid rgba(0,240,255,0.45) !important;
+  border-left: 1.5px solid rgba(0,240,255,0.55) !important;
+  border-top: 1.5px solid rgba(0,240,255,0.55) !important;
+  box-shadow:
+    -1px 0 5px rgba(0,240,255,0.25),
+    0 -1px 5px rgba(0,240,255,0.25) !important;
 }
 
-/* Section rule line */
+/* Injected number — cyan, glowing, mono */
+.ovc-section-num {
+  font-family: var(--ovc-font-m) !important;
+  font-size: 0.48rem !important;
+  color: rgba(0,240,255,0.65) !important;
+  letter-spacing: 2px !important;
+  text-shadow: 0 0 10px rgba(0,240,255,0.4) !important;
+  flex-shrink: 0 !important;
+  min-width: 20px !important;
+  line-height: 1 !important;
+  /* Reset any inherited styles from parent Permanent Marker */
+  font-weight: normal !important;
+}
+
+/* Injected code tag */
+.ovc-section-code {
+  font-family: var(--ovc-font-m) !important;
+  font-size: 0.46rem !important;
+  color: rgba(0,240,255,0.65) !important;
+  letter-spacing: 3px !important;
+  text-shadow: 0 0 8px rgba(0,240,255,0.3) !important;
+  flex-shrink: 0 !important;
+  font-weight: normal !important;
+}
+
+/* Injected rule filler — stretches to fill remaining space */
+.ovc-section-rule {
+  flex: 1 !important;
+  height: 1px !important;
+  min-width: 20px !important;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06) 0%, transparent 100%) !important;
+  align-self: center !important;
+  pointer-events: none !important;
+  display: block !important;
+}
+
+/* Container rule under the title row */
 .sectionTitleContainer::after {
   content: '' !important;
   display: block !important;
   height: 1px !important;
   margin-top: 4px !important;
-  background: linear-gradient(90deg, rgba(255,255,255,0.06), transparent) !important;
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent) !important;
 }
 
 /* "all →" link */
@@ -591,6 +598,7 @@ body::before {
   transition: color 0.14s !important;
   background: none !important;
   box-shadow: none !important;
+  flex-shrink: 0 !important;
 }
 .sectionTitleTextButton:hover,
 .sectionTitleLink:hover { color: var(--ovc-cyan) !important; }
@@ -599,14 +607,14 @@ body::before {
 /* ════════════════════════════════════════════════════════════════════════
    CARDS — liquid glass
    -----------------------------------------------------------------------
-   Structure mirrors HTML exactly:
-     .card          → outer wrapper (border-radius, overflow)
-     .cardBox       → glass container (blur, edges, shadow) = HTML .mc
-     .cardImageContainer → dark art area (gradient, specular, caustic) = HTML .mc-art
-     .cardText/.cardFooter → glass footer strip = HTML .mc-foot
-
-   Specular ::before and caustic ::after live on .cardImageContainer —
-   they are clipped to the art area and never bleed into the footer.
+   Structure:
+     .cardBox       → glass shell (border-radius:16px, overflow:hidden)
+     .cardImageContainer → art area (NO border-radius, isolation for z-index)
+       img          → z-index:1 (below glass effects)
+       ::before     → specular line z-index:10 (above image)
+       ::after      → caustic drift z-index:3 (above image, below specular)
+     .cardFooter or .cardTextContainer → single glass strip (NO border-radius)
+       .cardText    → transparent, NO separate glass panel
 ════════════════════════════════════════════════════════════════════════ */
 
 .card {
@@ -614,15 +622,12 @@ body::before {
   overflow: hidden !important;
 }
 
-/* Glass container — the whole card shell.
-   No ::before or ::after here — those belong to the image area below. */
 .cardBox,
 .cardScalable {
   background: rgba(175,215,255,0.035) !important;
   backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
   -webkit-backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
   border-radius: var(--ovc-radius) !important;
-  /* All four glass edges — light behavior at the rim */
   box-shadow:
     inset 0  1px 0 rgba(255,255,255,0.5),
     inset 0 -1px 0 rgba(0,0,0,0.4),
@@ -635,12 +640,10 @@ body::before {
   overflow: hidden !important;
 }
 
-/* ART AREA — dark gradient background, clipped specular and caustic.
-   Chained selector per official docs for specificity.
-   -----------------------------------------------------------------------
-   No border-radius — parent .cardBox overflow:hidden clips everything.
-     This matches the HTML exactly: .mc-art has no border-radius.
-     The outer shell handles all corner clipping.                            */
+/* ── ART AREA ─────────────────────────────────────────────────────────
+   isolation: isolate creates a stacking context so z-index on children
+   is reliable. Without this the poster image covers the specular/caustic.
+──────────────────────────────────────────────────────────────────── */
 .cardImageContainer,
 .cardContent-button.cardImageContainer,
 .cardContent-button.cardImageContainer.coveredImage {
@@ -648,9 +651,22 @@ body::before {
   position: relative !important;
   overflow: hidden !important;
   border-radius: 0 !important;
+  isolation: isolate !important;   /* FIX: stacking context for z-index */
 }
 
-/* Specular line — off-center top highlight, clipped to art area. */
+/* Poster image — explicit z-index so specular sits above it */
+.cardImageContainer img,
+.cardImageContainer .cardImage,
+.cardContent-button.cardImageContainer img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 1 !important;           /* FIX: below specular (10) and caustic (3) */
+}
+
+/* Specular — above image */
 .cardImageContainer::before,
 .cardContent-button.cardImageContainer::before {
   content: '' !important;
@@ -665,11 +681,11 @@ body::before {
   ) !important;
   border-radius: 50% !important;
   filter: blur(0.4px) !important;
-  z-index: 5 !important;
+  z-index: 10 !important;          /* FIX: above image (1) */
   pointer-events: none !important;
 }
 
-/* Caustic drift — internal volume light, base state. */
+/* Caustic — above image, below specular */
 .cardImageContainer::after,
 .cardContent-button.cardImageContainer::after {
   content: '' !important;
@@ -683,65 +699,23 @@ body::before {
   ) !important;
   border-radius: 0 0 55% 38% !important;
   pointer-events: none !important;
-  z-index: 2 !important;
+  z-index: 3 !important;           /* FIX: above image (1), below specular (10) */
   animation: ovc-gd-a 22s ease-in-out infinite !important;
 }
 
-/* Per-card caustic variety — height, offsets, border-radius, animation, delay
-   all differ so no two cards catch light the same way.
-   Targets .cardImageContainer::after inside each nth-child card. */
-.card:nth-child(1)  .cardImageContainer::after {
-  height: 58% !important; left: 5% !important; right: 25% !important;
-  border-radius: 0 0 60% 30% !important;
-  animation: ovc-gd-a 20s ease-in-out infinite 0s !important;
-}
-.card:nth-child(2)  .cardImageContainer::after {
-  height: 72% !important; left: 10% !important; right: 14% !important;
-  border-radius: 0 0 40% 55% !important;
-  animation: ovc-gd-b 17s ease-in-out infinite 1.5s !important;
-}
-.card:nth-child(3)  .cardImageContainer::after {
-  height: 50% !important; left: 3% !important; right: 30% !important;
-  border-radius: 0 0 65% 25% !important;
-  animation: ovc-gd-c 25s ease-in-out infinite 3s !important;
-}
-.card:nth-child(4)  .cardImageContainer::after {
-  height: 65% !important; left: 8% !important; right: 18% !important;
-  border-radius: 0 0 50% 45% !important;
-  animation: ovc-gd-d 19s ease-in-out infinite 0.7s !important;
-}
-.card:nth-child(5)  .cardImageContainer::after {
-  height: 78% !important; left: 4% !important; right: 22% !important;
-  border-radius: 0 0 70% 20% !important;
-  animation: ovc-gd-e 23s ease-in-out infinite 4s !important;
-}
-.card:nth-child(6)  .cardImageContainer::after {
-  height: 55% !important; left: 12% !important; right: 10% !important;
-  border-radius: 0 0 35% 60% !important;
-  animation: ovc-gd-f 21s ease-in-out infinite 2.5s !important;
-}
-.card:nth-child(7)  .cardImageContainer::after {
-  height: 62% !important; left: 6% !important; right: 20% !important;
-  border-radius: 0 0 55% 35% !important;
-  animation: ovc-gd-a 18s ease-in-out infinite 1s !important;
-}
-.card:nth-child(8)  .cardImageContainer::after {
-  height: 68% !important; left: 9% !important; right: 16% !important;
-  border-radius: 0 0 45% 50% !important;
-  animation: ovc-gd-c 24s ease-in-out infinite 5s !important;
-}
-.card:nth-child(9)  .cardImageContainer::after {
-  height: 75% !important; left: 3% !important; right: 26% !important;
-  border-radius: 0 0 62% 28% !important;
-  animation: ovc-gd-d 20s ease-in-out infinite 2s !important;
-}
-.card:nth-child(10) .cardImageContainer::after {
-  height: 52% !important; left: 11% !important; right: 12% !important;
-  border-radius: 0 0 38% 58% !important;
-  animation: ovc-gd-b 26s ease-in-out infinite 3.5s !important;
-}
+/* Per-card caustic variety */
+.card:nth-child(1)  .cardImageContainer::after { height: 58% !important; left: 5% !important; right: 25% !important; border-radius: 0 0 60% 30% !important; animation: ovc-gd-a 20s ease-in-out infinite 0s    !important; }
+.card:nth-child(2)  .cardImageContainer::after { height: 72% !important; left: 10% !important; right: 14% !important; border-radius: 0 0 40% 55% !important; animation: ovc-gd-b 17s ease-in-out infinite 1.5s  !important; }
+.card:nth-child(3)  .cardImageContainer::after { height: 50% !important; left: 3% !important; right: 30% !important; border-radius: 0 0 65% 25% !important; animation: ovc-gd-c 25s ease-in-out infinite 3s    !important; }
+.card:nth-child(4)  .cardImageContainer::after { height: 65% !important; left: 8% !important; right: 18% !important; border-radius: 0 0 50% 45% !important; animation: ovc-gd-d 19s ease-in-out infinite 0.7s  !important; }
+.card:nth-child(5)  .cardImageContainer::after { height: 78% !important; left: 4% !important; right: 22% !important; border-radius: 0 0 70% 20% !important; animation: ovc-gd-e 23s ease-in-out infinite 4s    !important; }
+.card:nth-child(6)  .cardImageContainer::after { height: 55% !important; left: 12% !important; right: 10% !important; border-radius: 0 0 35% 60% !important; animation: ovc-gd-f 21s ease-in-out infinite 2.5s  !important; }
+.card:nth-child(7)  .cardImageContainer::after { height: 62% !important; left: 6% !important; right: 20% !important; border-radius: 0 0 55% 35% !important; animation: ovc-gd-a 18s ease-in-out infinite 1s    !important; }
+.card:nth-child(8)  .cardImageContainer::after { height: 68% !important; left: 9% !important; right: 16% !important; border-radius: 0 0 45% 50% !important; animation: ovc-gd-c 24s ease-in-out infinite 5s    !important; }
+.card:nth-child(9)  .cardImageContainer::after { height: 75% !important; left: 3% !important; right: 26% !important; border-radius: 0 0 62% 28% !important; animation: ovc-gd-d 20s ease-in-out infinite 2s    !important; }
+.card:nth-child(10) .cardImageContainer::after { height: 52% !important; left: 11% !important; right: 12% !important; border-radius: 0 0 38% 58% !important; animation: ovc-gd-b 26s ease-in-out infinite 3.5s  !important; }
 
-/* Hover: cyan light hits the glass shell edges */
+/* Hover: cyan light on glass edges */
 .card:hover .cardBox,
 .card:hover .cardScalable {
   transform: translateY(-4px) scale(1.012) !important;
@@ -755,7 +729,7 @@ body::before {
   border-color: rgba(0,240,255,0.12) !important;
 }
 
-/* Hover: specular flips to cyan in the art area */
+/* Hover: specular flips to cyan */
 .card:hover .cardImageContainer::before {
   background: linear-gradient(90deg,
     transparent 0%,
@@ -766,24 +740,56 @@ body::before {
   ) !important;
 }
 
-/* Card text footer — glass floor panel.
-   Top corners are SHARP (0) — the card's overflow:hidden clips them flush
-   against the card shell's rounded bottom corners. If the footer had its
-   No border-radius — parent .cardBox overflow:hidden clips everything.
-   This matches the HTML exactly: .mc-foot has no border-radius at all.
-   Sharp edges, parent rounded corners do the clipping.                  */
-.cardText,
+/* ── CARD FOOTER — single glass strip ────────────────────────────────
+   FIX: Glass applies to the CONTAINER only.
+   Individual .cardText rows are transparent — no double glass panels.
+   This prevents the "Peter Pan / (1998)" split and corner misalignment.
+──────────────────────────────────────────────────────────────────── */
+
+/* Case A: .cardFooter or .cardTextContainer wrapper exists */
 .cardFooter,
 .cardTextContainer {
   background: rgba(150,200,248,0.04) !important;
   backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-top: 1px solid rgba(255,255,255,0.09) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
   padding: 7px 10px 9px !important;
   border-radius: 0 !important;
 }
 
-.cardText:first-child,
+/* Case B: .cardText-first is direct child of cardBox (no wrapper) */
+.cardBox > .cardText.cardText-first,
+.cardScalable + .cardText {
+  background: rgba(150,200,248,0.04) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-top: 1px solid rgba(255,255,255,0.09) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
+  padding: 7px 10px 4px !important;
+  border-radius: 0 !important;
+}
+
+/* All .cardText inside containers: NO separate glass */
+.cardFooter .cardText,
+.cardTextContainer .cardText,
+.cardBox > .cardText:not(.cardText-first) {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Last standalone cardText: bottom padding */
+.cardBox > .cardText:last-child:not(.cardText-first) {
+  padding-bottom: 8px !important;
+}
+
+/* Typography */
+.cardText.cardText-first,
 .cardTitle {
   font-family: var(--ovc-font-b) !important;
   font-size: 0.7rem !important;
@@ -793,15 +799,15 @@ body::before {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
-
-.cardText:not(:first-child),
+.cardText:not(.cardText-first),
 .cardYear {
   font-family: var(--ovc-font-m) !important;
   font-size: 0.56rem !important;
   color: var(--ovc-ink3) !important;
+  margin-top: 1px !important;
 }
 
-/* Progress bar — watched items */
+/* Progress bar */
 .itemProgressBar,
 .cardProgressBar {
   height: 2px !important;
@@ -809,7 +815,6 @@ body::before {
   border-radius: 1px !important;
   overflow: hidden !important;
 }
-
 .itemProgressBarForeground,
 .cardProgressBarForeground {
   background: var(--ovc-cyan) !important;
@@ -817,7 +822,7 @@ body::before {
   border-radius: 0 2px 2px 0 !important;
 }
 
-/* Quality badges — cyan (4K), purple (NEW), silver (HDR) */
+/* Quality badges */
 .mediaInfoItem,
 .mediaInfoText,
 .videoQualityBadge,
@@ -850,7 +855,6 @@ body::before {
   color: rgba(200,248,255,0.95) !important;
   transition: all 0.16s !important;
 }
-
 .cardOverlayButton:hover {
   background: rgba(0,240,255,0.16) !important;
   box-shadow:
@@ -862,8 +866,7 @@ body::before {
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   CONTINUE WATCHING CARDS (16:9 ratio)
-   Gap #66: per-card caustic drift pool was entirely missing. Added here.
+   CONTINUE WATCHING CARDS (16:9)
 ════════════════════════════════════════════════════════════════════════ */
 
 .cardBox.cardBox-touchzoom,
@@ -873,32 +876,14 @@ body::before {
   border-radius: 14px !important;
 }
 
-/* Per-card caustic on continue-watching cards — art area only */
-.card:nth-child(1) .cardImageContainer::after {
-  height: 55% !important; left: 5% !important; right: 28% !important;
-  border-radius: 0 0 55% 30% !important;
-  animation: ovc-gd-c 21s ease-in-out infinite 0s !important;
-}
-.card:nth-child(2) .cardImageContainer::after {
-  height: 68% !important; left: 8% !important; right: 18% !important;
-  border-radius: 0 0 40% 50% !important;
-  animation: ovc-gd-d 16s ease-in-out infinite 1s !important;
-}
-.card:nth-child(3) .cardImageContainer::after {
-  height: 60% !important; left: 3% !important; right: 32% !important;
-  border-radius: 0 0 65% 22% !important;
-  animation: ovc-gd-e 27s ease-in-out infinite 2s !important;
-}
-.card:nth-child(4) .cardImageContainer::after {
-  height: 75% !important; left: 10% !important; right: 12% !important;
-  border-radius: 0 0 45% 48% !important;
-  animation: ovc-gd-f 19s ease-in-out infinite 3.5s !important;
-}
+.card:nth-child(1) .cardImageContainer::after { height: 55% !important; left: 5% !important; right: 28% !important; border-radius: 0 0 55% 30% !important; animation: ovc-gd-c 21s ease-in-out infinite 0s   !important; }
+.card:nth-child(2) .cardImageContainer::after { height: 68% !important; left: 8% !important; right: 18% !important; border-radius: 0 0 40% 50% !important; animation: ovc-gd-d 16s ease-in-out infinite 1s   !important; }
+.card:nth-child(3) .cardImageContainer::after { height: 60% !important; left: 3% !important; right: 32% !important; border-radius: 0 0 65% 22% !important; animation: ovc-gd-e 27s ease-in-out infinite 2s   !important; }
+.card:nth-child(4) .cardImageContainer::after { height: 75% !important; left: 10% !important; right: 12% !important; border-radius: 0 0 45% 48% !important; animation: ovc-gd-f 19s ease-in-out infinite 3.5s !important; }
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   DETAIL / HERO PAGE
-   Targets every known Jellyfin detail page container across versions.
+   DETAIL PAGE
 ════════════════════════════════════════════════════════════════════════ */
 
 .detailPagePrimaryContainer,
@@ -927,7 +912,6 @@ body::before {
   overflow: hidden !important;
 }
 
-/* Hero top specular — wider, off-center */
 .detailPagePrimaryContainer::before,
 .itemDetailPage .padded-left.padded-right::before {
   content: '' !important;
@@ -946,7 +930,6 @@ body::before {
   pointer-events: none !important;
 }
 
-/* Hero internal caustic volume */
 .detailPagePrimaryContainer::after,
 .itemDetailPage .padded-left.padded-right::after {
   content: '' !important;
@@ -976,7 +959,6 @@ body::before {
   font-size: 0.88rem !important;
 }
 
-/* Genre / rating chips */
 .genreItem,
 .ratingText {
   font-family: var(--ovc-font-m) !important;
@@ -993,7 +975,6 @@ body::before {
   color: rgba(0,205,230,0.88) !important;
 }
 
-/* Neon divider between hero panels */
 .detailPagePrimaryContainer .detailPageDivider,
 .infoBanner {
   background: none !important;
@@ -1014,7 +995,6 @@ body::before {
    BUTTONS
 ════════════════════════════════════════════════════════════════════════ */
 
-/* Primary — play / submit */
 .button-submit,
 .raised.button-submit,
 .emby-button.button-submit,
@@ -1035,7 +1015,6 @@ body::before {
   color: rgba(200,248,255,0.95) !important;
   transition: all 0.16s !important;
 }
-
 .button-submit:hover,
 .raised.button-submit:hover {
   background: rgba(0,240,255,0.16) !important;
@@ -1046,7 +1025,6 @@ body::before {
     0 6px 18px rgba(0,0,0,0.35) !important;
 }
 
-/* Ghost / secondary */
 .emby-button:not(.button-submit),
 .raised:not(.button-submit),
 .detailButton:not(.detailButton-primary) {
@@ -1064,7 +1042,6 @@ body::before {
   text-transform: uppercase !important;
   transition: all 0.16s !important;
 }
-
 .emby-button:not(.button-submit):hover {
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.38),
@@ -1074,7 +1051,7 @@ body::before {
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   DIALOGS / MENUS / OVERLAYS
+   DIALOGS / MENUS
 ════════════════════════════════════════════════════════════════════════ */
 
 .dialogContainer .dialog,
@@ -1097,7 +1074,6 @@ body::before {
   overflow: hidden !important;
 }
 
-/* Dialog top specular */
 .dialogContainer .dialog::before,
 .paperdialog::before {
   content: '' !important;
@@ -1129,7 +1105,6 @@ body::before {
   border-radius: 8px !important;
   transition: all 0.14s !important;
 }
-
 .listItem:hover,
 .actionSheetMenuItem:hover {
   background: rgba(255,255,255,0.04) !important;
@@ -1144,15 +1119,8 @@ body::before {
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   SETTINGS / ADMIN PAGES
+   SETTINGS
 ════════════════════════════════════════════════════════════════════════ */
-
-.dashboardSettingsPage .settingsContainer,
-.formDialogContent,
-.readOnlyContent .padded {
-  color: var(--ovc-ink) !important;
-  font-family: var(--ovc-font-b) !important;
-}
 
 .emby-label,
 label.checkboxLabel {
@@ -1172,7 +1140,6 @@ label.checkboxLabel {
   font-family: var(--ovc-font-m) !important;
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.4) !important;
 }
-
 .emby-input:focus,
 .emby-textarea:focus,
 .emby-select:focus {
@@ -1192,7 +1159,7 @@ label.checkboxLabel {
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   AUDIO / NOW PLAYING BAR
+   AUDIO / NOW PLAYING
 ════════════════════════════════════════════════════════════════════════ */
 
 .nowPlayingBar,
@@ -1240,8 +1207,6 @@ label.checkboxLabel {
 
 /* ════════════════════════════════════════════════════════════════════════
    LOADING / EMPTY STATES
-   Gap #97: .noItemsMessage was conflicting with button overrides. Fixed
-   by separating the selector and adding explicit display/padding rules.
 ════════════════════════════════════════════════════════════════════════ */
 
 .loadingContent {
@@ -1262,7 +1227,6 @@ label.checkboxLabel {
   text-transform: none !important;
 }
 
-/* Loading spinner */
 .loading-spinner circle,
 .mdl-spinner__layer {
   stroke: var(--ovc-cyan) !important;
@@ -1280,13 +1244,11 @@ label.checkboxLabel {
   letter-spacing: 1px !important;
   font-size: 0.72rem !important;
 }
-
 .headerTabs .emby-tab-button.is-active,
 .headerTabs .emby-tab-button[aria-selected="true"] {
   color: var(--ovc-cyan) !important;
   text-shadow: 0 0 10px rgba(0,240,255,0.3) !important;
 }
-
 .emby-tabs-slider {
   background: var(--ovc-cyan) !important;
   box-shadow: 0 0 8px var(--ovc-cyan-glow) !important;
@@ -1294,7 +1256,7 @@ label.checkboxLabel {
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   STAT / INFO CARDS (library counts, server stats)
+   STAT / DASHBOARD CARDS
 ════════════════════════════════════════════════════════════════════════ */
 
 .dashboardCard,
@@ -1314,7 +1276,6 @@ label.checkboxLabel {
   overflow: hidden !important;
   transition: box-shadow 0.2s !important;
 }
-
 .dashboardCard:hover,
 .serverCard:hover {
   box-shadow:
@@ -1325,8 +1286,6 @@ label.checkboxLabel {
     0 4px 16px rgba(0,0,0,0.22),
     0 0 18px rgba(0,240,255,0.06) !important;
 }
-
-/* Top specular on stat cards */
 .dashboardCard::before,
 .serverCard::before {
   content: '' !important;
@@ -1343,8 +1302,6 @@ label.checkboxLabel {
   pointer-events: none !important;
   z-index: 5 !important;
 }
-
-/* Caustic drift on stat cards */
 .dashboardCard::after,
 .serverCard::after {
   content: '' !important;
@@ -1359,7 +1316,6 @@ label.checkboxLabel {
   pointer-events: none !important;
   animation: ovc-gd-e 26s ease-in-out infinite 3s !important;
 }
-
 .dashboardCardName,
 .serverCardName {
   font-family: var(--ovc-font-m) !important;
@@ -1368,7 +1324,6 @@ label.checkboxLabel {
   letter-spacing: 3px !important;
   text-transform: uppercase !important;
 }
-
 .dashboardCardValue,
 .serverCardValue {
   font-family: var(--ovc-font-d) !important;
@@ -1380,20 +1335,15 @@ label.checkboxLabel {
 
 /* ════════════════════════════════════════════════════════════════════════
    LOGIN PAGE
-   #loginPage confirmed valid target per official docs.
 ════════════════════════════════════════════════════════════════════════ */
 
 #loginPage {
   background: transparent !important;
 }
-
-/* Narrow the login form */
 #loginPage .readOnlyContent,
 #loginPage form {
   max-width: 22em !important;
 }
-
-/* Login form container — glass panel */
 #loginPage .padded-left.padded-right.padded-bottom-page {
   background: rgba(195,220,255,0.038) !important;
   backdrop-filter: blur(26px) saturate(300%) brightness(1.12) !important;
@@ -1411,8 +1361,6 @@ label.checkboxLabel {
   position: relative !important;
   overflow: hidden !important;
 }
-
-/* Login page title */
 #loginPage h1 {
   font-family: var(--ovc-font-d) !important;
   color: var(--ovc-ink) !important;
@@ -1420,11 +1368,9 @@ label.checkboxLabel {
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   WATCHED / PLAYED INDICATORS
-   Confirmed valid selectors per official docs.
+   WATCHED INDICATORS
 ════════════════════════════════════════════════════════════════════════ */
 
-/* Played indicator — cyan glass to match theme */
 .playedIndicator {
   background: rgba(0,240,255,0.15) !important;
   box-shadow:
@@ -1434,7 +1380,6 @@ label.checkboxLabel {
   color: var(--ovc-cyan) !important;
 }
 
-/* Count indicators (episode counts on series) */
 .countIndicator {
   background: rgba(195,220,255,0.04) !important;
   backdrop-filter: blur(8px) !important;
@@ -1456,11 +1401,9 @@ label.checkboxLabel {
   border: none !important;
 }
 
+
 /* ════════════════════════════════════════════════════════════════════════
    INJECTED SVG ICONS
-   Sizing + color inheritance for custom marks injected by ovc-jellyfin.js.
-   stroke="currentColor" means all CSS color states cascade automatically —
-   active cyan, hover, muted all work without duplicating the SVG.
 ════════════════════════════════════════════════════════════════════════ */
 
 .ovc-icon {
@@ -1472,20 +1415,19 @@ label.checkboxLabel {
   flex-shrink: 0 !important;
   pointer-events: none !important;
 }
-
 .ovc-icon svg {
   width: 100% !important;
   height: 100% !important;
   overflow: visible !important;
 }
 
-/* Nav drawer — space between icon and label */
-.navMenuOption .ovc-icon,
-.navMenuOption-selected .ovc-icon {
+/* Drawer: icon + text gap */
+.navMenuOption .ovc-icon {
   margin-right: 10px !important;
+  flex-shrink: 0 !important;
 }
 
-/* Header buttons — smooth color transition on hover */
+/* Header buttons: smooth color transition */
 .headerButton .ovc-icon svg {
   transition: color 0.14s !important;
 }
