@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme
-   Version: 2.6
+   Version: 2.7
    Repository: https://github.com/Const-antly-confused/Jellyfin-OVC-theme
    -----------------------------------------------------------------------
    INSTALL (CSS only):
@@ -243,6 +243,15 @@ body::before {
 /* ════════════════════════════════════════════════════════════════════════
    HEADER / TOPBAR
 ════════════════════════════════════════════════════════════════════════ */
+
+/* Force topbar visible — Jellyfin hides .skinHeader with .hide or
+   display:none at 16:9 viewport and on certain page types.          */
+.skinHeader,
+.skinHeader.hide {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
 
 .skinHeader,
 .headerContainer,
@@ -629,17 +638,16 @@ body::before {
 /* ART AREA — dark gradient background, clipped specular and caustic.
    Chained selector per official docs for specificity.
    -----------------------------------------------------------------------
-   border-radius:
-     Top corners match the card shell — clipped by cardBox overflow:hidden
-     Bottom corners are SHARP (0) — meets the footer with no gap or curve mismatch
-     The card shell's overflow:hidden handles all external corner clipping.   */
+   No border-radius — parent .cardBox overflow:hidden clips everything.
+     This matches the HTML exactly: .mc-art has no border-radius.
+     The outer shell handles all corner clipping.                            */
 .cardImageContainer,
 .cardContent-button.cardImageContainer,
 .cardContent-button.cardImageContainer.coveredImage {
   background: linear-gradient(155deg, #0c1e2e, #040e18) !important;
   position: relative !important;
   overflow: hidden !important;
-  border-radius: var(--ovc-radius) var(--ovc-radius) 0 0 !important;
+  border-radius: 0 !important;
 }
 
 /* Specular line — off-center top highlight, clipped to art area. */
@@ -761,8 +769,9 @@ body::before {
 /* Card text footer — glass floor panel.
    Top corners are SHARP (0) — the card's overflow:hidden clips them flush
    against the card shell's rounded bottom corners. If the footer had its
-   own top radius it would leave a gap where the curves don't meet.
-   Bottom corners match the card shell radius so the outside edge is clean. */
+   No border-radius — parent .cardBox overflow:hidden clips everything.
+   This matches the HTML exactly: .mc-foot has no border-radius at all.
+   Sharp edges, parent rounded corners do the clipping.                  */
 .cardText,
 .cardFooter,
 .cardTextContainer {
@@ -771,7 +780,7 @@ body::before {
   border-top: 1px solid rgba(255,255,255,0.09) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
   padding: 7px 10px 9px !important;
-  border-radius: 0 0 var(--ovc-radius) var(--ovc-radius) !important;
+  border-radius: 0 !important;
 }
 
 .cardText:first-child,
@@ -1445,4 +1454,38 @@ label.checkboxLabel {
     transparent
   ) !important;
   border: none !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   INJECTED SVG ICONS
+   Sizing + color inheritance for custom marks injected by ovc-jellyfin.js.
+   stroke="currentColor" means all CSS color states cascade automatically —
+   active cyan, hover, muted all work without duplicating the SVG.
+════════════════════════════════════════════════════════════════════════ */
+
+.ovc-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
+  pointer-events: none !important;
+}
+
+.ovc-icon svg {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+}
+
+/* Nav drawer — space between icon and label */
+.navMenuOption .ovc-icon,
+.navMenuOption-selected .ovc-icon {
+  margin-right: 10px !important;
+}
+
+/* Header buttons — smooth color transition on hover */
+.headerButton .ovc-icon svg {
+  transition: color 0.14s !important;
 }
