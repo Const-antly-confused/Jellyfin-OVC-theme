@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme
-   Version: 2.4
+   Version: 2.5
    Repository: https://github.com/Const-antly-confused/Jellyfin-OVC-theme
    -----------------------------------------------------------------------
    INSTALL (CSS only):
@@ -144,8 +144,11 @@ body::before {
   ) !important;
 }
 
-/* Kill ALL Jellyfin background surfaces — comprehensive for 10.8 and 10.9+ */
+/* Kill ALL Jellyfin background surfaces — correct selectors per official docs */
 .backgroundContainer,
+.backgroundContainer.withBackdrop,
+.backgroundContainer.withBackdrop::after,
+.backgroundContainer.withBackdrop::before,
 .backgroundContainer-withBackdrop,
 .backgroundContainer-withBackdrop::after,
 .backgroundContainer-withBackdrop::before,
@@ -242,7 +245,9 @@ body::before {
 ════════════════════════════════════════════════════════════════════════ */
 
 .skinHeader,
-.headerContainer {
+.headerContainer,
+.skinHeader.focuscontainer-x.skinHeader-withBackground.skinHeader-blurred,
+.skinHeader.focuscontainer-x.skinHeader-withBackground.skinHeader-blurred.noHomeButtonHeader {
   background: rgba(180,220,255,0.038) !important;
   backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
   -webkit-backdrop-filter: blur(32px) saturate(320%) brightness(1.12) !important;
@@ -406,6 +411,7 @@ button.headerDrawerButton {
 
 .mainDrawer,
 .mainDrawerPanel,
+.mainDrawer-scrollContainer,
 #mainDrawer {
   background: rgba(4,8,16,0.82) !important;
   backdrop-filter: blur(28px) saturate(200%) brightness(1.08) !important;
@@ -438,9 +444,10 @@ button.headerDrawerButton {
   border-color: rgba(255,255,255,0.07) !important;
 }
 
-/* Active item — gap #36: add inset glass edges matching HTML .ri.on */
+/* Active item — glass inset edges, confirmed selector from official docs */
 .navMenuOption.selected,
-.navMenuOption[aria-selected="true"] {
+.navMenuOption[aria-selected="true"],
+.navMenuOption-selected {
   color: var(--ovc-cyan) !important;
   background: rgba(0,240,255,0.08) !important;
   border-color: rgba(0,240,255,0.18) !important;
@@ -452,7 +459,8 @@ button.headerDrawerButton {
 
 /* Right-edge neon active indicator */
 .navMenuOption.selected::after,
-.navMenuOption[aria-selected="true"]::after {
+.navMenuOption[aria-selected="true"]::after,
+.navMenuOption-selected::after {
   content: '' !important;
   position: absolute !important;
   right: -7px; top: 50%;
@@ -620,17 +628,19 @@ button.headerDrawerButton {
 /* ART AREA — dark gradient background, clipped specular and caustic.
    Matches HTML .mc-art exactly.
    position:relative + overflow:hidden ensures ::before and ::after
-   are clipped to this zone and never spill into the footer. */
-.cardImageContainer {
+   are clipped to this zone and never spill into the footer.
+   Chained selector per official docs for specificity. */
+.cardImageContainer,
+.cardContent-button.cardImageContainer,
+.cardContent-button.cardImageContainer.coveredImage {
   background: linear-gradient(155deg, #0c1e2e, #040e18) !important;
   position: relative !important;
   overflow: hidden !important;
-  /* No border-radius here — card shell handles that */
 }
 
-/* Specular line — off-center top highlight, clipped to art area.
-   Matches HTML .mc-art::before */
-.cardImageContainer::before {
+/* Specular line — off-center top highlight, clipped to art area. */
+.cardImageContainer::before,
+.cardContent-button.cardImageContainer::before {
   content: '' !important;
   position: absolute !important;
   top: 1px; left: 6%; right: 22%; height: 1px !important;
@@ -647,10 +657,9 @@ button.headerDrawerButton {
   pointer-events: none !important;
 }
 
-/* Caustic drift — internal volume light, base state.
-   Each nth-child below overrides height/position/radius/animation.
-   Matches HTML .mc-art::after */
-.cardImageContainer::after {
+/* Caustic drift — internal volume light, base state. */
+.cardImageContainer::after,
+.cardContent-button.cardImageContainer::after {
   content: '' !important;
   position: absolute !important;
   top: 0; left: 5%; right: 18%; height: 58% !important;
@@ -1357,8 +1366,69 @@ label.checkboxLabel {
 
 
 /* ════════════════════════════════════════════════════════════════════════
-   SECTION DIVIDERS
+   LOGIN PAGE
+   #loginPage confirmed valid target per official docs.
 ════════════════════════════════════════════════════════════════════════ */
+
+#loginPage {
+  background: transparent !important;
+}
+
+/* Narrow the login form */
+#loginPage .readOnlyContent,
+#loginPage form {
+  max-width: 22em !important;
+}
+
+/* Login form container — glass panel */
+#loginPage .padded-left.padded-right.padded-bottom-page {
+  background: rgba(195,220,255,0.038) !important;
+  backdrop-filter: blur(26px) saturate(300%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(300%) brightness(1.12) !important;
+  border-radius: var(--ovc-radius) !important;
+  box-shadow:
+    inset 0  1px 0 rgba(255,255,255,0.52),
+    inset 0 -1px 0 rgba(0,0,0,0.42),
+    inset  1px 0 0 rgba(255,255,255,0.11),
+    inset -1px 0 0 rgba(255,255,255,0.11),
+    0 4px 20px rgba(0,0,0,0.4),
+    0 24px 60px rgba(0,0,0,0.3) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  margin-top: 60px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Login page title */
+#loginPage h1 {
+  font-family: var(--ovc-font-d) !important;
+  color: var(--ovc-ink) !important;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════
+   WATCHED / PLAYED INDICATORS
+   Confirmed valid selectors per official docs.
+════════════════════════════════════════════════════════════════════════ */
+
+/* Played indicator — cyan glass to match theme */
+.playedIndicator {
+  background: rgba(0,240,255,0.15) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(0,240,255,0.3),
+    0 0 8px rgba(0,240,255,0.15) !important;
+  border: 1px solid rgba(0,240,255,0.2) !important;
+  color: var(--ovc-cyan) !important;
+}
+
+/* Count indicators (episode counts on series) */
+.countIndicator {
+  background: rgba(195,220,255,0.04) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: var(--ovc-ink2) !important;
+  font-family: var(--ovc-font-m) !important;
+}
 
 .sectionDivider,
 .detailSectionDivider {
