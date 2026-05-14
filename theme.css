@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme
-   Version: 3.0
+   Version: 3.1
    Repository: https://github.com/Const-antly-confused/Jellyfin-OVC-theme
    -----------------------------------------------------------------------
    INSTALL (CSS only):
@@ -107,7 +107,8 @@ html {
     #030c18 78%,
     #050e1e 100%
   ) !important;
-  min-height: 100% !important;
+  height: 100% !important;
+  width: 100% !important;
 }
 
 body {
@@ -116,6 +117,10 @@ body {
   font-family: var(--ovc-font-m) !important;
   overflow-x: hidden !important;
   -webkit-font-smoothing: antialiased !important;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 body::before {
@@ -149,6 +154,7 @@ body::before {
   background-image: none !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  visibility: hidden !important;
 }
 
 /* Grid layers — injected by JS, CSS controls appearance */
@@ -157,7 +163,9 @@ body::before {
   position: absolute !important;
   pointer-events: none !important;
   z-index: 0 !important;
-  min-height: 300vh !important;  /* FIX: was collapsing to 0 */
+  min-height: 400vh !important;
+  top: 0 !important;
+  bottom: auto !important;
 }
 
 #ovc-grid-far {
@@ -279,7 +287,8 @@ body::before {
 .pageTitleWithDefaultLogo,
 .pageTitleWithLogo.pageTitleWithDefaultLogo {
   font-family: var(--ovc-font-d) !important;
-  color: rgba(240,252,255,0.95) !important;
+  color: transparent !important;
+  font-size: 0 !important;
   letter-spacing: 0.3px !important;
   position: relative !important;
 }
@@ -640,6 +649,14 @@ body::before {
   overflow: hidden !important;
 }
 
+.cardScalable {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 /* ── ART AREA ─────────────────────────────────────────────────────────
    isolation: isolate creates a stacking context so z-index on children
    is reliable. Without this the poster image covers the specular/caustic.
@@ -651,7 +668,7 @@ body::before {
   position: relative !important;
   overflow: hidden !important;
   border-radius: 0 !important;
-  isolation: isolate !important;   /* FIX: stacking context for z-index */
+  isolation: isolate !important;
 }
 
 /* Poster image — explicit z-index so specular sits above it */
@@ -756,6 +773,7 @@ body::before {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
   padding: 7px 10px 9px !important;
   border-radius: 0 !important;
+  isolation: isolate !important;
 }
 
 /* Case B: .cardText-first is direct child of cardBox (no wrapper) */
@@ -768,6 +786,7 @@ body::before {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
   padding: 7px 10px 4px !important;
   border-radius: 0 !important;
+  isolation: isolate !important;
 }
 
 /* All .cardText inside containers: NO separate glass */
@@ -862,6 +881,25 @@ body::before {
     inset 0 -1px 0 rgba(0,0,0,0.35),
     0 0 32px rgba(0,240,255,0.2),
     0 6px 18px rgba(0,0,0,0.35) !important;
+}
+
+
+/* Continue-watching card scene gradient overlay — dark bottom fade for readability */
+.emby-scrollbuttons-scroller .cardImageContainer::before,
+.scrollSlider .cardImageContainer::before {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 0; left: 0; right: 0; height: 60% !important;
+  background: linear-gradient(0deg, rgba(2,4,8,0.88) 0%, transparent 55%) !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+/* Landscape cards (16:9) need stronger overlay */
+[data-type="Episode"] .cardImageContainer::before,
+[data-type="Movie"] .cardImageContainer::before {
+  height: 70% !important;
+  background: linear-gradient(0deg, rgba(2,4,8,0.92) 0%, transparent 60%) !important;
 }
 
 
