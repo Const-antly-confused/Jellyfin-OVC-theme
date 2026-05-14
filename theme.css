@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme
-   Version: 3.1
+   Version: 3.2
    Repository: https://github.com/Const-antly-confused/Jellyfin-OVC-theme
    -----------------------------------------------------------------------
    INSTALL (CSS only):
@@ -132,6 +132,7 @@ body {
   width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
+  max-height: 100vh !important;
 }
 
 body::before {
@@ -507,12 +508,16 @@ body::before {
   min-height: 0 !important;
   display: flex !important;
   flex-direction: column !important;
+  max-height: none !important;
+  height: auto !important;
 }
 
 /* Login page exception: don't flex the readOnlyContent wrapper */
 #loginPage .readOnlyContent {
   flex: initial !important;
   min-height: auto !important;
+  overflow: visible !important;
+  display: block !important;
 }
 
 /* Ensure login page displays when inside mainAnimatedPages */
@@ -520,15 +525,32 @@ body::before {
   display: flex !important;
   flex: 1 !important;
   min-height: 100vh !important;
+  width: 100% !important;
+  overflow: visible !important;
 }
 
-/* Scrollable content area */
-.mainAnimatedPages {
+/* Scrollable content area — but NOT for login page */
+.mainAnimatedPages:not(:has(#loginPage)) {
   overflow-y: auto !important;
+  height: 100% !important;
+  max-height: 100vh !important;
 }
 
-.mainAnimatedPages .activePage {
+.mainAnimatedPages .activePage:not(#loginPage) {
   overflow-y: auto !important;
+  height: 100% !important;
+  max-height: 100vh !important;
+}
+
+/* Force all page containers to fill viewport */
+.libraryPage,
+.standardUserPage,
+.homePage,
+.detailPage,
+.itemDetailPage {
+  height: 100% !important;
+  max-height: 100vh !important;
+  width: 100% !important;
 }
 
 .scrollSlider {
