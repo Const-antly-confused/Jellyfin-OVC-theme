@@ -321,8 +321,10 @@ html {
   top: 0 !important;
   z-index: 100 !important;
   height: auto !important;
-  min-height: 64px !important;
-  padding: 8px 0 !important;
+  min-height: 56px !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 @supports not (backdrop-filter: blur(1px)) {
@@ -449,14 +451,14 @@ html {
 }
 
 .mainDrawer {
-  width: auto !important;
-  min-width: auto !important;
+  width: 52px !important;
+  min-width: 52px !important;
   display: flex !important;
   flex-direction: column !important;
-  align-items: flex-start !important;
-  padding: 14px 12px !important;
-  gap: 6px !important;
-  max-height: calc(100vh - 64px) !important;
+  align-items: center !important;
+  padding: 14px 8px !important;
+  gap: 3px !important;
+  max-height: calc(100vh - 56px) !important;
   overflow-y: auto !important;
 }
 
@@ -464,27 +466,27 @@ html {
   padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 6px !important;
+  gap: 3px !important;
   width: 100% !important;
-  align-items: stretch !important;
+  align-items: center !important;
 }
 
 .navMenuOption {
-  width: 100% !important;
-  min-width: auto !important;
-  height: auto !important;
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
   min-height: 36px !important;
-  padding: 8px 12px !important;
-  justify-content: flex-start !important;
+  padding: 0 !important;
+  justify-content: center !important;
   align-items: center !important;
   position: relative !important;
-  overflow: visible !important;
+  overflow: hidden !important;
   color: var(--ink3) !important;
   transition: all 0.14s !important;
   border-radius: 10px !important;
-  margin: 0 !important;
+  margin: 3px 0 !important;
   display: flex !important;
-  gap: 10px !important;
+  gap: 0 !important;
   font-family: var(--font-m) !important;
   font-size: 0.65rem !important;
   letter-spacing: 0.5px !important;
@@ -494,28 +496,12 @@ html {
 .navMenuOptionText,
 .navMenuOption .navMenuOptionText,
 .navMenuOption .listItemBodyText {
-  display: inline !important;
+  display: none !important;
   font-family: var(--font-m) !important;
   font-size: 0.65rem !important;
   letter-spacing: 0.5px !important;
   text-transform: uppercase !important;
   color: inherit !important;
-}
-
-/* Hamburger menu expanded state - show library names */
-.mainDrawer.is-open .navMenuOptionText,
-.mainDrawer.is-open .listItemBodyText,
-.mainDrawer[aria-expanded="true"] .navMenuOptionText,
-.mainDrawer[aria-expanded="true"] .listItemBodyText {
-  display: inline !important;
-}
-
-/* Hamburger menu collapsed state - hide library names */
-.mainDrawer:not(.is-open) .navMenuOptionText,
-.mainDrawer:not(.is-open) .listItemBodyText,
-.mainDrawer[aria-expanded="false"] .navMenuOptionText,
-.mainDrawer[aria-expanded="false"] .listItemBodyText {
-  display: none !important;
 }
 
 .navMenuOption i,
@@ -709,13 +695,10 @@ html {
 .itemsContainer,
 .scrollFrameContent {
   display: flex !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  justify-content: flex-start !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
   align-items: flex-start !important;
   gap: 8px !important;
-  padding-bottom: 8px !important;
 }
 
 @keyframes fadeInCard {
@@ -891,7 +874,7 @@ html {
   border-radius: 0 !important;
   overflow: hidden !important;
   position: relative !important;
-  z-index: 3 !important;
+  z-index: auto !important;
 }
 
 .cardImageContainer img,
@@ -901,7 +884,7 @@ html {
   object-fit: cover !important;
   display: block !important;
   position: relative !important;
-  z-index: 3 !important;
+  z-index: auto !important;
 }
 
 /* Card text */
