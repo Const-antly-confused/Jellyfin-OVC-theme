@@ -2,14 +2,3 @@
    OCEAN VIEW CINEMA — DIAGNOSTIC MINIMAL
    Testing if scroll issue is CSS or external (JS/HTML)
    ═══════════════════════════════════════════════════════════════════════ */
-
-
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-.backdropImage {
-  display: none !important;
-}
