@@ -47,11 +47,13 @@
 
     const far = document.createElement('div');
     far.id = 'ovc-grid-far';
+    far.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
     container.insertBefore(far, container.firstChild);
 
     const near = document.createElement('div');
     near.id = 'ovc-grid-near';
-    container.insertBefore(near, container.firstChild);
+    near.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+    container.insertBefore(near, far.nextSibling);
   }
 
   /* ─── VOID + CENTER LIGHT PARALLAX ─────────────────────────────────
@@ -72,7 +74,7 @@
   }
 
   function onScroll() {
-    targetY = scrollContainer.scrollTop;
+    targetY = scrollContainer?.scrollTop || document.querySelector('.mainAnimatedPages')?.scrollTop || window.scrollY || 0;
   }
 
   function parallaxTick() {
@@ -182,25 +184,28 @@
       tryBind();
     });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
   }
 
   function tryBind() {
     // Jellyfin's main scrollable content container candidates
     const candidates = [
+      '.mainAnimatedPages',
       '.mainAnimatedPages .activePage',
       '.mainAnimatedPages > div:not([hidden])',
       '.libraryPage',
       '.homePage',
       '.standardUserPage',
       '.itemDetailPage',
-      '.mainAnimatedPages',
     ];
 
     let container = null;
     for (const sel of candidates) {
       const el = document.querySelector(sel);
-      if (el) { container = el; break; }
+      if (el && el.offsetHeight > 0) { 
+        container = el; 
+        break; 
+      }
     }
 
     if (!container) return;
