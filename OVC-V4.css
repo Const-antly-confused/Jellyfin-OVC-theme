@@ -1,91 +1,15 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   OCEAN VIEW CINEMA — Jellyfin Theme CSS
-   OVC-V4.css (DIAGNOSTIC - Stripped for layout debugging)
+   OCEAN VIEW CINEMA — DIAGNOSTIC MINIMAL
+   Testing if scroll issue is CSS or external (JS/HTML)
    ═══════════════════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Share+Tech+Mono&family=Spectral+SC:ital,wght@0,300;0,400;0,600;1,300&display=swap');
-
-/* ═══════════════════════════════════════════════════════
-   ROOT VARIABLES
-═══════════════════════════════════════════════════════ */
-:root {
-  --cyan: #00f0ff;
-  --cyan-glow: rgba(0,240,255,0.2);
-  --font-d: 'Permanent Marker', cursive;
-  --font-m: 'Share Tech Mono', monospace;
-  --font-b: 'Spectral SC', serif;
-  --ink:  rgba(225, 242, 255, 0.9);
-  --ink2: rgba(180, 212, 238, 0.45);
-  --ink3: rgba(140, 178, 212, 0.3);
-}
-
-/* ═══════════════════════════════════════════════════════
-   GLOBAL RESETS
-═══════════════════════════════════════════════════════ */
-* { box-sizing: border-box; }
-html, body { 
-  margin: 0;
-  padding: 0;
+* { 
+  box-sizing: border-box; 
 }
 
 body {
-  color: var(--ink);
-  font-family: var(--font-m);
-  background: #000001;
-}
-
-/* ═══════════════════════════════════════════════════════
-   MAIN CONTENT AREA (MINIMAL)
-═══════════════════════════════════════════════════════ */
-
-.mainAnimatedPages,
-.mainAnimatedPage {
-  z-index: 10;
-}
-
-.sectionTitleContainer,
-.sectionTitleContainer-cards {
-  padding-left: 8px;
-  margin-bottom: 24px;
-  margin-top: 32px;
-}
-
-.sectionTitleContainer h2,
-.sectionTitleContainer-cards h2 {
-  font-family: var(--font-d) !important;
-  font-size: 1.3rem !important;
-  margin: 0 !important;
-}
-
-/* CARDS REMOVED FOR DIAGNOSTICS */
-
-/* BUTTONS REMOVED FOR DIAGNOSTICS */
-
-/* DIALOGS REMOVED FOR DIAGNOSTICS */
-
-/* BADGES REMOVED FOR DIAGNOSTICS */
-
-/* ═══════════════════════════════════════════════════════
-   SCROLLBAR
-═══════════════════════════════════════════════════════ */
-
-::-webkit-scrollbar {
-  width: 3px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.1);
-  border-radius: 2px;
-}
-
-/* UTILITY CLASSES - MINIMAL */
-
-.section2 {
-  z-index: 3;
+  margin: 0;
+  padding: 0;
 }
 
 .backdropImage {
