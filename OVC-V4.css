@@ -43,9 +43,8 @@
 * { box-sizing: border-box; }
 html, body { 
   min-height: 100%; 
-  height: auto !important;
+  height: 100%;
   overflow-x: hidden; 
-  overflow-y: auto;
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
@@ -545,22 +544,8 @@ html {
 }
 
 .mainAnimatedPages {
-  overflow: visible !important;
-  max-height: none !important;
-  height: auto !important;
-  min-height: 100vh !important;
-}
-
-.mainAnimatedPage {
-  min-height: auto !important;
-  height: auto !important;
-}
-
-.mainDrawer-contentContainer,
-.skinBody,
-.pageContainer {
-  min-height: 100vh !important;
-  height: auto !important;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1021,51 +1006,37 @@ html {
   padding: 24px !important;
 }
 
-/* Keep login form visible and unaffected by viewport-height overrides */
+/* Login page fixes aligned to Jellyfin login DOM (session/login/index.html) */
 #loginPage,
-#loginPage .mainAnimatedPages,
-#loginPage .mainAnimatedPage {
-  height: auto !important;
+div#loginPage.page.standalonePage.backdropPage {
+  position: relative !important;
+  z-index: 40 !important;
   min-height: 100vh !important;
+  height: auto !important;
   max-height: none !important;
 }
 
-#loginPage {
-  position: relative !important;
-  z-index: 40 !important;
+#loginPage .padded-left.padded-right.padded-bottom-page.margin-auto-y {
+  min-height: calc(100vh - 5em) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
 }
 
-#loginPage .readOnlyContent,
-#loginPage form {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  max-width: 24rem !important;
-  margin: 8vh auto 0 !important;
-}
-
-/* Jellyfin login forms can inherit hidden/animated card states from global card rules */
-#loginPage .readOnlyContent,
-#loginPage .manualLoginForm,
 #loginPage .visualLoginForm,
-#loginPage .signinCard,
-#loginPage .mainAnimatedPage,
-#loginPage .mainAnimatedPages,
-#loginPage .padded-left,
-#loginPage .padded-right,
-#loginPage .padded-bottom,
-#loginPage .padded-bottom-page {
+#loginPage .readOnlyContent,
+#loginPage #divUsers,
+#loginPage form.manualLoginForm {
   visibility: visible !important;
   opacity: 1 !important;
-  transform: none !important;
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
 }
 
-#loginPage .cardBox,
-#loginPage .card,
-#loginPage .overflowPortraitCard,
-#loginPage .overflowBackdropCard,
-#loginPage .overflowSquareCard,
-#loginPage .signinCard {
+/* Login user tiles use .card/.cardBox in Jellyfin source; neutralize global card fade only here */
+#loginPage #divUsers .card,
+#loginPage #divUsers .cardBox {
   opacity: 1 !important;
   animation: none !important;
   transform: none !important;
@@ -1078,21 +1049,6 @@ html {
 #loginPage .emby-button {
   visibility: visible !important;
   opacity: 1 !important;
-}
-
-/* Hard override for Jellyfin login wrappers that can be collapsed by inherited 100% heights */
-#loginPage,
-#loginPage .mainAnimatedPages,
-#loginPage .mainAnimatedPage,
-#loginPage .scrollY,
-#loginPage .padded-bottom-page,
-#loginPage .readOnlyContent,
-#loginPage form,
-#loginPage .visualLoginForm,
-#loginPage .manualLoginForm {
-  max-height: none !important;
-  height: auto !important;
-  overflow: visible !important;
 }
 
 .section2 {
