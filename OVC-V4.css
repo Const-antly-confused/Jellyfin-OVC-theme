@@ -427,6 +427,21 @@ html {
 .skinHeader .headerLeft,
 .skinHeader .headerCenter,
 .skinHeader .headerRight {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Jellyfin docs tweak: Enlarge Tab Buttons */
+.headerTabs.sectionTabs {
+  text-size-adjust: 110% !important;
+  -webkit-text-size-adjust: 110% !important;
+  font-size: 110% !important;
+}
+
+.pageTitle {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+  display: flex !important;
   align-items: center !important;
 }
 
@@ -437,6 +452,8 @@ html {
   justify-content: center !important;
   gap: 6px !important;
   min-height: 34px !important;
+  padding: 1.75em 1.7em !important;
+  white-space: nowrap !important;
 }
 
 .headerTabs .emby-tab-button .emby-button-foreground,
@@ -515,6 +532,7 @@ html {
   width: 100% !important;
   min-width: 100% !important;
   height: 36px !important;
+  max-height: 36px !important;
   min-height: 36px !important;
   padding: 0 12px !important;
   justify-content: flex-start !important;
@@ -531,6 +549,15 @@ html {
   font-size: 0.65rem !important;
   letter-spacing: 0.5px !important;
   text-transform: uppercase !important;
+}
+
+/* Keep Home row same height as all other rows */
+.mainDrawer .navMenuOption:first-child {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .navMenuOptionText,
@@ -568,6 +595,8 @@ html {
 .navMenuOption .material-icons svg {
   width: 16px !important;
   height: 16px !important;
+  max-width: 16px !important;
+  max-height: 16px !important;
   display: block !important;
 }
 
@@ -739,8 +768,8 @@ html {
   position: relative;
   overflow: hidden;
   will-change: transform, box-shadow;
-  opacity: 0;
-  animation: fadeInCard 0.6s ease-out forwards;
+  opacity: 1 !important;
+  animation: none !important;
   margin: 8px !important;
 }
 
@@ -830,6 +859,15 @@ html {
   pointer-events: none;
   z-index: 4;
   opacity: 0.6;
+}
+
+/* Debug pass: pause/hide caustic + specular overlays to inspect thumbnails */
+.cardBox::before,
+.card::before,
+.cardBox::after,
+.card::after {
+  animation: none !important;
+  display: none !important;
 }
 
 /* Per-card caustic animations */
