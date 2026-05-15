@@ -365,58 +365,6 @@ html {
   opacity: 1 !important;
 }
 
-/* Keep header controls vertically centered without forcing middle collapse */
-.skinHeader .headerLeft,
-.skinHeader .headerRight,
-.skinHeader .headerTabs,
-.skinHeader .headerTabsSection,
-.skinHeader .emby-tabs-slider {
-  display: flex !important;
-  align-items: center !important;
-}
-
-/* Top nav buttons (Home, Favorites, etc.): icon + label, compact height */
-.skinHeader .headerTabs .emby-tab-button,
-.skinHeader .headerTabs .emby-button,
-.skinHeader .headerTabs button,
-.skinHeader .headerTabs a {
-  min-height: 34px !important;
-  height: 34px !important;
-  padding: 0 10px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  line-height: 1 !important;
-  font-family: var(--font-m) !important;
-  font-size: 0.68rem !important;
-  letter-spacing: 0.45px !important;
-  text-transform: uppercase !important;
-}
-
-.skinHeader .headerTabs .emby-tab-button i,
-.skinHeader .headerTabs .emby-tab-button .material-icons,
-.skinHeader .headerTabs .emby-tab-button .md-icon,
-.skinHeader .headerTabs i,
-.skinHeader .headerTabs .material-icons,
-.skinHeader .headerTabs .md-icon {
-  font-size: 14px !important;
-  line-height: 14px !important;
-  height: 14px !important;
-  width: 14px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.skinHeader .headerTabs .emby-button-foreground,
-.skinHeader .headerTabs .tabText,
-.skinHeader .headerTabs .buttonText {
-  display: inline !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  white-space: nowrap !important;
-}
-
 /* Search input */
 .headerSearchInput,
 .emby-input,
@@ -471,6 +419,51 @@ html {
 .paper-icon-button-light:focus {
   outline: 2px solid var(--cyan) !important;
   outline-offset: 2px !important;
+}
+
+/* Header nav tabs (Home, Favorites, Libraries) */
+.skinHeader .headerTabs,
+.skinHeader-withBackground .headerTabs,
+.skinHeader .headerLeft,
+.skinHeader .headerCenter,
+.skinHeader .headerRight {
+  align-items: center !important;
+}
+
+.headerTabs .emby-tab-button,
+.headerTabs .headerTabButton {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  min-height: 34px !important;
+}
+
+.headerTabs .emby-tab-button .emby-button-foreground,
+.headerTabs .headerTabButton .emby-button-foreground {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.headerTabs .tabText,
+.headerTabs .emby-tab-button .button-text,
+.headerTabs .emby-tab-button span:not(.material-icons):not(.md-icon) {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.headerTabs .material-icons,
+.headerTabs .md-icon,
+.headerTabs i {
+  font-size: 16px !important;
+  line-height: 16px !important;
+  height: 16px !important;
+  width: 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Avatar */
@@ -554,15 +547,28 @@ html {
 .navMenuOption i,
 .navMenuOption .material-icons,
 .navMenuOption .md-icon {
-  font-size: 14px !important;
+  font-size: 16px !important;
   font-weight: 400 !important;
   text-rendering: geometricPrecision !important;
   -webkit-font-smoothing: antialiased !important;
   color: var(--glyph-muted) !important;
   transition: color 0.14s ease, text-shadow 0.14s ease, transform 0.14s ease !important;
-  line-height: 1 !important;
+  line-height: 16px !important;
   margin: 0 !important;
   flex-shrink: 0 !important;
+  height: 16px !important;
+  width: 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.navMenuOption svg,
+.navMenuOption .md-icon svg,
+.navMenuOption .material-icons svg {
+  width: 16px !important;
+  height: 16px !important;
+  display: block !important;
 }
 
 .navMenuOption:hover i,
@@ -924,8 +930,6 @@ html {
   overflow: hidden !important;
   position: relative !important;
   z-index: 3 !important;
-  opacity: 1 !important;
-  visibility: visible !important;
 }
 
 .cardImageContainer img,
@@ -936,26 +940,21 @@ html {
   display: block !important;
   position: relative !important;
   z-index: 3 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.cardImage,
+.cardScalable,
+.cardImageContainer .lazy,
+.cardImageContainer .lazyLoaded {
+  z-index: 3 !important;
   opacity: 1 !important;
   visibility: visible !important;
   filter: none !important;
-}
-
-/* Ensure Jellyfin card-image variants remain visible */
-.cardImage,
-.cardScalable,
-.cardPadder,
-.blurhash-canvas,
-.cardImageIcon {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Keep caustic layer below media artwork */
-.cardBox::after,
-.card::after {
-  z-index: 1 !important;
-  opacity: 0.42 !important;
+  -webkit-filter: none !important;
+  background-size: cover !important;
+  background-position: center !important;
 }
 
 /* Card text */
