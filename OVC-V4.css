@@ -19,7 +19,7 @@
   
   /* Glass fill — nearly transparent */
   --gf: rgba(195, 220, 255, 0.038);
-  --gb: blur(16px) saturate(300%) brightness(1.12);
+  --gb: blur(26px) saturate(300%) brightness(1.12);
   
   /* Glass edges */
   --ge-t: rgba(255,255,255,0.52);
@@ -313,8 +313,8 @@ html {
 .skinHeader,
 .focuscontainer-x.skinHeader-withBackground.skinHeader-blurred {
   background: rgba(180, 220, 255, 0.038) !important;
-  backdrop-filter: blur(16px) saturate(320%) brightness(1.12) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(320%) brightness(1.12) !important;
+  backdrop-filter: blur(26px) saturate(320%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(320%) brightness(1.12) !important;
   border-bottom: 1px solid rgba(0,0,0,0.2) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
   position: sticky !important;
@@ -353,6 +353,16 @@ html {
   font-weight: 700;
   color: rgba(240,252,255,0.95);
   letter-spacing: 0.5px;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.skinHeader,
+.skinHeader-withBackground {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Search input */
@@ -436,34 +446,54 @@ html {
 }
 
 .mainDrawer {
-  width: 52px !important;
-  min-width: 52px !important;
+  width: auto !important;
+  min-width: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  padding: 14px 12px !important;
+  gap: 6px !important;
 }
 
 .mainDrawer-scrollContainer {
-  padding: 14px 8px !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  width: 100% !important;
 }
 
 .navMenuOption {
-  width: 36px !important;
-  min-width: 36px !important;
-  height: 36px !important;
+  width: 100% !important;
+  min-width: auto !important;
+  height: auto !important;
   min-height: 36px !important;
-  padding: 0 !important;
-  justify-content: center !important;
+  padding: 8px 12px !important;
+  justify-content: flex-start !important;
   align-items: center !important;
   position: relative !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   color: var(--ink3) !important;
   transition: all 0.14s !important;
   border-radius: 10px !important;
-  margin: 3px 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  gap: 10px !important;
+  font-family: var(--font-m) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
 }
 
 .navMenuOptionText,
 .navMenuOption .navMenuOptionText,
 .navMenuOption .listItemBodyText {
-  display: none !important;
+  display: inline !important;
+  font-family: var(--font-m) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  color: inherit !important;
 }
 
 .navMenuOption i,
@@ -477,6 +507,7 @@ html {
   transition: color 0.14s ease, text-shadow 0.14s ease, transform 0.14s ease !important;
   line-height: 1 !important;
   margin: 0 !important;
+  flex-shrink: 0 !important;
 }
 
 .navMenuOption:hover i,
@@ -526,24 +557,36 @@ html {
 
 /* Menu dividers — geometric separators between sections */
 .navMenuOption.navMenuDivider,
-.navMenuOption[data-index="divider"] {
-  width: 18px !important;
+.navMenuOption[data-index="divider"],
+.navMenuDivider {
+  width: 100% !important;
   height: 1px !important;
   background: rgba(255,255,255,0.05) !important;
   margin: 4px 0 !important;
   border: none !important;
   cursor: default !important;
   pointer-events: none !important;
+  padding: 0 !important;
+  min-height: 1px !important;
 }
 
-/* Hamburger button — force visible */
+/* Hamburger button — force visible on all pages */
 .mainDrawerButton {
   display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   color: var(--ink3) !important;
+  transition: all 0.14s !important;
 }
 
 .mainDrawerButton:hover {
   color: var(--ink) !important;
+  background: rgba(255,255,255,0.04) !important;
+}
+
+.mainDrawerButton:focus {
+  outline: 2px solid var(--cyan) !important;
+  outline-offset: 2px !important;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -621,8 +664,8 @@ html {
 .overflowBackdropCard,
 .overflowSquareCard {
   background: rgba(175,215,255,0.035) !important;
-  backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
+  backdrop-filter: blur(26px) saturate(300%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(300%) brightness(1.12) !important;
   box-shadow:
     inset 0  1px 0   rgba(255,255,255,0.5),
     inset 0 -1px 0   rgba(0,0,0,0.4),
@@ -948,8 +991,8 @@ html {
 .dialogContent,
 .formDialogContent {
   background: rgba(190,225,255,0.04) !important;
-  backdrop-filter: blur(16px) saturate(300%) brightness(1.15) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(300%) brightness(1.15) !important;
+  backdrop-filter: blur(26px) saturate(300%) brightness(1.15) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(300%) brightness(1.15) !important;
   border: 1px solid rgba(255,255,255,0.08) !important;
   border-radius: 18px !important;
   box-shadow:
@@ -1025,11 +1068,11 @@ html {
 .padded-right,
 .padded-top,
 .padded-bottom {
-  padding: 24px !important;
+  padding: 18px !important;
 }
 
 .mainAnimatedPages {
-  padding: 24px !important;
+  padding: 18px 18px 44px !important;
 }
 
 /* Keep login form visible and unaffected by viewport-height overrides */
