@@ -3,9 +3,7 @@
    Testing if scroll issue is CSS or external (JS/HTML)
    ═══════════════════════════════════════════════════════════════════════ */
 
-* { 
-  box-sizing: border-box; 
-}
+
 
 body {
   margin: 0;
