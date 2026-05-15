@@ -540,6 +540,7 @@ html {
 
 .mainAnimatedPages,
 .mainAnimatedPage {
+  position: relative;
   z-index: 10;
 }
 
@@ -1006,49 +1007,18 @@ html {
   padding: 24px !important;
 }
 
-/* Login page fixes aligned to Jellyfin login DOM (session/login/index.html) */
-#loginPage,
-div#loginPage.page.standalonePage.backdropPage {
-  position: relative !important;
-  z-index: 40 !important;
-  min-height: 100vh !important;
-  height: auto !important;
-  max-height: none !important;
-}
-
-#loginPage .padded-left.padded-right.padded-bottom-page.margin-auto-y {
-  min-height: calc(100vh - 5em) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-}
-
+/* Login: keep Jellyfin's native layout; only neutralize card fade on user tiles */
 #loginPage .visualLoginForm,
 #loginPage .readOnlyContent,
-#loginPage #divUsers,
-#loginPage form.manualLoginForm {
+#loginPage #divUsers {
   visibility: visible !important;
   opacity: 1 !important;
-  max-height: none !important;
-  height: auto !important;
-  overflow: visible !important;
 }
 
-/* Login user tiles use .card/.cardBox in Jellyfin source; neutralize global card fade only here */
 #loginPage #divUsers .card,
 #loginPage #divUsers .cardBox {
   opacity: 1 !important;
   animation: none !important;
-  transform: none !important;
-}
-
-#loginPage .emby-input,
-#loginPage .emby-textarea,
-#loginPage .emby-select,
-#loginPage .button-submit,
-#loginPage .emby-button {
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
 .section2 {
