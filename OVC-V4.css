@@ -436,6 +436,11 @@ html {
   text-size-adjust: 110% !important;
   -webkit-text-size-adjust: 110% !important;
   font-size: 110% !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
 }
 
 .pageTitle {
@@ -452,8 +457,9 @@ html {
   justify-content: center !important;
   gap: 6px !important;
   min-height: 34px !important;
-  padding: 1.75em 1.7em !important;
+  padding: 1.1em 1.15em !important;
   white-space: nowrap !important;
+  flex: 0 0 auto !important;
 }
 
 .headerTabs .emby-tab-button .emby-button-foreground,
@@ -482,6 +488,23 @@ html {
   align-items: center !important;
   justify-content: center !important;
 }
+
+/* Library labels for header tabs (CSS-only relabel of existing tab buttons) */
+.headerTabs .emby-tab-button[data-index="0"] .button-text,
+.headerTabs .emby-tab-button[data-index="1"] .button-text,
+.headerTabs .emby-tab-button[data-index="2"] .button-text,
+.headerTabs .emby-tab-button[data-index="3"] .button-text,
+.headerTabs .emby-tab-button[data-index="4"] .button-text,
+.headerTabs .emby-tab-button[data-index="5"] .button-text {
+  font-size: 0 !important;
+}
+
+.headerTabs .emby-tab-button[data-index="0"] .button-text::after { content: 'Ambient Music'; font-size: 0.82rem; }
+.headerTabs .emby-tab-button[data-index="1"] .button-text::after { content: 'Anime'; font-size: 0.82rem; }
+.headerTabs .emby-tab-button[data-index="2"] .button-text::after { content: 'Movies'; font-size: 0.82rem; }
+.headerTabs .emby-tab-button[data-index="3"] .button-text::after { content: 'Music Videos'; font-size: 0.82rem; }
+.headerTabs .emby-tab-button[data-index="4"] .button-text::after { content: 'Shows'; font-size: 0.82rem; }
+.headerTabs .emby-tab-button[data-index="5"] .button-text::after { content: 'YouTube Videos'; font-size: 0.82rem; }
 
 /* Avatar */
 .userProfileImg {
@@ -993,6 +1016,28 @@ html {
   -webkit-filter: none !important;
   background-size: cover !important;
   background-position: center !important;
+  background-repeat: no-repeat !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+.cardImageContainer,
+.cardImageContainer .cardImage,
+.cardImageContainer .lazy,
+.cardImageContainer .lazyLoaded,
+.cardImageContainer .defaultCardBackground,
+.cardImageContainer .defaultCardBackground1,
+.cardImageContainer .defaultCardBackground2,
+.cardImageContainer .defaultCardBackground3,
+.cardImageContainer .defaultCardBackground4,
+.cardImageContainer .defaultCardBackground5 {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Card text */
