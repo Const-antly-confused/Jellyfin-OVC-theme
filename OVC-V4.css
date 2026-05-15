@@ -14,8 +14,6 @@
 :root {
   --cyan: #00f0ff;
   --cyan-glow: rgba(0,240,255,0.2);
-  --glyph-muted: rgba(140, 178, 212, 0.3);
-  --glyph-active: #00f0ff;
   
   /* Glass fill — nearly transparent */
   --gf: rgba(195, 220, 255, 0.038);
@@ -42,8 +40,7 @@
 ═══════════════════════════════════════════════════════ */
 * { box-sizing: border-box; }
 html, body { 
-  min-height: 100%; 
-  height: 100%;
+  height: 100%; 
   overflow-x: hidden; 
   -webkit-font-smoothing: antialiased;
   margin: 0;
@@ -436,61 +433,11 @@ html {
   box-shadow: inset -1px 0 0 rgba(0,0,0,0.2) !important;
 }
 
-.mainDrawer-scrollContainer {
-  padding: 10px 6px !important;
-}
-
 .navMenuOption {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 8px !important;
-  min-height: 36px !important;
-  padding: 0 10px !important;
-  position: relative !important;
   color: var(--ink3) !important;
   transition: all 0.14s !important;
   border-radius: 10px !important;
   margin: 3px 0 !important;
-}
-
-.navMenuOptionText,
-.navMenuOption .navMenuOptionText,
-.navMenuOption .listItemBodyText {
-  display: inline !important;
-  font-family: var(--font-m) !important;
-  font-size: 0.62rem !important;
-  letter-spacing: 0.5px !important;
-  color: inherit !important;
-  opacity: 0.95;
-}
-
-.navMenuOption i,
-.navMenuOption .material-icons,
-.navMenuOption .md-icon {
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  text-rendering: geometricPrecision !important;
-  -webkit-font-smoothing: antialiased !important;
-  color: var(--glyph-muted) !important;
-  transition: color 0.14s ease, text-shadow 0.14s ease, transform 0.14s ease !important;
-  line-height: 1 !important;
-  margin: 0 !important;
-  flex: 0 0 16px !important;
-}
-
-.navMenuOption:hover i,
-.navMenuOption:hover .material-icons,
-.navMenuOption:hover .md-icon {
-  color: var(--ink) !important;
-  transform: none;
-}
-
-.navMenuOption-selected i,
-.navMenuOption-selected .material-icons,
-.navMenuOption-selected .md-icon {
-  color: var(--glyph-active) !important;
-  text-shadow: 0 0 8px rgba(0,240,255,0.22), 0 0 14px rgba(0,240,255,0.12) !important;
 }
 
 .navMenuOption:hover {
@@ -596,14 +543,13 @@ html {
 .overflowBackdropCard,
 .overflowSquareCard {
   background: rgba(175,215,255,0.035) !important;
-  backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
+  backdrop-filter: blur(16px) saturate(270%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(270%) brightness(1.12) !important;
   box-shadow:
-    inset 0  1px 0 rgba(255,255,255,0.5),
-    inset 0 -1px 0 rgba(0,0,0,0.4),
-    inset  1px 0 0 rgba(255,255,255,0.1),
-    inset -1px 0 0 rgba(255,255,255,0.1),
-    0 4px 16px rgba(0,0,0,0.2) !important;
+    inset 0  1px 0   rgba(255,255,255,0.3),
+    inset 0 -1px 0   rgba(0,0,0,0.25),
+    0  2px  4px rgba(0,0,0,0.2),
+    0  4px 16px rgba(0,0,0,0.2) !important;
   border: 1px solid rgba(255,255,255,0.08) !important;
   border-radius: 16px !important;
   transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s, opacity 0.6s ease-out !important;
@@ -650,11 +596,10 @@ html {
 .overflowSquareCard:hover {
   transform: translateY(-6px) scale(1.015) !important;
   box-shadow:
-    inset 0 1px 0 rgba(0,240,255,0.45),
-    inset 0 -1px 0 rgba(0,0,0,0.42),
-    inset 1px 0 0 rgba(0,240,255,0.12),
-    inset -1px 0 0 rgba(0,240,255,0.12),
-    0 8px 24px rgba(0,0,0,0.3),
+    inset 0  1px 0   rgba(255,255,255,0.4),
+    inset 0 -1px 0   rgba(0,0,0,0.25),
+    0  2px  4px rgba(0,0,0,0.2),
+    0  8px 24px rgba(0,0,0,0.3),
     0 0 20px rgba(0,240,255,0.07) !important;
   border-color: rgba(0,240,255,0.12) !important;
 }
@@ -673,20 +618,14 @@ html {
 .card::before {
   content: '';
   position: absolute;
-  top: 1px;
+  top: 0;
   left: 6%;
-  right: 22%;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,255,255,0.55) 20%,
-    rgba(255,255,255,0.85) 55%,
-    rgba(255,255,255,0.55) 80%,
-    transparent 100%);
-  border-radius: 50%;
-  filter: blur(0.4px);
+  right: 20%;
+  height: 38%;
+  background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
+  border-radius: 0 0 55% 35%;
   pointer-events: none;
-  z-index: 5;
+  z-index: 3;
 }
 
 /* Per-card caustic animations */
@@ -1005,20 +944,6 @@ html {
 
 .mainAnimatedPages {
   padding: 24px !important;
-}
-
-/* Login: keep Jellyfin's native layout; only neutralize card fade on user tiles */
-#loginPage .visualLoginForm,
-#loginPage .readOnlyContent,
-#loginPage #divUsers {
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-#loginPage #divUsers .card,
-#loginPage #divUsers .cardBox {
-  opacity: 1 !important;
-  animation: none !important;
 }
 
 .section2 {
