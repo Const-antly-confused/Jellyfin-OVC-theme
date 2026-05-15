@@ -42,8 +42,10 @@
 ═══════════════════════════════════════════════════════ */
 * { box-sizing: border-box; }
 html, body { 
-  height: 100%; 
+  min-height: 100%; 
+  height: auto !important;
   overflow-x: hidden; 
+  overflow-y: auto;
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
@@ -1076,6 +1078,21 @@ html {
 #loginPage .emby-button {
   visibility: visible !important;
   opacity: 1 !important;
+}
+
+/* Hard override for Jellyfin login wrappers that can be collapsed by inherited 100% heights */
+#loginPage,
+#loginPage .mainAnimatedPages,
+#loginPage .mainAnimatedPage,
+#loginPage .scrollY,
+#loginPage .padded-bottom-page,
+#loginPage .readOnlyContent,
+#loginPage form,
+#loginPage .visualLoginForm,
+#loginPage .manualLoginForm {
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
 }
 
 .section2 {
