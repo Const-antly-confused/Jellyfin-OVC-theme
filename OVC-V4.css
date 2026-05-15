@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    OCEAN VIEW CINEMA — Jellyfin Theme CSS
-   OVC-V4.1.css
+   OVC-V4.css
    ═══════════════════════════════════════════════════════════════════════
    Applies the Ocean View Cinema aesthetic to Jellyfin's web interface.
    Targets Jellyfin's native DOM structure without breaking functionality.
@@ -431,30 +431,13 @@ html {
   -webkit-backdrop-filter: blur(20px) !important;
   border-right: 1px solid rgba(255,255,255,0.05) !important;
   box-shadow: inset -1px 0 0 rgba(0,0,0,0.2) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  padding: 14px 0 !important;
-  gap: 3px !important;
 }
 
 .navMenuOption {
   color: var(--ink3) !important;
   transition: all 0.14s !important;
   border-radius: 10px !important;
-  margin: 0 !important;
-  width: 36px !important;
-  height: 36px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border: 1px solid transparent !important;
-  cursor: pointer !important;
-  position: relative !important;
-  font-size: 0.65rem !important;
-  font-family: var(--font-m) !important;
-  letter-spacing: 1px !important;
-  text-transform: uppercase !important;
+  margin: 3px 0 !important;
 }
 
 .navMenuOption:hover {
@@ -486,18 +469,6 @@ html {
 .navMenuOption:focus {
   outline: 2px solid var(--cyan) !important;
   outline-offset: -2px !important;
-}
-
-/* Menu dividers — geometric separators between sections */
-.navMenuOption.navMenuDivider,
-.navMenuOption[data-index="divider"] {
-  width: 18px !important;
-  height: 1px !important;
-  background: rgba(255,255,255,0.05) !important;
-  margin: 4px 0 !important;
-  border: none !important;
-  cursor: default !important;
-  pointer-events: none !important;
 }
 
 /* Hamburger button — force visible */
@@ -572,13 +543,12 @@ html {
 .overflowBackdropCard,
 .overflowSquareCard {
   background: rgba(175,215,255,0.035) !important;
-  backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(270%) brightness(1.12) !important;
+  backdrop-filter: blur(16px) saturate(270%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(270%) brightness(1.12) !important;
   box-shadow:
-    inset 0  1px 0   rgba(255,255,255,0.5),
-    inset 0 -1px 0   rgba(0,0,0,0.4),
-    inset  1px 0 0   rgba(255,255,255,0.1),
-    inset -1px 0 0   rgba(255,255,255,0.1),
+    inset 0  1px 0   rgba(255,255,255,0.3),
+    inset 0 -1px 0   rgba(0,0,0,0.25),
+    0  2px  4px rgba(0,0,0,0.2),
     0  4px 16px rgba(0,0,0,0.2) !important;
   border: 1px solid rgba(255,255,255,0.08) !important;
   border-radius: 16px !important;
@@ -626,10 +596,9 @@ html {
 .overflowSquareCard:hover {
   transform: translateY(-6px) scale(1.015) !important;
   box-shadow:
-    inset 0  1px 0   rgba(0,240,255,0.45),
-    inset 0 -1px 0   rgba(0,0,0,0.42),
-    inset  1px 0 0   rgba(0,240,255,0.12),
-    inset -1px 0 0   rgba(0,240,255,0.12),
+    inset 0  1px 0   rgba(255,255,255,0.4),
+    inset 0 -1px 0   rgba(0,0,0,0.25),
+    0  2px  4px rgba(0,0,0,0.2),
     0  8px 24px rgba(0,0,0,0.3),
     0 0 20px rgba(0,240,255,0.07) !important;
   border-color: rgba(0,240,255,0.12) !important;
@@ -644,7 +613,7 @@ html {
   outline-offset: 2px !important;
 }
 
-/* Card specular highlight — sits above media thumbnails */
+/* Card specular highlight */
 .cardBox::before,
 .card::before {
   content: '';
@@ -656,10 +625,10 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 55% 35%;
   pointer-events: none;
-  z-index: 5;
+  z-index: 3;
 }
 
-/* Per-card caustic animations — layered above media */
+/* Per-card caustic animations */
 .cardBox:nth-child(1)::after,
 .card:nth-child(1)::after {
   content: '';
@@ -671,7 +640,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 60% 30%;
   pointer-events: none;
-  z-index: 4;
   animation: gd-a 20s ease-in-out infinite 0s;
 }
 
@@ -686,7 +654,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 40% 55%;
   pointer-events: none;
-  z-index: 4;
   animation: gd-b 17s ease-in-out infinite 1.5s;
 }
 
@@ -701,7 +668,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 65% 25%;
   pointer-events: none;
-  z-index: 4;
   animation: gd-c 25s ease-in-out infinite 3s;
 }
 
@@ -716,7 +682,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 50% 45%;
   pointer-events: none;
-  z-index: 4;
   animation: gd-d 19s ease-in-out infinite 0.7s;
 }
 
@@ -731,7 +696,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 70% 20%;
   pointer-events: none;
-  z-index: 4;
   animation: gd-e 23s ease-in-out infinite 4s;
 }
 
@@ -746,7 +710,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 35% 60%;
   pointer-events: none;
-  z-index: 4;
   animation: gd-f 21s ease-in-out infinite 2.5s;
 }
 
