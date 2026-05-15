@@ -103,7 +103,6 @@ html {
   pointer-events: none;
   width: 100%;
   z-index: 0;
-  contain: layout;
 }
 
 #ovc-grid-far {
@@ -214,7 +213,6 @@ html {
   border-radius: 0 0 55% 38%;
   pointer-events: none;
   z-index: 2;
-  animation: gd-a 22s ease-in-out infinite;
 }
 
 /* Glass hover state — cyan light from behind */
@@ -244,41 +242,7 @@ html {
    CAUSTIC DRIFT ANIMATIONS
 ═══════════════════════════════════════════════════════ */
 
-@keyframes gd-a {
-  0%,100% { transform: translateX(0%)   skewX(0deg)    scaleX(1);    opacity: 0.72; }
-  28%     { transform: translateX(6%)   skewX(2.2deg)  scaleX(1.06); opacity: 1;    }
-  68%     { transform: translateX(-4%)  skewX(-1.4deg) scaleX(0.96); opacity: 0.58; }
-}
-
-@keyframes gd-b {
-  0%,100% { transform: translateX(2%)   skewX(1deg)    scaleX(0.95); opacity: 0.55; }
-  35%     { transform: translateX(-7%)  skewX(-2.8deg) scaleX(1.1);  opacity: 0.95; }
-  72%     { transform: translateX(5%)   skewX(1.8deg)  scaleX(1.02); opacity: 0.7;  }
-}
-
-@keyframes gd-c {
-  0%,100% { transform: translateX(-3%)  skewX(-1deg)   scaleX(1.04); opacity: 0.8; }
-  42%     { transform: translateX(8%)   skewX(3deg)    scaleX(0.92); opacity: 0.5; }
-  78%     { transform: translateX(-5%)  skewX(-2deg)   scaleX(1.08); opacity: 1;   }
-}
-
-@keyframes gd-d {
-  0%,100% { transform: translateX(4%)   skewX(1.5deg)  scaleX(1);    opacity: 0.65; }
-  22%     { transform: translateX(-2%)  skewX(-0.8deg) scaleX(1.12); opacity: 0.9;  }
-  60%     { transform: translateX(9%)   skewX(3.5deg)  scaleX(0.9);  opacity: 0.45; }
-}
-
-@keyframes gd-e {
-  0%,100% { transform: translateX(-1%)  skewX(-0.5deg) scaleX(1.02); opacity: 0.9;  }
-  50%     { transform: translateX(5%)   skewX(2deg)    scaleX(0.94); opacity: 0.55; }
-  80%     { transform: translateX(-6%)  skewX(-2.5deg) scaleX(1.07); opacity: 0.78; }
-}
-
-@keyframes gd-f {
-  0%,100% { transform: translateX(6%)   skewX(2.5deg)  scaleX(0.93); opacity: 0.6;  }
-  38%     { transform: translateX(-3%)  skewX(-1.2deg) scaleX(1.05); opacity: 1;    }
-  75%     { transform: translateX(7%)   skewX(2.8deg)  scaleX(0.97); opacity: 0.48; }
-}
+/* Animations removed for diagnostics */
 
 /* ═══════════════════════════════════════════════════════
    TOPBAR / HEADER
@@ -519,28 +483,10 @@ html {
   transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s, opacity 0.6s ease-out !important;
   overflow: hidden;
   will-change: transform, box-shadow;
-  opacity: 0;
-  animation: fadeInCard 0.6s ease-out forwards;
+  opacity: 1;
 }
 
-@keyframes fadeInCard {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.cardBox:nth-child(1) { animation-delay: 0.05s; }
-.cardBox:nth-child(2) { animation-delay: 0.1s; }
-.cardBox:nth-child(3) { animation-delay: 0.15s; }
-.cardBox:nth-child(4) { animation-delay: 0.2s; }
-.cardBox:nth-child(5) { animation-delay: 0.25s; }
-.cardBox:nth-child(6) { animation-delay: 0.3s; }
-.cardBox:nth-child(n+7) { animation-delay: 0.35s; }
 
 @supports not (backdrop-filter: blur(1px)) {
   .cardBox,
@@ -595,7 +541,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 60% 30%;
   pointer-events: none;
-  animation: gd-a 20s ease-in-out infinite 0s;
 }
 
 .cardBox:nth-child(2)::after,
@@ -605,7 +550,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 40% 55%;
   pointer-events: none;
-  animation: gd-b 17s ease-in-out infinite 1.5s;
 }
 
 .cardBox:nth-child(3)::after,
@@ -615,7 +559,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 65% 25%;
   pointer-events: none;
-  animation: gd-c 25s ease-in-out infinite 3s;
 }
 
 .cardBox:nth-child(4)::after,
@@ -625,7 +568,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 50% 45%;
   pointer-events: none;
-  animation: gd-d 19s ease-in-out infinite 0.7s;
 }
 
 .cardBox:nth-child(5)::after,
@@ -635,7 +577,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 70% 20%;
   pointer-events: none;
-  animation: gd-e 23s ease-in-out infinite 4s;
 }
 
 .cardBox:nth-child(6)::after,
@@ -645,7 +586,6 @@ html {
   background: linear-gradient(160deg, rgba(255,255,255,0.042) 0%, rgba(200,228,255,0.016) 35%, transparent 65%);
   border-radius: 0 0 35% 60%;
   pointer-events: none;
-  animation: gd-f 21s ease-in-out infinite 2.5s;
 }
 
 /* Card image container */
@@ -834,7 +774,6 @@ html {
   border-radius: 0 0 60% 30%;
   pointer-events: none;
   z-index: 2;
-  animation: gd-b 24s ease-in-out infinite;
 }
 
 /* ═══════════════════════════════════════════════════════
