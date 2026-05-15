@@ -1,4 +1,29 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   OCEAN VIEW CINEMA — DIAGNOSTIC MINIMAL
-   Testing if scroll issue is CSS or external (JS/HTML)
+   OCEAN VIEW CINEMA — MINIMAL THEME INDICATOR
+   Visible change to confirm theme is active
    ═══════════════════════════════════════════════════════════════════════ */
+
+* { 
+  box-sizing: border-box; 
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000001 !important;
+}
+
+.backdropImage {
+  display: none !important;
+}
+
+/* VISIBLE INDICATOR: Cyan accent on header */
+.skinHeader {
+  border-bottom: 3px solid #00f0ff !important;
+}
+
+/* Cyan text on section titles */
+.sectionTitleContainer h2,
+.sectionTitleContainer-cards h2 {
+  color: #00f0ff !important;
+}
