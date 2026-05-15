@@ -41,19 +41,16 @@
     if (!container) return;
     if (container.querySelector('#ovc-grid-far')) return;
 
-    // Container must be position:relative for absolute children to anchor
-    const cs = window.getComputedStyle(container);
-    if (cs.position === 'static') container.style.position = 'relative';
-
+    // Don't modify container position — let Jellyfin's layout work
     const far = document.createElement('div');
     far.id = 'ovc-grid-far';
-    far.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
-    container.insertBefore(far, container.firstChild);
+    far.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+    document.body.insertBefore(far, document.body.firstChild);
 
     const near = document.createElement('div');
     near.id = 'ovc-grid-near';
-    near.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
-    container.insertBefore(near, far.nextSibling);
+    near.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+    document.body.insertBefore(near, far.nextSibling);
   }
 
   /* ─── VOID + CENTER LIGHT PARALLAX ─────────────────────────────────
