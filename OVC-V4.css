@@ -848,8 +848,12 @@ html {
   animation: gd-f 28s ease-in-out infinite;
 }
 
+/* Home page carousel sections - NO wrap (horizontal scroll) */
+.homeSectionsContainer .itemsContainer,
+.homeSectionsContainer .scrollFrameContent,
+div[is="emby-scroller"] .itemsContainer,
+div[is="emby-scroller"] .scrollFrameContent,
 .cardContainer,
-.itemsContainer,
 .scrollFrameContent {
   display: flex !important;
   flex-wrap: nowrap !important;
@@ -857,6 +861,12 @@ html {
   align-items: flex-start !important;
   gap: 8px !important;
   padding-bottom: 8px !important;
+}
+
+/* Library page grids - YES wrap */
+.libraryPage:not(.homePage) .itemsContainer,
+.itemsContainer.vertical-wrap {
+  flex-wrap: wrap !important;
 }
 
 @keyframes fadeInCard {
@@ -937,7 +947,7 @@ html {
   cursor: pointer !important;
   transition: all 0.16s !important;
   will-change: transform, box-shadow;
-  margin-bottom: 4px !important;
+  margin-left: 2px !important;
 }
 
 .emby-button:focus,
