@@ -1093,20 +1093,13 @@ html {
    SCROLLBAR
 ═══════════════════════════════════════════════════════ */
 
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 ::-webkit-scrollbar {
-  width: 0 !important;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent !important;
-}
-
-::-webkit-scrollbar-thumb {
-  background: transparent !important;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: transparent !important;
+  display: none;
 }
 
 /* ═══════════════════════════════════════════════════════
