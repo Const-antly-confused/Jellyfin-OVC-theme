@@ -899,6 +899,40 @@ html {
   margin-right: 0 !important;
 }
 
+/* Explicit spacing for watched/favorite style user-data controls */
+.itemDetailPage .userDataButtons,
+.itemDetailPage .itemDetailButtons,
+.itemDetailPage .detailButtons,
+.itemDetailPage .mainDetailButtons {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  column-gap: 10px !important;
+  row-gap: 10px !important;
+}
+
+.itemDetailPage .userDataButtons > *,
+.itemDetailPage .itemDetailButtons > *,
+.itemDetailPage .detailButtons > *,
+.itemDetailPage .mainDetailButtons > *,
+.itemDetailPage .btnUserData,
+.itemDetailPage .btnPlayed,
+.itemDetailPage .btnFavorite,
+.itemDetailPage .btnPlaystate {
+  margin-right: 10px !important;
+}
+
+.itemDetailPage .userDataButtons > *:last-child,
+.itemDetailPage .itemDetailButtons > *:last-child,
+.itemDetailPage .detailButtons > *:last-child,
+.itemDetailPage .mainDetailButtons > *:last-child,
+.itemDetailPage .btnUserData:last-child,
+.itemDetailPage .btnPlayed:last-child,
+.itemDetailPage .btnFavorite:last-child,
+.itemDetailPage .btnPlaystate:last-child {
+  margin-right: 0 !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    DIALOGS / MODALS
 ═══════════════════════════════════════════════════════ */
