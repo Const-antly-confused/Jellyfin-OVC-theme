@@ -440,6 +440,7 @@ html {
   flex-direction: row !important;
   align-items: center !important;
   flex-wrap: nowrap !important;
+  gap: 8px !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   white-space: nowrap !important;
@@ -859,6 +860,18 @@ html {
   display: flex !important;
   flex-wrap: wrap !important;
   gap: 10px !important;
+}
+
+/* Extra safety spacing for adjacent detail action buttons */
+.itemDetailPage .emby-button + .emby-button,
+.itemDetailPage .button-flat + .button-flat,
+.itemDetailPage .paper-button + .paper-button,
+.itemDetailPage .paper-button-light + .paper-button-light,
+.itemDetailPage .emby-button + .button-flat,
+.itemDetailPage .button-flat + .emby-button,
+.itemDetailPage .paper-button-light + .button-flat,
+.itemDetailPage .button-flat + .paper-button-light {
+  margin-left: 10px !important;
 }
 
 /* ═══════════════════════════════════════════════════════
