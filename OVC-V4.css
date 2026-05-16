@@ -806,6 +806,48 @@ html {
   margin: 8px !important;
 }
 
+.cardBox::before,
+.card::before,
+.overflowPortraitCard::before,
+.overflowBackdropCard::before,
+.overflowSquareCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0,240,255,0.08) 0%,
+    rgba(0,240,255,0.04) 25%,
+    transparent 50%,
+    rgba(0,240,255,0.04) 75%,
+    rgba(0,240,255,0.08) 100%
+  );
+  border-radius: 16px !important;
+  pointer-events: none;
+  animation: gd-a 18s ease-in-out infinite;
+  z-index: 1;
+}
+
+.card:nth-child(2n)::before {
+  animation: gd-b 20s ease-in-out infinite;
+}
+
+.card:nth-child(3n)::before {
+  animation: gd-c 22s ease-in-out infinite;
+}
+
+.card:nth-child(4n)::before {
+  animation: gd-d 24s ease-in-out infinite;
+}
+
+.card:nth-child(5n)::before {
+  animation: gd-e 26s ease-in-out infinite;
+}
+
+.card:nth-child(6n)::before {
+  animation: gd-f 28s ease-in-out infinite;
+}
+
 .cardContainer,
 .itemsContainer,
 .scrollFrameContent {
@@ -897,7 +939,7 @@ html {
   cursor: pointer !important;
   transition: all 0.16s !important;
   will-change: transform, box-shadow;
-  margin-left: 2px !important;
+  margin-bottom: 4px !important;
 }
 
 .emby-button:focus,
