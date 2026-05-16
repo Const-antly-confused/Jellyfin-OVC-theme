@@ -868,37 +868,6 @@ html {
   gap: 10px !important;
 }
 
-/* Hard spacing on actual button elements in media/detail actions */
-.itemDetailPage .detailPagePrimaryContainer .emby-button,
-.itemDetailPage .detailPagePrimaryContainer .button-flat,
-.itemDetailPage .detailPagePrimaryContainer .paper-button-light,
-.itemDetailPage .detailPageSecondaryContainer .emby-button,
-.itemDetailPage .detailPageSecondaryContainer .button-flat,
-.itemDetailPage .detailPageSecondaryContainer .paper-button-light,
-.itemDetailPage .detailButtons .emby-button,
-.itemDetailPage .detailButtons .button-flat,
-.itemDetailPage .detailButtons .paper-button-light,
-.itemDetailPage .mainDetailButtons .emby-button,
-.itemDetailPage .mainDetailButtons .button-flat,
-.itemDetailPage .mainDetailButtons .paper-button-light {
-  margin-right: 10px !important;
-}
-
-.itemDetailPage .detailPagePrimaryContainer .emby-button:last-child,
-.itemDetailPage .detailPagePrimaryContainer .button-flat:last-child,
-.itemDetailPage .detailPagePrimaryContainer .paper-button-light:last-child,
-.itemDetailPage .detailPageSecondaryContainer .emby-button:last-child,
-.itemDetailPage .detailPageSecondaryContainer .button-flat:last-child,
-.itemDetailPage .detailPageSecondaryContainer .paper-button-light:last-child,
-.itemDetailPage .detailButtons .emby-button:last-child,
-.itemDetailPage .detailButtons .button-flat:last-child,
-.itemDetailPage .detailButtons .paper-button-light:last-child,
-.itemDetailPage .mainDetailButtons .emby-button:last-child,
-.itemDetailPage .mainDetailButtons .button-flat:last-child,
-.itemDetailPage .mainDetailButtons .paper-button-light:last-child {
-  margin-right: 0 !important;
-}
-
 /* Explicit spacing for watched/favorite style user-data controls */
 .itemDetailPage .userDataButtons,
 .itemDetailPage .itemDetailButtons,
@@ -911,25 +880,22 @@ html {
   row-gap: 10px !important;
 }
 
-.itemDetailPage .userDataButtons > *,
-.itemDetailPage .itemDetailButtons > *,
-.itemDetailPage .detailButtons > *,
-.itemDetailPage .mainDetailButtons > *,
+/* Space BETWEEN buttons (sibling spacing), not bigger button padding */
+.itemDetailPage .userDataButtons > * + *,
+.itemDetailPage .itemDetailButtons > * + *,
+.itemDetailPage .detailButtons > * + *,
+.itemDetailPage .mainDetailButtons > * + *,
+.itemDetailPage .btnUserData + .btnUserData,
+.itemDetailPage .btnPlayed + .btnFavorite,
+.itemDetailPage .btnFavorite + .btnPlayed,
+.itemDetailPage .btnPlaystate + .btnUserData {
+  margin-left: 10px !important;
+}
+
 .itemDetailPage .btnUserData,
 .itemDetailPage .btnPlayed,
 .itemDetailPage .btnFavorite,
 .itemDetailPage .btnPlaystate {
-  margin-right: 10px !important;
-}
-
-.itemDetailPage .userDataButtons > *:last-child,
-.itemDetailPage .itemDetailButtons > *:last-child,
-.itemDetailPage .detailButtons > *:last-child,
-.itemDetailPage .mainDetailButtons > *:last-child,
-.itemDetailPage .btnUserData:last-child,
-.itemDetailPage .btnPlayed:last-child,
-.itemDetailPage .btnFavorite:last-child,
-.itemDetailPage .btnPlaystate:last-child {
   margin-right: 0 !important;
 }
 
