@@ -782,23 +782,21 @@ html {
 ═══════════════════════════════════════════════════════ */
 
 .cardBox,
-.card,
 .overflowPortraitCard,
 .overflowBackdropCard,
 .overflowSquareCard {
-  background: rgba(170, 215, 255, 0.05) !important;
-  backdrop-filter: blur(6px) saturate(120%) !important;
-  -webkit-backdrop-filter: blur(6px) saturate(120%) !important;
+  background: rgba(170, 215, 255, 0.02) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 1px solid rgba(255,255,255,0.08) !important;
   border-radius: 14px !important;
   box-shadow: 0 4px 14px rgba(0,0,0,0.22) !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
   margin: 6px !important;
 }
 
 .cardBox:hover,
-.card:hover,
 .overflowPortraitCard:hover,
 .overflowBackdropCard:hover,
 .overflowSquareCard:hover {
@@ -808,7 +806,6 @@ html {
 }
 
 .cardBox:focus,
-.card:focus,
 .overflowPortraitCard:focus,
 .overflowBackdropCard:focus,
 .overflowSquareCard:focus {
