@@ -848,6 +848,30 @@ html {
   color: var(--ink) !important;
 }
 
+/* Button spacing: keep action buttons separated */
+.emby-button + .emby-button,
+.button-flat + .button-flat,
+.paper-button + .paper-button,
+.raised + .raised,
+.emby-button + .button-flat,
+.button-flat + .emby-button,
+.paper-button + .button-flat,
+.button-flat + .paper-button,
+.paper-button-light + .paper-button-light,
+.paper-button-light + .button-flat,
+.button-flat + .paper-button-light {
+  margin-left: 10px !important;
+}
+
+.itemDetailPage .detailPagePrimaryContainer,
+.itemDetailPage .detailPageSecondaryContainer,
+.itemDetailPage .detailButtons,
+.itemDetailPage .mainDetailButtons {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    DIALOGS / MODALS
 ═══════════════════════════════════════════════════════ */
