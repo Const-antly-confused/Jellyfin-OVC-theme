@@ -736,8 +736,7 @@ html {
    SECTION HEADERS
 ═══════════════════════════════════════════════════════ */
 
-.sectionTitleContainer,
-.sectionTitleContainer-cards {
+.sectionTitleContainer {
   position: relative;
   padding-left: 8px;
   margin-bottom: 24px;
@@ -759,8 +758,7 @@ html {
   border-top: 1.5px solid rgba(0,240,255,0.45);
 }
 
-.sectionTitleContainer h2,
-.sectionTitleContainer-cards h2 {
+.sectionTitleContainer h2 {
   font-family: var(--font-d) !important;
   font-size: 1.3rem !important;
   font-weight: 700 !important;
@@ -772,197 +770,7 @@ html {
 /* ═══════════════════════════════════════════════════════
    CARDS — Media Items
 ═══════════════════════════════════════════════════════ */
-
-.cardBox,
-.card,
-.overflowPortraitCard,
-.overflowBackdropCard,
-.overflowSquareCard {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  border-radius: 0 !important;
-  transition: none !important;
-  position: relative;
-  overflow: visible;
-  will-change: auto;
-  opacity: 1 !important;
-  animation: none !important;
-  margin: 0 !important;
-}
-
-.cardContainer,
-.itemsContainer,
-.scrollFrameContent {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-  gap: 0 !important;
-  overflow: visible !important;
-}
-
-/* Keep Jellyfin native row scroller behavior */
-.emby-scroller,
-.scrollSlider,
-.scrollFrame,
-.itemsContainer {
-  overflow: initial !important;
-}
-
-@keyframes fadeInCard {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.cardBox:hover,
-.card:hover,
-.overflowPortraitCard:hover,
-.overflowBackdropCard:hover,
-.overflowSquareCard:hover {
-  transform: none !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-}
-
-.cardBox:focus,
-.card:focus,
-.overflowPortraitCard:focus,
-.overflowBackdropCard:focus,
-.overflowSquareCard:focus {
-  outline: none !important;
-  outline-offset: 0 !important;
-}
-
-.cardBox::before,
-.card::before,
-.cardBox::after,
-.card::after {
-  content: none !important;
-  display: none !important;
-  animation: none !important;
-}
-
-/* Card image container */
-.cardImageContainer,
-.coveredImage {
-  border-radius: 0 !important;
-  overflow: hidden !important;
-  position: relative !important;
-  z-index: 3 !important;
-}
-
-.cardImageContainer img,
-.coveredImage img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  display: block !important;
-  position: relative !important;
-  z-index: 3 !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.cardImage,
-.cardScalable,
-.cardImageContainer .lazy,
-.cardImageContainer .lazyLoaded {
-  z-index: 3 !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  filter: none !important;
-  -webkit-filter: none !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  width: auto !important;
-  height: auto !important;
-  min-height: 0 !important;
-}
-
-.cardImageContainer,
-.cardImageContainer .cardImage,
-.cardImageContainer .lazy,
-.cardImageContainer .lazyLoaded,
-.cardImageContainer .defaultCardBackground,
-.cardImageContainer .defaultCardBackground1,
-.cardImageContainer .defaultCardBackground2,
-.cardImageContainer .defaultCardBackground3,
-.cardImageContainer .defaultCardBackground4,
-.cardImageContainer .defaultCardBackground5 {
-  background-size: cover !important;
-  background-position: center center !important;
-  background-repeat: no-repeat !important;
-  background-color: transparent !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Keep placeholders transparent, but never kill loaded background images */
-.cardImageContainer .defaultCardBackground,
-.cardImageContainer .defaultCardBackground1,
-.cardImageContainer .defaultCardBackground2,
-.cardImageContainer .defaultCardBackground3,
-.cardImageContainer .defaultCardBackground4,
-.cardImageContainer .defaultCardBackground5 {
-  background-color: transparent !important;
-}
-
-/* Card text */
-.cardText,
-.cardContent {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border-top: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-.cardText h2,
-.cardContent h2 {
-  font-family: inherit !important;
-  font-size: inherit !important;
-  font-weight: inherit !important;
-  color: inherit !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  margin: 0 !important;
-}
-
-.cardText p,
-.cardContent p {
-  font-family: inherit !important;
-  font-size: inherit !important;
-  color: inherit !important;
-  margin-top: 1px !important;
-  margin-bottom: 0 !important;
-}
-
-/* Badges stripped to default */
-.badge,
-.playedIndicator {
-  background: initial !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  border-radius: 0 !important;
-  font-family: inherit !important;
-  font-size: inherit !important;
-  letter-spacing: normal !important;
-  padding: 0 !important;
-  color: inherit !important;
-}
+/* Intentionally no card overrides: Jellyfin defaults only. */
 
 /* ═══════════════════════════════════════════════════════
    BUTTONS
@@ -1165,28 +973,17 @@ html {
 ═══════════════════════════════════════════════════════ */
 
 @media (max-width: 1200px) {
-  .cardBox,
-  .card {
-    border-radius: 12px !important;
-  }
-  
   .g {
     border-radius: 12px !important;
   }
 }
 
 @media (max-width: 768px) {
-  .cardBox,
-  .card {
-    border-radius: 10px !important;
-  }
-  
   .g {
     border-radius: 10px !important;
   }
   
-  .sectionTitleContainer h2,
-  .sectionTitleContainer-cards h2 {
+  .sectionTitleContainer h2 {
     font-size: 0.85rem !important;
   }
 }
