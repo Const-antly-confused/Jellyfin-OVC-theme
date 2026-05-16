@@ -782,42 +782,95 @@ html {
 ═══════════════════════════════════════════════════════ */
 
 .cardBox,
+.card,
 .overflowPortraitCard,
 .overflowBackdropCard,
 .overflowSquareCard {
-  background: rgba(170, 215, 255, 0.02) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: rgba(175,215,255,0.008) !important;
+  backdrop-filter: blur(8px) saturate(150%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(150%) brightness(1.05) !important;
+  box-shadow:
+    inset 0  1px 0   rgba(255,255,255,0.5),
+    inset 0 -1px 0   rgba(0,0,0,0.4),
+    inset  1px 0 0   rgba(255,255,255,0.1),
+    inset -1px 0 0   rgba(255,255,255,0.1),
+    0  4px 16px rgba(0,0,0,0.2) !important;
   border: 1px solid rgba(255,255,255,0.08) !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.22) !important;
-  overflow: visible !important;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
-  margin: 6px !important;
+  border-radius: 16px !important;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s, opacity 0.6s ease-out !important;
+  position: relative;
+  overflow: hidden;
+  will-change: transform, box-shadow;
+  opacity: 0;
+  animation: fadeInCard 0.6s ease-out forwards;
+  margin: 8px !important;
+}
+
+.cardContainer,
+.itemsContainer,
+.scrollFrameContent {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardBox:nth-child(1) { animation-delay: 0.05s; }
+.cardBox:nth-child(2) { animation-delay: 0.1s; }
+.cardBox:nth-child(3) { animation-delay: 0.15s; }
+.cardBox:nth-child(4) { animation-delay: 0.2s; }
+.cardBox:nth-child(5) { animation-delay: 0.25s; }
+.cardBox:nth-child(6) { animation-delay: 0.3s; }
+.cardBox:nth-child(n+7) { animation-delay: 0.35s; }
+
+@supports not (backdrop-filter: blur(1px)) {
+  .cardBox,
+  .card,
+  .overflowPortraitCard,
+  .overflowBackdropCard,
+  .overflowSquareCard {
+    background: rgba(175,215,255,0.12) !important;
+  }
 }
 
 .cardBox:hover,
+.card:hover,
 .overflowPortraitCard:hover,
 .overflowBackdropCard:hover,
 .overflowSquareCard:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.28) !important;
-  border-color: rgba(0,240,255,0.18) !important;
+  transform: translateY(-6px) scale(1.015) !important;
+  box-shadow:
+    inset 0  1px 0   rgba(0,240,255,0.45),
+    inset 0 -1px 0   rgba(0,0,0,0.42),
+    inset  1px 0 0   rgba(0,240,255,0.12),
+    inset -1px 0 0   rgba(0,240,255,0.12),
+    0  8px 24px rgba(0,0,0,0.3),
+    0 0 20px rgba(0,240,255,0.07) !important;
+  border-color: rgba(0,240,255,0.12) !important;
 }
 
 .cardBox:focus,
+.card:focus,
 .overflowPortraitCard:focus,
 .overflowBackdropCard:focus,
 .overflowSquareCard:focus {
-  outline: 2px solid rgba(0,240,255,0.45) !important;
+  outline: 2px solid var(--cyan) !important;
   outline-offset: 2px !important;
-}
-
-.cardText,
-.cardContent {
-  background: rgba(15, 30, 48, 0.38) !important;
-  border-top: 1px solid rgba(255,255,255,0.08) !important;
-  padding: 8px 10px !important;
 }
 
 /* ═══════════════════════════════════════════════════════
