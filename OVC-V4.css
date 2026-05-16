@@ -897,7 +897,7 @@ html {
   cursor: pointer !important;
   transition: all 0.16s !important;
   will-change: transform, box-shadow;
-  margin-bottom: 4px !important;
+  margin-left: 2px !important;
 }
 
 .emby-button:focus,
