@@ -853,8 +853,6 @@ html {
 .scrollFrameContent {
   display: flex !important;
   flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
   justify-content: flex-start !important;
   align-items: flex-start !important;
   gap: 8px !important;
