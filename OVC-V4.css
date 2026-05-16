@@ -738,7 +738,7 @@ html {
 
 .sectionTitleContainer {
   position: relative;
-  padding-left: 8px;
+  padding-left: 18px;
   margin-bottom: 24px;
   margin-top: 32px;
   display: flex;
@@ -763,6 +763,9 @@ html {
   font-size: 1.3rem !important;
   font-weight: 700 !important;
   color: var(--ink) !important;
+  display: inline-block !important;
+  padding: 4px 10px !important;
+  border-radius: 8px !important;
   margin: 0 !important;
   letter-spacing: 0.5px !important;
 }
@@ -848,21 +851,7 @@ html {
   color: var(--ink) !important;
 }
 
-/* Button spacing: keep action buttons separated */
-.emby-button + .emby-button,
-.button-flat + .button-flat,
-.paper-button + .paper-button,
-.raised + .raised,
-.emby-button + .button-flat,
-.button-flat + .emby-button,
-.paper-button + .button-flat,
-.button-flat + .paper-button,
-.paper-button-light + .paper-button-light,
-.paper-button-light + .button-flat,
-.button-flat + .paper-button-light {
-  margin-left: 10px !important;
-}
-
+/* Button spacing: scoped to detail-page action groups only */
 .itemDetailPage .detailPagePrimaryContainer,
 .itemDetailPage .detailPageSecondaryContainer,
 .itemDetailPage .detailButtons,
