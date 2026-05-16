@@ -780,7 +780,48 @@ html {
 /* ═══════════════════════════════════════════════════════
    CARDS — Media Items
 ═══════════════════════════════════════════════════════ */
-/* Intentionally no card overrides: Jellyfin defaults only. */
+
+.cardBox,
+.card,
+.overflowPortraitCard,
+.overflowBackdropCard,
+.overflowSquareCard {
+  background: rgba(170, 215, 255, 0.05) !important;
+  backdrop-filter: blur(6px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(120%) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.22) !important;
+  overflow: hidden !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
+  margin: 6px !important;
+}
+
+.cardBox:hover,
+.card:hover,
+.overflowPortraitCard:hover,
+.overflowBackdropCard:hover,
+.overflowSquareCard:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.28) !important;
+  border-color: rgba(0,240,255,0.18) !important;
+}
+
+.cardBox:focus,
+.card:focus,
+.overflowPortraitCard:focus,
+.overflowBackdropCard:focus,
+.overflowSquareCard:focus {
+  outline: 2px solid rgba(0,240,255,0.45) !important;
+  outline-offset: 2px !important;
+}
+
+.cardText,
+.cardContent {
+  background: rgba(15, 30, 48, 0.38) !important;
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
+  padding: 8px 10px !important;
+}
 
 /* ═══════════════════════════════════════════════════════
    BUTTONS
@@ -806,6 +847,7 @@ html {
   cursor: pointer !important;
   transition: all 0.16s !important;
   will-change: transform, box-shadow;
+  margin-bottom: 4px !important;
 }
 
 .emby-button:focus,
