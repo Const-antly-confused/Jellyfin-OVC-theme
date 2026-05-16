@@ -463,6 +463,12 @@ html {
   padding: 1.1em 1.15em !important;
   white-space: nowrap !important;
   flex: 0 0 auto !important;
+  margin-right: 10px !important;
+}
+
+.headerTabs .emby-tab-button:last-child,
+.headerTabs .headerTabButton:last-child {
+  margin-right: 0 !important;
 }
 
 .headerTabs .emby-tab-button .emby-button-foreground,
@@ -862,16 +868,35 @@ html {
   gap: 10px !important;
 }
 
-/* Extra safety spacing for adjacent detail action buttons */
-.itemDetailPage .emby-button + .emby-button,
-.itemDetailPage .button-flat + .button-flat,
-.itemDetailPage .paper-button + .paper-button,
-.itemDetailPage .paper-button-light + .paper-button-light,
-.itemDetailPage .emby-button + .button-flat,
-.itemDetailPage .button-flat + .emby-button,
-.itemDetailPage .paper-button-light + .button-flat,
-.itemDetailPage .button-flat + .paper-button-light {
-  margin-left: 10px !important;
+/* Hard spacing on actual button elements in media/detail actions */
+.itemDetailPage .detailPagePrimaryContainer .emby-button,
+.itemDetailPage .detailPagePrimaryContainer .button-flat,
+.itemDetailPage .detailPagePrimaryContainer .paper-button-light,
+.itemDetailPage .detailPageSecondaryContainer .emby-button,
+.itemDetailPage .detailPageSecondaryContainer .button-flat,
+.itemDetailPage .detailPageSecondaryContainer .paper-button-light,
+.itemDetailPage .detailButtons .emby-button,
+.itemDetailPage .detailButtons .button-flat,
+.itemDetailPage .detailButtons .paper-button-light,
+.itemDetailPage .mainDetailButtons .emby-button,
+.itemDetailPage .mainDetailButtons .button-flat,
+.itemDetailPage .mainDetailButtons .paper-button-light {
+  margin-right: 10px !important;
+}
+
+.itemDetailPage .detailPagePrimaryContainer .emby-button:last-child,
+.itemDetailPage .detailPagePrimaryContainer .button-flat:last-child,
+.itemDetailPage .detailPagePrimaryContainer .paper-button-light:last-child,
+.itemDetailPage .detailPageSecondaryContainer .emby-button:last-child,
+.itemDetailPage .detailPageSecondaryContainer .button-flat:last-child,
+.itemDetailPage .detailPageSecondaryContainer .paper-button-light:last-child,
+.itemDetailPage .detailButtons .emby-button:last-child,
+.itemDetailPage .detailButtons .button-flat:last-child,
+.itemDetailPage .detailButtons .paper-button-light:last-child,
+.itemDetailPage .mainDetailButtons .emby-button:last-child,
+.itemDetailPage .mainDetailButtons .button-flat:last-child,
+.itemDetailPage .mainDetailButtons .paper-button-light:last-child {
+  margin-right: 0 !important;
 }
 
 /* ═══════════════════════════════════════════════════════
