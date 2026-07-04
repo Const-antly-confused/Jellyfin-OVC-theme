@@ -457,6 +457,12 @@ html {
   gap: 4px !important;
   max-height: calc(100vh - var(--ovc-header-h)) !important;
   overflow-y: auto !important;
+  /* Glass tile corners on the outer edge (flush left edge stays square) */
+  border-radius: 0 16px 16px 0 !important;
+}
+
+.mainDrawer-scrollContainer {
+  border-radius: 0 16px 16px 0 !important;
 }
 
 .mainDrawer-scrollContainer {
@@ -1040,19 +1046,30 @@ div[is="emby-scroller"] .scrollFrameContent,
 
 /* ═══════════════════════════════════════════════════════
    12. VIDEO PLAYER — header never covers the picture
-   Windowed: video starts under the header.
-   Fullscreen: video fills the screen.
+   Windowed: the CONTAINER starts under the header; the video
+   fills the container and centers with black letterboxing.
+   (Offsetting both container and video stacks the offsets and
+   pushes the picture to the bottom — the V5.0 landscape bug.)
+   Fullscreen: container resets to fill the screen.
 ═══════════════════════════════════════════════════════ */
-.videoPlayerContainer,
-.videoPlayerContainer .htmlvideoplayer {
+.videoPlayerContainer {
   top: var(--ovc-header-h) !important;
   height: calc(100% - var(--ovc-header-h)) !important;
+  background: #000 !important;
+}
+
+.videoPlayerContainer .htmlvideoplayer {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #000 !important;
 }
 
 .videoPlayerContainer:fullscreen,
-.videoPlayerContainer:-webkit-full-screen,
-.videoPlayerContainer:fullscreen .htmlvideoplayer,
-.videoPlayerContainer:-webkit-full-screen .htmlvideoplayer {
+.videoPlayerContainer:-webkit-full-screen {
   top: 0 !important;
   height: 100% !important;
 }
