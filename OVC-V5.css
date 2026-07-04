@@ -905,6 +905,14 @@ div[is="emby-scroller"] .scrollFrameContent,
   flex-wrap: wrap !important;
 }
 
+/* ── LIBRARY VIEW + ALPHA QUICK-FIND ──
+   Jellyfin reserves ~7.5em of right padding to clear the A–Z
+   picker — several times what the picker needs. Shrink it so
+   the grid runs close to the picker, matching the left edge. */
+.padded-right-withalphapicker {
+  padding-right: 2.6em !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    9. BUTTONS — split like the mockup
    .btn-play (cyan glass)  → raised / submit buttons
@@ -1050,50 +1058,24 @@ div[is="emby-scroller"] .scrollFrameContent,
 }
 
 /* ═══════════════════════════════════════════════════════
-   12. VIDEO PLAYER — the theme stays OUT of the player
-   Native Jellyfin centers the video with black letterboxing
-   perfectly on its own (confirmed with the theme removed).
-   The theme must not touch player geometry at all.
+   12. VIDEO PLAYER — ZERO overrides
+   V4 contains no player rules at all and the player works
+   perfectly under it (confirmed live). So V5 touches
+   NOTHING in the player: no geometry, no backgrounds, no
+   repositioning, no osdHeader restyling.
 
-   The only thing to fix is the theme's own header styling
-   leaking into the player: during playback the same
-   .skinHeader element gains the `osdHeader` class, so every
-   §5 rule (opaque glass, sticky, min-height, forced
-   visibility) was hitting the in-player header and breaking
-   the native overlay/auto-hide. Neutralize all of it here.
+   The single exception is the one thing V4 got wrong (the
+   original bug report): V4's unguarded
+   `.skinHeader { visibility/opacity forced }` held the
+   header visible over the video. §5's force is guarded
+   with :not(.osdHeader-hidden), and this rule completes
+   Jellyfin's native fade. It can only ever HIDE the header
+   — it cannot affect video layout.
 ═══════════════════════════════════════════════════════ */
-
-/* In-player header: native dark gradient overlay, no glass,
-   takes no layout space, auto-hides with the controls */
-.skinHeader.osdHeader {
-  background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-  border-bottom: none !important;
-  min-height: 0 !important;
-  position: absolute !important;
-  top: 0 !important;
-}
-
-/* No neon underline inside the player */
-.skinHeader.osdHeader::after {
-  display: none !important;
-}
-
-/* Respect Jellyfin's native OSD fade (§5's visibility force is
-   guarded with :not(.osdHeader-hidden), so this wins when hidden) */
 .skinHeader.osdHeader-hidden {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-}
-
-/* While the player is up, drop the theme's page padding/height
-   overrides so the OSD overlay sits exactly where Jellyfin puts it */
-body:has(.videoOsdBottom) .mainAnimatedPages {
-  padding: 0 !important;
-  height: 100vh !important;
 }
 
 /* ═══════════════════════════════════════════════════════
