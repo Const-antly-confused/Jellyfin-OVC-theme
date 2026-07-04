@@ -438,16 +438,18 @@ html {
 /* ═══════════════════════════════════════════════════════
    5A. NAVIGATION DRAWER — glass, mono labels, cyan active
 ═══════════════════════════════════════════════════════ */
-.mainDrawer,
-.mainDrawer-scrollContainer {
+/* Glass frame lives on .mainDrawer ONLY. The scroll container inside
+   was also getting the glass treatment, repainting a square sheet over
+   the frame's rounded corners — that's why the radius never showed. */
+.mainDrawer {
   background: rgba(160, 210, 255, 0.022) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  border-right: 1px solid rgba(255,255,255,0.05) !important;
-  box-shadow: inset -1px 0 0 rgba(0,0,0,0.2) !important;
-}
-
-.mainDrawer {
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 -1px 0 rgba(0,0,0,0.3),
+    0 4px 16px rgba(0,0,0,0.25) !important;
   width: 220px !important;
   min-width: 220px !important;
   display: flex !important;
@@ -455,17 +457,20 @@ html {
   align-items: stretch !important;
   padding: 14px 8px !important;
   gap: 4px !important;
-  max-height: calc(100vh - var(--ovc-header-h)) !important;
+  /* Floating glass tile: inset from the edges, all corners rounded */
+  margin: 8px 0 8px 8px !important;
+  border-radius: 16px !important;
+  max-height: calc(100vh - var(--ovc-header-h) - 16px) !important;
   overflow-y: auto !important;
-  /* Glass tile corners on the outer edge (flush left edge stays square) */
-  border-radius: 0 16px 16px 0 !important;
+  overflow-x: hidden !important;
 }
 
 .mainDrawer-scrollContainer {
-  border-radius: 0 16px 16px 0 !important;
-}
-
-.mainDrawer-scrollContainer {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
   padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -1045,41 +1050,50 @@ div[is="emby-scroller"] .scrollFrameContent,
 }
 
 /* ═══════════════════════════════════════════════════════
-   12. VIDEO PLAYER — header never covers the picture
-   Windowed: the CONTAINER starts under the header; the video
-   fills the container and centers with black letterboxing.
-   (Offsetting both container and video stacks the offsets and
-   pushes the picture to the bottom — the V5.0 landscape bug.)
-   Fullscreen: container resets to fill the screen.
+   12. VIDEO PLAYER — the theme stays OUT of the player
+   Native Jellyfin centers the video with black letterboxing
+   perfectly on its own (confirmed with the theme removed).
+   The theme must not touch player geometry at all.
+
+   The only thing to fix is the theme's own header styling
+   leaking into the player: during playback the same
+   .skinHeader element gains the `osdHeader` class, so every
+   §5 rule (opaque glass, sticky, min-height, forced
+   visibility) was hitting the in-player header and breaking
+   the native overlay/auto-hide. Neutralize all of it here.
 ═══════════════════════════════════════════════════════ */
-.videoPlayerContainer {
-  top: var(--ovc-header-h) !important;
-  height: calc(100% - var(--ovc-header-h)) !important;
-  background: #000 !important;
-}
 
-.videoPlayerContainer .htmlvideoplayer {
+/* In-player header: native dark gradient overlay, no glass,
+   takes no layout space, auto-hides with the controls */
+.skinHeader.osdHeader {
+  background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+  min-height: 0 !important;
+  position: absolute !important;
   top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  object-position: center center !important;
-  background: #000 !important;
 }
 
-.videoPlayerContainer:fullscreen,
-.videoPlayerContainer:-webkit-full-screen {
-  top: 0 !important;
-  height: 100% !important;
+/* No neon underline inside the player */
+.skinHeader.osdHeader::after {
+  display: none !important;
 }
 
-/* Let Jellyfin's native OSD fade work (do not force header visible
-   in the player — the :not(.osdHeader-hidden) guard in §5 handles it) */
+/* Respect Jellyfin's native OSD fade (§5's visibility force is
+   guarded with :not(.osdHeader-hidden), so this wins when hidden) */
 .skinHeader.osdHeader-hidden {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/* While the player is up, drop the theme's page padding/height
+   overrides so the OSD overlay sits exactly where Jellyfin puts it */
+body:has(.videoOsdBottom) .mainAnimatedPages {
+  padding: 0 !important;
+  height: 100vh !important;
 }
 
 /* ═══════════════════════════════════════════════════════
